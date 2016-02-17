@@ -4,10 +4,18 @@
 
 <body>
   {{> map}}
+    {{> zip}}
 </body>
 
 <template name="map">
   <div class="map-container">
     {{> googleMap name="map" options=mapOptions}}
   </div>
+</template>
+
+<template name="zip">
+    <form>
+      Zip: <input type="text" name="zipcode">
+      <input type="submit" id="findZip" value="Add">
+    </form>
 </template>
