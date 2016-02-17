@@ -1,23 +1,65 @@
+Markers = new Mongo.Collection('markers');
+
 if (Meteor.isClient) {
-  // counter starts at 0
-  Session.setDefault('counter', 0);
+  Template.map.onCreated(function() {
+    GoogleMaps.ready('map', function(map) {
+      google.maps.event.addListener(map.instance, 'click', function(event) {
+        Markers.insert({ lat: event.latLng.lat(), lng: event.latLng.lng() });
+      });
 
-  Template.hello.helpers({
-    counter: function () {
-      return Session.get('counter');
-    }
+      var markers = {};
+
+      Markers.find().observe({
+        added: function (document) {
+          var marker = new google.maps.Marker({
+            draggable: true,
+            animation: google.maps.Animation.DROP,
+            position: new google.maps.LatLng(document.lat, document.lng),
+            map: map.instance,
+            id: document._id
+          });
+
+          google.maps.event.addListener(marker, 'dragend', function(event) {
+            Markers.update(marker.id, { $set: { lat: event.latLng.lat(), lng: event.latLng.lng() }});
+          });
+
+          markers[document._id] = marker;
+        },
+        changed: function (newDocument, oldDocument) {
+          markers[newDocument._id].setPosition({ lat: newDocument.lat, lng: newDocument.lng });
+        },
+        removed: function (oldDocument) {
+          markers[oldDocument._id].setMap(null);
+          google.maps.event.clearInstanceListeners(markers[oldDocument._id]);
+          delete markers[oldDocument._id];
+        }
+      });
+    });
   });
 
-  Template.hello.events({
-    'click button': function () {
-      // increment the counter when button is clicked
-      Session.set('counter', Session.get('counter') + 1);
+  Meteor.startup(function() {
+    if(Markers.find().count()===0){
+      Markers.insert({
+        name:"Teen Challange",
+        street:"5450 Lea Street",
+        city:"San Diego",
+        state:"CA",
+        zipCode:"92105",
+        foods:"20-30lb fresh produce per household",
+        hours:"2nd Monday of each month from 9AM until food is gone"
+      });
     }
+    GoogleMaps.load();
   });
-}
 
-if (Meteor.isServer) {
-  Meteor.startup(function () {
-    // code to run on server at startup
+  Template.map.helpers({
+    mapOptions: function() {
+      if (GoogleMaps.loaded()) {
+        return {
+          center: new google.maps.LatLng(32.947419, -117.239467),
+          zoom: 8
+        };
+      }
+    }
   });
 }
