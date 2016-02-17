@@ -11,16 +11,33 @@ if (Meteor.isClient) {
 
       Markers.find().observe({
         added: function (document) {
-          var marker = new google.maps.Marker({
-            draggable: true,
-            animation: google.maps.Animation.DROP,
-            position: new google.maps.LatLng(document.lat, document.lng),
-            map: map.instance,
-            id: document._id
-          });
 
-          google.maps.event.addListener(marker, 'dragend', function(event) {
-            Markers.update(marker.id, { $set: { lat: event.latLng.lat(), lng: event.latLng.lng() }});
+          var geocoder = new google.maps.Geocoder();
+          var address = document.street + ', ' + document.city + ', ' + document.state + ' ' + document.zipCode;
+
+          geocoder.geocode( { 'address': address}, function(results, status) {
+
+            if (status == google.maps.GeocoderStatus.OK) {
+              var latitude = results[0].geometry.location.lat();
+              var longitude = results[0].geometry.location.lng();
+              var marker = new google.maps.Marker({
+                draggable: false,
+                animation: google.maps.Animation.DROP,
+                position: new google.maps.LatLng(latitude, longitude),
+                map: map.instance,
+                id: document._id
+              });
+
+              var contentString = '<h2>' + document.name + '</h2><br><small>' + document.foods + '</small><br><small>' + document.hours + '</small>';
+
+              var infowindow = new google.maps.InfoWindow({
+                content: contentString
+              });
+
+              marker.addListener('click', function() {
+                infowindow.open(map.instance, marker);
+              });
+            }
           });
 
           markers[document._id] = marker;
