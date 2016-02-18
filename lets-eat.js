@@ -1,6 +1,13 @@
 Markers = new Mongo.Collection('markers');
 var currentInfoWindow;
+if(Meteor.isServer){
+  Meteor.publish("markers", function () {
+    return Markers.find();
+  });
+}
+
 if (Meteor.isClient) {
+  Meteor.subscribe("markers");
   var centerLat = 32.947419;
   var centerLng = -117.239467;
   Template.map.onCreated(function() {
