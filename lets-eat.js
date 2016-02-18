@@ -1,5 +1,5 @@
 Markers = new Mongo.Collection('markers');
-
+var currentInfoWindow;
 if (Meteor.isClient) {
   Template.map.onCreated(function() {
     GoogleMaps.ready('map', function(map) {
@@ -11,7 +11,7 @@ if (Meteor.isClient) {
 
       Markers.find().observe({
         added: function (document) {
-
+          
           var geocoder = new google.maps.Geocoder();
           var address = document.street + ', ' + document.city + ', ' + document.state + ' ' + document.zipCode;
 
@@ -35,7 +35,11 @@ if (Meteor.isClient) {
               });
 
               marker.addListener('click', function() {
+                if (typeof currentInfoWindow !== 'undefined') {
+                  currentInfoWindow.close();
+                }
                 infowindow.open(map.instance, marker);
+                currentInfoWindow=infowindow;
               });
             }
           });
