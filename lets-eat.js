@@ -80,7 +80,7 @@ if (Meteor.isClient) {
           if (status == google.maps.GeocoderStatus.OK) {
             var adr = results[0].formatted_address;
             map.instance.panTo(new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng()));
-            map.instance.setZoom(map.instance.getZoom() + 4);
+            map.instance.setZoom(12);
           } else {
             alert("Geocode was not successful for the following reason: " + status);
           }
