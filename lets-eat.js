@@ -1,17 +1,15 @@
 Markers = new Mongo.Collection('markers');
 var currentInfoWindow;
 if (Meteor.isClient) {
+  var centerLat = 32.947419;
+  var centerLng = -117.239467;
   Template.map.onCreated(function() {
     GoogleMaps.ready('map', function(map) {
-      google.maps.event.addListener(map.instance, 'click', function(event) {
-        Markers.insert({ lat: event.latLng.lat(), lng: event.latLng.lng() });
-      });
-
       var markers = {};
 
       Markers.find().observe({
         added: function (document) {
-          
+
           var geocoder = new google.maps.Geocoder();
           var address = document.street + ', ' + document.city + ', ' + document.state + ' ' + document.zipCode;
 
@@ -66,12 +64,30 @@ if (Meteor.isClient) {
     mapOptions: function() {
       if (GoogleMaps.loaded()) {
         return {
-          center: new google.maps.LatLng(32.947419, -117.239467),
+          center: new google.maps.LatLng(centerLat, centerLng),
           zoom: 8
         };
       }
     }
   });
+
+  Template.zip.events({
+    "click #findZip": function(e){
+      var map = GoogleMaps.get('map');
+        var geocoder = new google.maps.Geocoder();
+        var address = document.getElementById('zipcode').value;
+        geocoder.geocode( { 'address': address}, function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            var adr = results[0].formatted_address;
+            map.instance.panTo(new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng()));
+            map.instance.setZoom(map.instance.getZoom() + 5);
+          } else {
+            alert("Geocode was not successful for the following reason: " + status);
+          }
+        });
+    }
+  });
+
 }
 
 if (Meteor.isServer) {
