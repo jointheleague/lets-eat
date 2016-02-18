@@ -3,8 +3,16 @@
 </head>
 
 <body>
-  {{> map}}
-  {{> zip}}
+  <div class="container">
+    <div class="row">
+      <div class="col-6 col-sm-6 col-lg-6 topleft"><img src="/logo.png" style="height:10%; width:10%;"></div>
+      <div class="col-6 col-sm-6 col-lg-6"><h1>Food Locator Service</h1></div>
+    </div>
+  </div>
+  <div>
+    {{> map}}
+    {{> zip}}
+  </div>
 </body>
 
 <template name="map">
@@ -14,8 +22,8 @@
 </template>
 
 <template name="zip">
-  <form>
-    Zip: <input type="text" name="zipcode">
-    <input type="submit" id="findZip" value="Add">
+  <form class="form-inline">
+    Zip: <input class="form-control" type="text" name="zipcode">
+    <input class="btn btn-default" type="submit" id="findZip" value="Add">
   </form>
 </template>
