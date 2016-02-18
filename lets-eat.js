@@ -5,9 +5,6 @@ if (Meteor.isClient) {
   var centerLng = -117.239467;
   Template.map.onCreated(function() {
     GoogleMaps.ready('map', function(map) {
-      google.maps.event.addListener(map.instance, 'click', function(event) {
-        Markers.insert({ lat: event.latLng.lat(), lng: event.latLng.lng() });
-      });
       var markers = {};
 
       Markers.find().observe({
