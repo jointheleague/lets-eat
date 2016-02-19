@@ -46,13 +46,12 @@ if (Meteor.isClient) {
                 infowindow.open(map.instance, marker);
                 currentInfoWindow=infowindow;
               });
+              markers[document._id] = marker;
             }else{
               console.log("Error in GeoCode");
               console.log(status);
             }
-          });
-
-          markers[document._id] = marker;
+          });  
         },
         changed: function (newDocument, oldDocument) {
           markers[newDocument._id].setPosition({ lat: newDocument.lat, lng: newDocument.lng });
