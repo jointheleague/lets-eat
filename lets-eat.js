@@ -46,6 +46,9 @@ if (Meteor.isClient) {
                 infowindow.open(map.instance, marker);
                 currentInfoWindow=infowindow;
               });
+            }else{
+              console.log("Error in GeoCode");
+              console.log(status);
             }
           });
 
