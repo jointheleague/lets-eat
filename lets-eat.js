@@ -48,10 +48,10 @@ if (Meteor.isClient) {
               });
               markers[document._id] = marker;
             }else{
-              console.log("Error in GeoCode");
-              console.log(status);
+              console.log("Error in GeoCode! Status: "+status+" Address: "+ address);
+
             }
-          });  
+          });
         },
         changed: function (newDocument, oldDocument) {
           markers[newDocument._id].setPosition({ lat: newDocument.lat, lng: newDocument.lng });
