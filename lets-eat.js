@@ -1,3 +1,7 @@
+Router.route('/', function () {
+  // render the Home template with a custom data context
+  this.render('main', {data: {title: 'My Title'}});
+});
 Markers = new Mongo.Collection('markers');
 var currentInfoWindow;
 if(Meteor.isServer){
