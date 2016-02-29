@@ -10,6 +10,51 @@ if(Meteor.isServer){
   });
 }
 
+Meteor.methods({
+  'Geocode': function(address, name, foods, hours){
+    var map = GoogleMaps.get('map');
+    var geocoder = new google.maps.Geocoder();
+
+    geocoder.geocode( { 'address': address}, function(results, status) {
+
+      if (status == google.maps.GeocoderStatus.OK) {
+        var latitude = results[0].geometry.location.lat();
+        var longitude = results[0].geometry.location.lng();
+        var marker = new google.maps.Marker({
+          draggable: false,
+          animation: google.maps.Animation.DROP,
+          position: new google.maps.LatLng(latitude, longitude),
+          map: map.instance,
+          id: document._id
+        });
+
+        var contentString = '<h2>' + name + '</h2><br><small>' + foods + '</small><br><small>' + hours + '</small>';
+
+        var infowindow = new google.maps.InfoWindow({
+          content: contentString
+        });
+
+        marker.addListener('click', function() {
+          if (typeof currentInfoWindow !== 'undefined') {
+            currentInfoWindow.close();
+          }
+          infowindow.open(map.instance, marker);
+          currentInfoWindow=infowindow;
+        });
+      }
+      else if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
+        //console.log("OVER_QUERY_LIMIT, address: " + address);
+        setTimeout(function() {
+                Meteor.call('Geocode', address, name, foods, hours);
+            }, 200);
+      }
+      else{
+        alert("Error in GeoCode! Status: "+status+" Address: "+ address);
+      }
+    });
+  }
+});
+
 if (Meteor.isClient) {
   Meteor.subscribe("markers");
   var centerLat = 32.947419;
@@ -24,38 +69,7 @@ if (Meteor.isClient) {
           var geocoder = new google.maps.Geocoder();
           var address = document.street + ', ' + document.city + ', ' + document.state + ' ' + document.zipCode;
 
-          geocoder.geocode( { 'address': address}, function(results, status) {
-
-            if (status == google.maps.GeocoderStatus.OK) {
-              var latitude = results[0].geometry.location.lat();
-              var longitude = results[0].geometry.location.lng();
-              var marker = new google.maps.Marker({
-                draggable: false,
-                animation: google.maps.Animation.DROP,
-                position: new google.maps.LatLng(latitude, longitude),
-                map: map.instance,
-                id: document._id
-              });
-
-              var contentString = '<h2>' + document.name + '</h2><br><small>' + document.foods + '</small><br><small>' + document.hours + '</small>';
-
-              var infowindow = new google.maps.InfoWindow({
-                content: contentString
-              });
-
-              marker.addListener('click', function() {
-                if (typeof currentInfoWindow !== 'undefined') {
-                  currentInfoWindow.close();
-                }
-                infowindow.open(map.instance, marker);
-                currentInfoWindow=infowindow;
-              });
-              markers[document._id] = marker;
-            }else{
-              console.log("Error in GeoCode! Status: "+status+" Address: "+ address);
-
-            }
-          });
+          Meteor.call('Geocode', address, document.name, document.foods, document.hours);
         },
         changed: function (newDocument, oldDocument) {
           markers[newDocument._id].setPosition({ lat: newDocument.lat, lng: newDocument.lng });
