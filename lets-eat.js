@@ -56,12 +56,30 @@ Meteor.methods({
 });
 
 if (Meteor.isClient) {
+
+  navigator.geolocation.getCurrentPosition(function(position) {
+      Session.set('lat', position.coords.latitude);
+      Session.set('lon', position.coords.longitude);
+  });
+
   Meteor.subscribe("markers");
   var centerLat = 32.947419;
   var centerLng = -117.239467;
   Template.map.onCreated(function() {
     GoogleMaps.ready('map', function(map) {
       var markers = {};
+
+      var myloc = new google.maps.Marker({
+        clickable: false,
+        icon: new google.maps.MarkerImage('//maps.gstatic.com/mapfiles/mobile/mobileimgs2.png',
+                                                    new google.maps.Size(22,22),
+                                                    new google.maps.Point(0,18),
+                                                    new google.maps.Point(11,11)),
+                                                    shadow: null,
+                                                    zIndex: 999,
+                                                    map: GoogleMaps.get('map').instance,
+                                                    position: new google.maps.LatLng(Session.get('lat'), Session.get('lon'))
+        });
 
       Markers.find().observe({
         added: function (document) {
