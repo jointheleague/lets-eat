@@ -1,5 +1,9 @@
-Router.route('/', function () {
+var currentOrg;
+Router.route('/:org?', function () {
   // render the Home template with a custom data context
+  var params = this.params;
+  currentOrg = params.org;
+  console.log(currentOrg);
   this.render('main', {data: {title: 'My Title'}});
 });
 Markers = new Mongo.Collection('markers');
@@ -45,8 +49,8 @@ Meteor.methods({
       else if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
         //console.log("OVER_QUERY_LIMIT, address: " + address);
         setTimeout(function() {
-                Meteor.call('Geocode', address, name, foods, hours);
-            }, 200);
+          Meteor.call('Geocode', address, name, foods, hours);
+        }, 200);
       }
       else{
         alert("Error in GeoCode! Status: "+status+" Address: "+ address);
@@ -58,8 +62,8 @@ Meteor.methods({
 if (Meteor.isClient) {
 
   navigator.geolocation.getCurrentPosition(function(position) {
-      Session.set('lat', position.coords.latitude);
-      Session.set('lon', position.coords.longitude);
+    Session.set('lat', position.coords.latitude);
+    Session.set('lon', position.coords.longitude);
   });
 
   Meteor.subscribe("markers");
@@ -72,22 +76,22 @@ if (Meteor.isClient) {
       var myloc = new google.maps.Marker({
         clickable: false,
         icon: new google.maps.MarkerImage('//maps.gstatic.com/mapfiles/mobile/mobileimgs2.png',
-                                                    new google.maps.Size(22,22),
-                                                    new google.maps.Point(0,18),
-                                                    new google.maps.Point(11,11)),
-                                                    shadow: null,
-                                                    zIndex: 999,
-                                                    map: GoogleMaps.get('map').instance,
-                                                    position: new google.maps.LatLng(Session.get('lat'), Session.get('lon'))
-        });
+        new google.maps.Size(22,22),
+        new google.maps.Point(0,18),
+        new google.maps.Point(11,11)),
+        shadow: null,
+        zIndex: 999,
+        map: GoogleMaps.get('map').instance,
+        position: new google.maps.LatLng(Session.get('lat'), Session.get('lon'))
+      });
 
       Markers.find().observe({
         added: function (document) {
-
-          var geocoder = new google.maps.Geocoder();
-          var address = document.street + ', ' + document.city + ', ' + document.state + ' ' + document.zipCode;
-
-          Meteor.call('Geocode', address, document.name, document.foods, document.hours);
+          if(document.orgID===currentOrg||currentOrg===undefined){
+            var geocoder = new google.maps.Geocoder();
+            var address = document.street + ', ' + document.city + ', ' + document.state + ' ' + document.zipCode;
+            Meteor.call('Geocode', address, document.name, document.foods, document.hours);
+          }
         },
         changed: function (newDocument, oldDocument) {
           markers[newDocument._id].setPosition({ lat: newDocument.lat, lng: newDocument.lng });
@@ -119,17 +123,17 @@ if (Meteor.isClient) {
   Template.zip.events({
     "click #findZip": function(e){
       var map = GoogleMaps.get('map');
-        var geocoder = new google.maps.Geocoder();
-        var address = document.getElementById('zipcode').value;
-        geocoder.geocode( { 'address': address}, function(results, status) {
-          if (status == google.maps.GeocoderStatus.OK) {
-            var adr = results[0].formatted_address;
-            map.instance.panTo(new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng()));
-            map.instance.setZoom(12);
-          } else {
-            alert("Geocode was not successful for the following reason: " + status);
-          }
-        });
+      var geocoder = new google.maps.Geocoder();
+      var address = document.getElementById('zipcode').value;
+      geocoder.geocode( { 'address': address}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          var adr = results[0].formatted_address;
+          map.instance.panTo(new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng()));
+          map.instance.setZoom(12);
+        } else {
+          alert("Geocode was not successful for the following reason: " + status);
+        }
+      });
     }
   });
 
@@ -144,7 +148,8 @@ if (Meteor.isServer) {
       state:"CA",
       zipCode:"92105",
       foods:"20-30lb fresh produce per household",
-      hours:"2nd Monday of each month from 9AM until food is gone"
+      hours:"2nd Monday of each month from 9AM until food is gone",
+      orgID:"SDFB"
     });
     Markers.insert({
       name:"LGBT Community Center",
@@ -153,7 +158,8 @@ if (Meteor.isServer) {
       state:"CA",
       zipCode:"92103",
       foods:"20-30 lbs of fresh produce per household",
-      hours:"1st Tuesday of each month from 9:00 am until food is gone"
+      hours:"1st Tuesday of each month from 9:00 am until food is gone",
+      orgID:"SDFB"
     });
     Markers.insert({
       name:"South Bay Pentecostal",
@@ -162,7 +168,8 @@ if (Meteor.isServer) {
       state:"CA",
       zipCode:"91910",
       foods:"20-30 lbs of fresh produce per household",
-      hours:"1st Friday of each month from 9:00 am until food is gone"
+      hours:"1st Friday of each month from 9:00 am until food is gone",
+      orgID:""
     });
     Markers.insert({
       name:"Hearts & Hands Working Together",
