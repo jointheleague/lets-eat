@@ -87,7 +87,7 @@ if (Meteor.isClient) {
 
       Markers.find().observe({
         added: function (document) {
-          if(document.org===currentOrg||currentOrg===undefined){
+          if(document.orgID===currentOrg||currentOrg===undefined){
             var geocoder = new google.maps.Geocoder();
             var address = document.street + ', ' + document.city + ', ' + document.state + ' ' + document.zipCode;
             Meteor.call('Geocode', address, document.name, document.foods, document.hours);
@@ -149,7 +149,7 @@ if (Meteor.isServer) {
       zipCode:"92105",
       foods:"20-30lb fresh produce per household",
       hours:"2nd Monday of each month from 9AM until food is gone",
-      org:"SDFB"
+      orgID:"SDFB"
     });
     Markers.insert({
       name:"LGBT Community Center",
@@ -159,7 +159,7 @@ if (Meteor.isServer) {
       zipCode:"92103",
       foods:"20-30 lbs of fresh produce per household",
       hours:"1st Tuesday of each month from 9:00 am until food is gone",
-      org:"SDFB"
+      orgID:"SDFB"
     });
     Markers.insert({
       name:"South Bay Pentecostal",
@@ -169,7 +169,7 @@ if (Meteor.isServer) {
       zipCode:"91910",
       foods:"20-30 lbs of fresh produce per household",
       hours:"1st Friday of each month from 9:00 am until food is gone",
-      org:"FASD"
+      orgID:""
     });
     Markers.insert({
       name:"Hearts & Hands Working Together",
