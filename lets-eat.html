@@ -2,26 +2,19 @@
   <title>Let's Eat</title>
 </head>
 
-<body>
-</body>
-
-<template name="main">
-  <div class="container-fluid">
-    {{> header}}
-    {{> map}}
-    {{> zip}}
-</div>
-</template>
-
-<template name="header">
-  <div class="container-fluid">
+<body id="body">
+  <div class="container">
     <div class="row">
-      <div class="col-sm-4"><img src="/SDFB.Color.Logo.PNG.png" style="height:20%; width:20%;"></div>
-      <div class="col-sm-4"><h1>Food Locator Service</h1></div>
-      <div class="col-sm-4"><img src="/FASD.Logo.CMYK.jpg" style="height:30%; width:30%;"></div>
+      <div class="col-6 col-sm-6 col-lg-6 topleft"><img src="/logo.png" style="height:10%; width:10%;"></div>
+      <div class="col-6 col-sm-6 col-lg-6"><h1>Food Locator Service</h1></div>
     </div>
   </div>
-</template>
+  <div>
+    {{> map}}
+    {{> zip}}
+    {{> locations}}
+  </div>
+</body>
 
 <template name="map">
   <div class="map-container">
@@ -34,4 +27,25 @@
     Search by Zip Code: <input class="form-control" type="text" id="zipcode">
     <input class="btn btn-default" type="button" id="findZip" value="Search">
   </form>
+</template>
+
+<template name="locations">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Zip Code</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each currentLocationsIteration}}
+        <tr>
+          <td>{{name}}</td>
+          <td>{{address}}</td>
+          <td>{{zipCode}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
 </template>
