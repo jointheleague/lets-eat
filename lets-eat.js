@@ -1,93 +1,74 @@
-Router.route('/', function () {
-  // render the Home template with a custom data context
-  this.render('main', {data: {title: 'My Title'}});
-});
 Markers = new Mongo.Collection('markers');
 var currentInfoWindow;
 if(Meteor.isServer){
-  Meteor.publish("markers", function () {
+  Meteor.publish("markers", function() {
     return Markers.find();
   });
 }
 
-Meteor.methods({
-  'Geocode': function(address, name, foods, hours){
-    var map = GoogleMaps.get('map');
-    var geocoder = new google.maps.Geocoder();
-
-    geocoder.geocode( { 'address': address}, function(results, status) {
-
-      if (status == google.maps.GeocoderStatus.OK) {
-        var latitude = results[0].geometry.location.lat();
-        var longitude = results[0].geometry.location.lng();
-        var marker = new google.maps.Marker({
-          draggable: false,
-          animation: google.maps.Animation.DROP,
-          position: new google.maps.LatLng(latitude, longitude),
-          map: map.instance,
-          id: document._id
-        });
-
-        var contentString = '<h2>' + name + '</h2><br><small>' + foods + '</small><br><small>' + hours + '</small>';
-
-        var infowindow = new google.maps.InfoWindow({
-          content: contentString
-        });
-
-        marker.addListener('click', function() {
-          if (typeof currentInfoWindow !== 'undefined') {
-            currentInfoWindow.close();
-          }
-          infowindow.open(map.instance, marker);
-          currentInfoWindow=infowindow;
-        });
-      }
-      else if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
-        //console.log("OVER_QUERY_LIMIT, address: " + address);
-        setTimeout(function() {
-                Meteor.call('Geocode', address, name, foods, hours);
-            }, 200);
-      }
-      else{
-        alert("Error in GeoCode! Status: "+status+" Address: "+ address);
-      }
-    });
-  }
-});
-
 if (Meteor.isClient) {
-
-  navigator.geolocation.getCurrentPosition(function(position) {
-      Session.set('lat', position.coords.latitude);
-      Session.set('lon', position.coords.longitude);
-  });
+  var markers = {};
+  var currentLocations = new Mongo.Collection(null);
 
   Meteor.subscribe("markers");
   var centerLat = 32.947419;
   var centerLng = -117.239467;
+  var currentZip = -1;
   Template.map.onCreated(function() {
     GoogleMaps.ready('map', function(map) {
-      var markers = {};
-
-      var myloc = new google.maps.Marker({
-        clickable: false,
-        icon: new google.maps.MarkerImage('//maps.gstatic.com/mapfiles/mobile/mobileimgs2.png',
-                                                    new google.maps.Size(22,22),
-                                                    new google.maps.Point(0,18),
-                                                    new google.maps.Point(11,11)),
-                                                    shadow: null,
-                                                    zIndex: 999,
-                                                    map: GoogleMaps.get('map').instance,
-                                                    position: new google.maps.LatLng(Session.get('lat'), Session.get('lon'))
+      map.instance.addListener("bounds_changed", function() {
+        currentLocations.remove({});
+        Markers.find().forEach(function(location) {
+          if(map.instance.getBounds().contains(markers[location._id].getPosition())) {
+            currentLocations.insert({
+              name: location.name,
+              street: location.street,
+              city: location.city,
+              state: location.state,
+              zipCode: location.zipCode,
+              foods: location.foods,
+              hours: location.hours
+            });
+          }
         });
-
+      });
       Markers.find().observe({
         added: function (document) {
-
           var geocoder = new google.maps.Geocoder();
           var address = document.street + ', ' + document.city + ', ' + document.state + ' ' + document.zipCode;
 
-          Meteor.call('Geocode', address, document.name, document.foods, document.hours);
+          geocoder.geocode( { 'address': address}, function(results, status) {
+
+            if (status == google.maps.GeocoderStatus.OK) {
+              var latitude = results[0].geometry.location.lat();
+              var longitude = results[0].geometry.location.lng();
+              var marker = new google.maps.Marker({
+                draggable: false,
+                animation: google.maps.Animation.DROP,
+                position: new google.maps.LatLng(latitude, longitude),
+                map: map.instance,
+                id: document._id
+              });
+
+              var contentString = '<h2>' + document.name + '</h2><br><small>' + document.foods + '</small><br><small>' + document.hours + '</small>';
+
+              var infowindow = new google.maps.InfoWindow({
+                content: contentString
+              });
+
+              marker.addListener('click', function() {
+                if (typeof currentInfoWindow !== 'undefined') {
+                  currentInfoWindow.close();
+                }
+                infowindow.open(map.instance, marker);
+                currentInfoWindow=infowindow;
+              });
+              markers[document._id] = marker;
+            }else{
+              console.log("Error in GeoCode! Status: "+status+" Address: "+ address);
+
+            }
+          });
         },
         changed: function (newDocument, oldDocument) {
           markers[newDocument._id].setPosition({ lat: newDocument.lat, lng: newDocument.lng });
@@ -116,27 +97,42 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.zip.events({
-    "click #findZip": function(e){
-      var map = GoogleMaps.get('map');
-        var geocoder = new google.maps.Geocoder();
-        var address = document.getElementById('zipcode').value;
-        geocoder.geocode( { 'address': address}, function(results, status) {
-          if (status == google.maps.GeocoderStatus.OK) {
-            var adr = results[0].formatted_address;
-            map.instance.panTo(new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng()));
-            map.instance.setZoom(12);
-          } else {
-            alert("Geocode was not successful for the following reason: " + status);
-          }
+  Template.registerHelper("currentLocationsIteration", function() {
+    result = [];
+    //finds all locations by current user id
+    currentLocations.find().forEach(function(marker) {
+      if(currentZip === -1 || currentZip === marker.zipCode) {
+        result.push({
+          name: marker.name,
+          address: marker.street + ", " + marker.city + ", " + marker.state,
+          zipCode: marker.zipCode
         });
-    }
+      }
+    });
+    return result;
   });
 
+  Template.zip.events({
+    "click #findZip": function(e) {
+      var map = GoogleMaps.get('map');
+      var geocoder = new google.maps.Geocoder();
+      var address = document.getElementById('zipcode').value;
+
+      geocoder.geocode( { 'address': address}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          var adr = results[0].formatted_address;
+          map.instance.panTo(new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng()));
+          map.instance.setZoom(12);
+        } else {
+          alert("Geocode was not successful for the following reason: " + status);
+        }
+      });
+    }
+  });
 }
 
 if (Meteor.isServer) {
-  if(Markers.find().count()===0){
+  if(Markers.find().count() === 0){
     Markers.insert({
       name:"Teen Challange",
       street:"5450 Lea Street",
