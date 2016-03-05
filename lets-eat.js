@@ -3,7 +3,7 @@ Router.route('/:org?', function () {
   // render the Home template with a custom data context
   var params = this.params;
   currentOrg = params.org;
-  console.log(currentOrg);
+  console.log("currentOrg:" + currentOrg);
   this.render('main', {data: {title: 'My Title'}});
 });
 Markers = new Mongo.Collection('markers');
@@ -14,8 +14,8 @@ if(Meteor.isServer){
   });
 }
 
-Meteor.methods({
-  'Geocode': function(address, name, foods, hours){
+
+  geocode = function(address, name, foods, hours, id){
     var map = GoogleMaps.get('map');
     var geocoder = new google.maps.Geocoder();
 
@@ -45,11 +45,17 @@ Meteor.methods({
           infowindow.open(map.instance, marker);
           currentInfoWindow=infowindow;
         });
+
+				 markers[id] = marker;
+				 console.log("Geocoded: " + name);
+				 //console.log(id);
+				 //console.log(markers[id]);
       }
       else if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
         //console.log("OVER_QUERY_LIMIT, address: " + address);
         setTimeout(function() {
-          Meteor.call('Geocode', address, name, foods, hours);
+          //Meteor.call('Geocode', address, name, foods, hours);
+					geocode(address,name,foods,hours);
         }, 200);
       }
       else{
@@ -57,7 +63,7 @@ Meteor.methods({
       }
     });
   }
-});
+
 
 if (Meteor.isClient) {
 
@@ -66,12 +72,14 @@ if (Meteor.isClient) {
     Session.set('lon', position.coords.longitude);
   });
 
+	currentLocations = new Mongo.Collection(null);
+
   Meteor.subscribe("markers");
   var centerLat = 32.947419;
   var centerLng = -117.239467;
   Template.map.onCreated(function() {
     GoogleMaps.ready('map', function(map) {
-      var markers = {};
+      markers = {};
 
       var myloc = new google.maps.Marker({
         clickable: false,
@@ -85,12 +93,34 @@ if (Meteor.isClient) {
         position: new google.maps.LatLng(Session.get('lat'), Session.get('lon'))
       });
 
+			map.instance.addListener("bounds_changed", function() {
+				console.log('bounds_changed...');
+        currentLocations.remove({});
+        Markers.find().forEach(function(location) {
+					//console.log(location._id);
+					//console.log(location.name);
+          if(markers[location._id] && map.instance.getBounds().contains(markers[location._id].getPosition())) {
+						console.log( location.name + " is visible");
+            currentLocations.insert({
+              name: location.name,
+              street: location.street,
+              city: location.city,
+              state: location.state,
+              zipCode: location.zipCode,
+              foods: location.foods,
+              hours: location.hours
+            });
+          }
+        });
+      });
+
       Markers.find().observe({
         added: function (document) {
           if(document.orgID===currentOrg||currentOrg===undefined){
             var geocoder = new google.maps.Geocoder();
             var address = document.street + ', ' + document.city + ', ' + document.state + ' ' + document.zipCode;
-            Meteor.call('Geocode', address, document.name, document.foods, document.hours);
+            //Meteor.call('Geocode', address, document.name, document.foods, document.hours);
+						geocode(address, document.name, document.foods, document.hours, document._id);
           }
         },
         changed: function (newDocument, oldDocument) {
@@ -118,6 +148,20 @@ if (Meteor.isClient) {
         };
       }
     }
+  });
+
+	Template.registerHelper("currentLocationsIteration", function() {
+    result = [];
+    //finds all locations by current user id
+    currentLocations.find().forEach(function(marker) {
+        result.push({
+          name: marker.name,
+          address: marker.street + ", " + marker.city + ", " + marker.state,
+          zipCode: marker.zipCode
+        });
+      //}
+    });
+    return result;
   });
 
   Template.zip.events({
