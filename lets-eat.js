@@ -8,7 +8,7 @@ Router.route('/:org?', function () {
 });
 Markers = new Mongo.Collection('markers');
 var currentInfoWindow;
-if(Meteor.isServer){
+if(Meteor.isServer) {
   Meteor.publish("markers", function () {
     return Markers.find();
   });
@@ -103,12 +103,10 @@ if (Meteor.isClient) {
 						console.log( location.name + " is visible");
             currentLocations.insert({
               name: location.name,
-              street: location.street,
-              city: location.city,
-              state: location.state,
-              zipCode: location.zipCode,
+              address: location.street + ", " + location.city + ", " + location.state + ", " + location.zipCode,
               foods: location.foods,
-              hours: location.hours
+              hours: location.hours,
+              org: marker.org
             });
           }
         });
@@ -156,8 +154,10 @@ if (Meteor.isClient) {
     currentLocations.find().forEach(function(marker) {
         result.push({
           name: marker.name,
-          address: marker.street + ", " + marker.city + ", " + marker.state,
-          zipCode: marker.zipCode
+          address: marker.address,
+          foods: marker.foods,
+          hours: marker.hours,
+          org: marker.org
         });
       //}
     });
