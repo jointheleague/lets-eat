@@ -15,54 +15,68 @@ if(Meteor.isServer){
 }
 
 
-  geocode = function(address, name, foods, hours, id){
-    var map = GoogleMaps.get('map');
-    var geocoder = new google.maps.Geocoder();
+geocode = function(address,document){
+  name = document.name;
+  foods= document.foods;
+  hours= document.hours;
+  id=document.id;
+  var map = GoogleMaps.get('map');
+  var geocoder = new google.maps.Geocoder();
 
-    geocoder.geocode( { 'address': address}, function(results, status) {
+  geocoder.geocode( { 'address': address}, function(results, status) {
 
-      if (status == google.maps.GeocoderStatus.OK) {
-        var latitude = results[0].geometry.location.lat();
-        var longitude = results[0].geometry.location.lng();
-        var marker = new google.maps.Marker({
-          draggable: false,
-          animation: google.maps.Animation.DROP,
-          position: new google.maps.LatLng(latitude, longitude),
-          map: map.instance,
-          id: document._id
-        });
-
-        var contentString = '<h2>' + name + '</h2><br><small>' + foods + '</small><br><small>' + hours + '</small>';
-
-        var infowindow = new google.maps.InfoWindow({
-          content: contentString
-        });
-
-        marker.addListener('click', function() {
-          if (typeof currentInfoWindow !== 'undefined') {
-            currentInfoWindow.close();
-          }
-          infowindow.open(map.instance, marker);
-          currentInfoWindow=infowindow;
-        });
-
-				 markers[id] = marker;
-				 console.log("Geocoded: " + name);
-				 //console.log(id);
-				 //console.log(markers[id]);
+    if (status == google.maps.GeocoderStatus.OK) {
+      var latitude = results[0].geometry.location.lat();
+      var longitude = results[0].geometry.location.lng();
+      var marker = new google.maps.Marker({
+        draggable: false,
+        animation: google.maps.Animation.DROP,
+        position: new google.maps.LatLng(latitude, longitude),
+        map: map.instance,
+        id: document._id
+      });
+      var currentImg;
+      if (document.orgID==="SDFB") {
+        console.log("SDFB IMG");
+        currentImg='<img src="/SDFB.Color.Logo.PNG.png" style="height:20%; width:20%;">';
+      }else if (document.orgID==="FASD") {
+        currentImg='<img src="/FASD.Logo.CMYK.jpg" style="height:30%; width:30%;">';
+        console.log("FASD IMG");
+      }else{
+        currentImg="";
       }
-      else if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
-        //console.log("OVER_QUERY_LIMIT, address: " + address);
-        setTimeout(function() {
-          //Meteor.call('Geocode', address, name, foods, hours);
-					geocode(address,name,foods,hours);
-        }, 200);
-      }
-      else{
-        alert("Error in GeoCode! Status: "+status+" Address: "+ address);
-      }
-    });
-  }
+
+      var contentString = currentImg +'<h2>' + name + '</h2><br><small>' + foods + '</small><br><small>' + hours + '</small>';
+      console.log("Content" + contentString);
+      var infowindow = new google.maps.InfoWindow({
+        content: contentString
+      });
+
+      marker.addListener('click', function() {
+        if (typeof currentInfoWindow !== 'undefined') {
+          currentInfoWindow.close();
+        }
+        infowindow.open(map.instance, marker);
+        currentInfoWindow=infowindow;
+      });
+
+      markers[id] = marker;
+      console.log("Geocoded: " + name);
+      //console.log(id);
+      //console.log(markers[id]);
+    }
+    else if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
+      //console.log("OVER_QUERY_LIMIT, address: " + address);
+      setTimeout(function() {
+        //Meteor.call('Geocode', address, name, foods, hours);
+        geocode(address,name,foods,hours);
+      }, 200);
+    }
+    else{
+      alert("Error in GeoCode! Status: "+status+" Address: "+ address);
+    }
+  });
+}
 
 
 if (Meteor.isClient) {
@@ -72,7 +86,7 @@ if (Meteor.isClient) {
     Session.set('lon', position.coords.longitude);
   });
 
-	currentLocations = new Mongo.Collection(null);
+  currentLocations = new Mongo.Collection(null);
 
   Meteor.subscribe("markers");
   var centerLat = 32.947419;
@@ -93,14 +107,14 @@ if (Meteor.isClient) {
         position: new google.maps.LatLng(Session.get('lat'), Session.get('lon'))
       });
 
-			map.instance.addListener("bounds_changed", function() {
-				console.log('bounds_changed...');
+      map.instance.addListener("bounds_changed", function() {
+        console.log('bounds_changed...');
         currentLocations.remove({});
         Markers.find().forEach(function(location) {
-					//console.log(location._id);
-					//console.log(location.name);
+          //console.log(location._id);
+          //console.log(location.name);
           if(markers[location._id] && map.instance.getBounds().contains(markers[location._id].getPosition())) {
-						console.log( location.name + " is visible");
+            console.log( location.name + " is visible");
             currentLocations.insert({
               name: location.name,
               street: location.street,
@@ -120,7 +134,7 @@ if (Meteor.isClient) {
             var geocoder = new google.maps.Geocoder();
             var address = document.street + ', ' + document.city + ', ' + document.state + ' ' + document.zipCode;
             //Meteor.call('Geocode', address, document.name, document.foods, document.hours);
-						geocode(address, document.name, document.foods, document.hours, document._id);
+            geocode(address, document);
           }
         },
         changed: function (newDocument, oldDocument) {
@@ -150,15 +164,15 @@ if (Meteor.isClient) {
     }
   });
 
-	Template.registerHelper("currentLocationsIteration", function() {
+  Template.registerHelper("currentLocationsIteration", function() {
     result = [];
     //finds all locations by current user id
     currentLocations.find().forEach(function(marker) {
-        result.push({
-          name: marker.name,
-          address: marker.street + ", " + marker.city + ", " + marker.state,
-          zipCode: marker.zipCode
-        });
+      result.push({
+        name: marker.name,
+        address: marker.street + ", " + marker.city + ", " + marker.state,
+        zipCode: marker.zipCode
+      });
       //}
     });
     return result;
