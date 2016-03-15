@@ -10,8 +10,8 @@
     {{> header}}
     {{> map}}
     {{> zip}}
-		{{> locations}}
-</div>
+    {{> locations}}
+  </div>
 </template>
 
 <template name="header">
@@ -48,11 +48,11 @@
     </thead>
     <tbody>
       {{#each currentLocationsIteration}}
-        <tr>
-          <td>{{name}}</td>
-          <td>{{address}}</td>
-          <td>{{zipCode}}</td>
-        </tr>
+      <tr>
+        <td>{{name}}</td>
+        <td>{{address}}</td>
+        <td>{{zipCode}}</td>
+      </tr>
       {{/each}}
     </tbody>
   </table>

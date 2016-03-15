@@ -15,54 +15,71 @@ if(Meteor.isServer){
 }
 
 
-  geocode = function(address, name, foods, hours, id){
-    var map = GoogleMaps.get('map');
-    var geocoder = new google.maps.Geocoder();
+geocode = function(address,document){
+  var name = document.name;
+  var foods= document.foods;
+  var hours= document.hours;
+  var id=document.id;
+  var map = GoogleMaps.get('map');
+  var geocoder = new google.maps.Geocoder();
 
-    geocoder.geocode( { 'address': address}, function(results, status) {
+  geocoder.geocode( { 'address': address}, function(results, status) {
 
-      if (status == google.maps.GeocoderStatus.OK) {
-        var latitude = results[0].geometry.location.lat();
-        var longitude = results[0].geometry.location.lng();
-        var marker = new google.maps.Marker({
-          draggable: false,
-          animation: google.maps.Animation.DROP,
-          position: new google.maps.LatLng(latitude, longitude),
-          map: map.instance,
-          id: document._id
-        });
-
-        var contentString = '<h2>' + name + '</h2><br><small>' + foods + '</small><br><small>' + hours + '</small>';
-
-        var infowindow = new google.maps.InfoWindow({
-          content: contentString
-        });
-
-        marker.addListener('click', function() {
-          if (typeof currentInfoWindow !== 'undefined') {
-            currentInfoWindow.close();
-          }
-          infowindow.open(map.instance, marker);
-          currentInfoWindow=infowindow;
-        });
-
-				 markers[id] = marker;
-				 console.log("Geocoded: " + name);
-				 //console.log(id);
-				 //console.log(markers[id]);
+    if (status == google.maps.GeocoderStatus.OK) {
+      var latitude = results[0].geometry.location.lat();
+      var longitude = results[0].geometry.location.lng();
+      var marker = new google.maps.Marker({
+        draggable: false,
+        animation: google.maps.Animation.DROP,
+        position: new google.maps.LatLng(latitude, longitude),
+        map: map.instance,
+        id: document._id
+      });
+      var currentImg;
+      if (document.orgID==="SDFB") {
+        currentImg='<img src="/SDFB.Color.Logo.PNG.png" style="height:20%; width:20%;">';
+      }else if (document.orgID==="FASD") {
+        currentImg='<img src="/FASD.Logo.CMYK.jpg" style="height:30%; width:30%;">';
+      }else{
+        currentImg="";
       }
-      else if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
-        //console.log("OVER_QUERY_LIMIT, address: " + address);
-        setTimeout(function() {
-          //Meteor.call('Geocode', address, name, foods, hours);
-					geocode(address,name,foods,hours);
-        }, 200);
+
+      var urlInfo;
+      if (typeof document.webURL !== 'undefined') {
+        urlInfo='<br><small><a href="'+document.webURL+'">'+name+'\'s Website</a></small>';
+      }else{
+        urlInfo='';
       }
-      else{
-        alert("Error in GeoCode! Status: "+status+" Address: "+ address);
-      }
-    });
-  }
+      var contentString = currentImg +'<h2>' + name + '</h2><br><small>' + foods + '</small><br><small>' + hours + '</small>'+urlInfo;
+      var infowindow = new google.maps.InfoWindow({
+        content: contentString
+      });
+
+      marker.addListener('click', function() {
+        if (typeof currentInfoWindow !== 'undefined') {
+          currentInfoWindow.close();
+        }
+        infowindow.open(map.instance, marker);
+        currentInfoWindow=infowindow;
+      });
+
+      markers[id] = marker;
+      console.log("Geocoded: " + name);
+      //console.log(id);
+      //console.log(markers[id]);
+    }
+    else if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
+      //console.log("OVER_QUERY_LIMIT, address: " + address);
+      setTimeout(function() {
+        //Meteor.call('Geocode', address, name, foods, hours);
+        geocode(address, document);
+      }, 200);
+    }
+    else{
+      alert("Error in GeoCode! Status: "+status+" Address: "+ address);
+    }
+  });
+}
 
 
 if (Meteor.isClient) {
@@ -72,7 +89,7 @@ if (Meteor.isClient) {
     Session.set('lon', position.coords.longitude);
   });
 
-	currentLocations = new Mongo.Collection(null);
+  currentLocations = new Mongo.Collection(null);
 
   Meteor.subscribe("markers");
   var centerLat = 32.947419;
@@ -93,14 +110,14 @@ if (Meteor.isClient) {
         position: new google.maps.LatLng(Session.get('lat'), Session.get('lon'))
       });
 
-			map.instance.addListener("bounds_changed", function() {
-				console.log('bounds_changed...');
+      map.instance.addListener("bounds_changed", function() {
+        console.log('bounds_changed...');
         currentLocations.remove({});
         Markers.find().forEach(function(location) {
-					//console.log(location._id);
-					//console.log(location.name);
+          //console.log(location._id);
+          //console.log(location.name);
           if(markers[location._id] && map.instance.getBounds().contains(markers[location._id].getPosition())) {
-						console.log( location.name + " is visible");
+            console.log( location.name + " is visible");
             currentLocations.insert({
               name: location.name,
               street: location.street,
@@ -120,7 +137,7 @@ if (Meteor.isClient) {
             var geocoder = new google.maps.Geocoder();
             var address = document.street + ', ' + document.city + ', ' + document.state + ' ' + document.zipCode;
             //Meteor.call('Geocode', address, document.name, document.foods, document.hours);
-						geocode(address, document.name, document.foods, document.hours, document._id);
+            geocode(address, document);
           }
         },
         changed: function (newDocument, oldDocument) {
@@ -150,15 +167,15 @@ if (Meteor.isClient) {
     }
   });
 
-	Template.registerHelper("currentLocationsIteration", function() {
+  Template.registerHelper("currentLocationsIteration", function() {
     result = [];
     //finds all locations by current user id
     currentLocations.find().forEach(function(marker) {
-        result.push({
-          name: marker.name,
-          address: marker.street + ", " + marker.city + ", " + marker.state,
-          zipCode: marker.zipCode
-        });
+      result.push({
+        name: marker.name,
+        address: marker.street + ", " + marker.city + ", " + marker.state,
+        zipCode: marker.zipCode
+      });
       //}
     });
     return result;
@@ -180,20 +197,31 @@ if (Meteor.isClient) {
       });
     }
   });
-
 }
 
 if (Meteor.isServer) {
   if(Markers.find().count()===0){
     Markers.insert({
-      name:"Teen Challange",
+      name:"Food Program Name",
+      street:"Street Address",
+      city:"City ",
+      state:"CA",
+      zipCode:"Zip Code",
+      foods:"Foods Typically Available",
+      hours:"Day(s)/Time",
+      orgID:"San Diego Food Bank Partner (for internal use for ancillary donor map)",
+      webURL:"URL"
+    });
+    Markers.insert({
+      name:"Teen Challenge",
       street:"5450 Lea Street",
       city:"San Diego",
       state:"CA",
       zipCode:"92105",
-      foods:"20-30lb fresh produce per household",
-      hours:"2nd Monday of each month from 9AM until food is gone",
-      orgID:"SDFB"
+      foods:"20-30 lbs of fresh produce per household",
+      hours:"2nd Monday of each month from 9:00 am until the food is gone",
+      orgID:"SDFB",
+      webURL:"https://www.google.com/"
     });
     Markers.insert({
       name:"LGBT Community Center",
@@ -202,8 +230,9 @@ if (Meteor.isServer) {
       state:"CA",
       zipCode:"92103",
       foods:"20-30 lbs of fresh produce per household",
-      hours:"1st Tuesday of each month from 9:00 am until food is gone",
-      orgID:"SDFB"
+      hours:"9:00 AM",
+      orgID:"SDFB",
+      webURL:"https://www.google.com/"
     });
     Markers.insert({
       name:"South Bay Pentecostal",
@@ -212,8 +241,9 @@ if (Meteor.isServer) {
       state:"CA",
       zipCode:"91910",
       foods:"20-30 lbs of fresh produce per household",
-      hours:"1st Friday of each month from 9:00 am until food is gone",
-      orgID:""
+      hours:"9:00 AM",
+      orgID:"SDFB",
+      webURL:"https://www.google.com/"
     });
     Markers.insert({
       name:"Hearts & Hands Working Together",
@@ -222,16 +252,20 @@ if (Meteor.isServer) {
       state:"CA",
       zipCode:"92173",
       foods:"20-30 lbs of fresh produce per household",
-      hours:"2nd Tuesday of each month from 9:00 am until food is gone"
+      hours:"9:00 AM",
+      orgID:"SDFB",
+      webURL:"https://www.google.com/"
     });
     Markers.insert({
       name:"Journey Community Church",
-      street:"8363 Center Drive, Ste 6C",
-      city:"La Mesa",
+      street:"8363 Center Drive",
+      city:"Ste 6C",
       state:"CA",
-      zipCode:"91942",
-      foods:"20-30 lbs of fresh produce per household",
-      hours:"2nd Friday of each month from 9:00 am until food is gone"
+      zipCode:"La Mesa",
+      foods:"9:00 AM",
+      hours:"2nd Friday of each month from 9:00 am until food is gone",
+      orgID:"SDFB",
+      webURL:"https://www.google.com/"
     });
     Markers.insert({
       name:"St. Stephen's of COGIC",
@@ -240,7 +274,9 @@ if (Meteor.isServer) {
       state:"CA",
       zipCode:"92114",
       foods:"20-30 lbs of fresh produce per household",
-      hours:"3rd Monday of each month from 9:00 am until food is gone"
+      hours:"9:00 AM",
+      orgID:"SDFB",
+      webURL:"https://www.google.com/"
     });
     Markers.insert({
       name:"Vista Spanish SDA Church",
@@ -249,7 +285,9 @@ if (Meteor.isServer) {
       state:"CA",
       zipCode:"92083",
       foods:"20-30 lbs of fresh produce per household",
-      hours:"3rd Monday of each month from 2:00 pm until food is gone"
+      hours:"2:00 PM",
+      orgID:"SDFB",
+      webURL:"https://www.google.com/"
     });
     Markers.insert({
       name:"El Cajon 7th Day Adventist Church",
@@ -258,7 +296,8 @@ if (Meteor.isServer) {
       state:"CA",
       zipCode:"92019",
       foods:"20-30 lbs of fresh produce per household",
-      hours:"3rd Tuesday of each month from 4:00 pm until food is gone"
+      hours:"4:00 PM",
+      orgID:"SDFB"
     });
     Markers.insert({
       name:"Military Outreach Ministry",
@@ -267,7 +306,8 @@ if (Meteor.isServer) {
       state:"CA",
       zipCode:"92058",
       foods:"20-30 lbs of fresh produce per household",
-      hours:"3rd Saturday of each month from 10:00 am until food is gone"
+      hours:"10:00 AM",
+      orgID:"SDFB"
     });
     Markers.insert({
       name:"Heaven's Windows",
@@ -276,7 +316,8 @@ if (Meteor.isServer) {
       state:"CA",
       zipCode:"91977",
       foods:"20-30 lbs of fresh produce per household",
-      hours:"4th Tuesday of each month from 9:00 am until food is gone"
+      hours:"9:00 AM",
+      orgID:"SDFB"
     });
     Markers.insert({
       name:"Fallbrook Food Pantry",
@@ -285,7 +326,8 @@ if (Meteor.isServer) {
       state:"CA",
       zipCode:"92028",
       foods:"20-30 lbs of fresh produce per household",
-      hours:"Last Wednesday of each month from 10:00 am until food is gone"
+      hours:"10:00 AM",
+      orgID:"SDFB"
     });
     Markers.insert({
       name:"Bread of Life",
@@ -294,7 +336,8 @@ if (Meteor.isServer) {
       state:"CA",
       zipCode:"92054",
       foods:"20-30 lbs of fresh produce per household",
-      hours:"Last Thursday of each month from 3:00 pm until food is gone"
+      hours:"3:00 PM",
+      orgID:"SDFB"
     });
     Markers.insert({
       name:"Samoa Independent",
@@ -303,25 +346,38 @@ if (Meteor.isServer) {
       state:"CA",
       zipCode:"91945",
       foods:"20-30 lbs of fresh produce per household",
-      hours:"Last Friday of each month from 9:00 am until food is gone"
+      hours:"9:00 AM",
+      orgID:"SDFB"
     });
     Markers.insert({
-      name:"SDFB Back Country  Boulevard",
+      name:"Heaven's Windows",
+      street:"2300 Bancroft Drive",
+      city:"Spring Valley",
+      state:"CA",
+      zipCode:"91977",
+      foods:"EFAP Commodities - canned & packaged goods",
+      hours:"Monday through Friday from 9:00 am - 12:00 pm",
+      orgID:"SDFB"
+    });
+    Markers.insert({
+      name:"Good News Baptist Church",
+      street:" 416 Swift Avenue",
+      city:"San Diego",
+      state:"CA",
+      zipCode:"92104",
+      foods:"CSFP Commodities - canned & packaged goods",
+      hours:"2nd Wednesday of each month from 10:30 am - 12:00 pm",
+      orgID:"SDFB"
+    });
+    Markers.insert({
+      name:"SDFB Back Country Boulevard",
       street:"39605 Old Highway 80",
       city:"Boulevard",
       state:"CA",
       zipCode:"91905",
-      foods:"EFAP Commodities - canned & packaged goods, occasional meat and fresh produce",
-      hours:"2nd Monday of each month from 10:00 am - 11:00 am"
-    });
-    Markers.insert({
-      name:"Salvation Army - Campo",
-      street:"376 Sheridan Rd",
-      city:"Campo",
-      state:"CA",
-      zipCode:"91905",
-      foods:"EFAP Commodities - canned & packaged goods, occasional meat and fresh produce",
-      hours:"Wednesday after 2nd Monday of the month from 12:00 pm - 12:30 pm"
+      foods:"EFAP Commodities - canned & packaged goods",
+      hours:"2nd Monday of each month from 10:00 am - 11:00 am",
+      orgID:"SDFB"
     });
   }
 }
