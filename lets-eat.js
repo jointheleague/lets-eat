@@ -15,54 +15,52 @@ if(Meteor.isServer){
 }
 
 
-  geocode = function(address, name, foods, hours, id){
-    var map = GoogleMaps.get('map');
-    var geocoder = new google.maps.Geocoder();
+geocode = function(address, name, foods, hours, id){
+  var map = GoogleMaps.get('map');
+  var geocoder = new google.maps.Geocoder();
 
-    geocoder.geocode( { 'address': address}, function(results, status) {
+  geocoder.geocode( { 'address': address}, function(results, status) {
 
-      if (status == google.maps.GeocoderStatus.OK) {
-        var latitude = results[0].geometry.location.lat();
-        var longitude = results[0].geometry.location.lng();
-        var marker = new google.maps.Marker({
-          draggable: false,
-          animation: google.maps.Animation.DROP,
-          position: new google.maps.LatLng(latitude, longitude),
-          map: map.instance,
-          id: document._id
-        });
+    if (status == google.maps.GeocoderStatus.OK) {
+      var latitude = results[0].geometry.location.lat();
+      var longitude = results[0].geometry.location.lng();
+      var marker = new google.maps.Marker({
+        draggable: false,
+        animation: google.maps.Animation.DROP,
+        position: new google.maps.LatLng(latitude, longitude),
+        map: map.instance,
+        id: document._id
+      });
 
-        var contentString = '<h2>' + name + '</h2><br><small>' + foods + '</small><br><small>' + hours + '</small>';
+      var contentString = '<h2>' + name + '</h2><br><small>' + foods + '</small><br><small>' + hours + '</small>';
 
-        var infowindow = new google.maps.InfoWindow({
-          content: contentString
-        });
+      var infowindow = new google.maps.InfoWindow({
+        content: contentString
+      });
 
-        marker.addListener('click', function() {
-          if (typeof currentInfoWindow !== 'undefined') {
-            currentInfoWindow.close();
-          }
-          infowindow.open(map.instance, marker);
-          currentInfoWindow=infowindow;
-        });
+      marker.addListener('click', function() {
+        if (typeof currentInfoWindow !== 'undefined') {
+          currentInfoWindow.close();
+        }
+        infowindow.open(map.instance, marker);
+        currentInfoWindow=infowindow;
+      });
 
-				 markers[id] = marker;
-				 console.log("Geocoded: " + name);
-				 //console.log(id);
-				 //console.log(markers[id]);
-      }
-      else if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
-        //console.log("OVER_QUERY_LIMIT, address: " + address);
-        setTimeout(function() {
-          //Meteor.call('Geocode', address, name, foods, hours);
-					geocode(address,name,foods,hours);
-        }, 200);
-      }
-      else{
-        alert("Error in GeoCode! Status: "+status+" Address: "+ address);
-      }
-    });
-  }
+      markers[id] = marker;
+      console.log("Geocoded: " + name);
+      //console.log(id);
+      //console.log(markers[id]);
+    }
+    else if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
+      setTimeout(function() {
+        geocode(address,name,foods,hours);
+      }, 200);
+    }
+    else{
+      alert("Error in GeoCode! Status: "+status+" Address: "+ address);
+    }
+  });
+}
 
 
 if (Meteor.isClient) {
@@ -72,7 +70,7 @@ if (Meteor.isClient) {
     Session.set('lon', position.coords.longitude);
   });
 
-	currentLocations = new Mongo.Collection(null);
+  currentLocations = new Mongo.Collection(null);
 
   Meteor.subscribe("markers");
   var centerLat = 32.947419;
@@ -93,14 +91,14 @@ if (Meteor.isClient) {
         position: new google.maps.LatLng(Session.get('lat'), Session.get('lon'))
       });
 
-			map.instance.addListener("bounds_changed", function() {
-				console.log('bounds_changed...');
+      map.instance.addListener("bounds_changed", function() {
+        console.log('bounds_changed...');
         currentLocations.remove({});
         Markers.find().forEach(function(location) {
-					//console.log(location._id);
-					//console.log(location.name);
+          //console.log(location._id);
+          //console.log(location.name);
           if(markers[location._id] && map.instance.getBounds().contains(markers[location._id].getPosition())) {
-						console.log( location.name + " is visible");
+            console.log( location.name + " is visible");
             currentLocations.insert({
               name: location.name,
               street: location.street,
@@ -120,7 +118,33 @@ if (Meteor.isClient) {
             var geocoder = new google.maps.Geocoder();
             var address = document.street + ', ' + document.city + ', ' + document.state + ' ' + document.zipCode;
             //Meteor.call('Geocode', address, document.name, document.foods, document.hours);
-						geocode(address, document.name, document.foods, document.hours, document._id);
+            if(Markers.findOne(document._id).latitude == undefined){
+              geocode(address, document.name, document.foods, document.hours, document._id);
+            }
+            else {
+              var marker = new google.maps.Marker({
+                draggable: false,
+                animation: google.maps.Animation.DROP,
+                position: new google.maps.LatLng(Markers.findOne(document._id).lat, Markers.findOne(document._id).lon),
+                map: map.instance,
+                id: document._id
+              });
+              var contentString = '<h2>' + document.name + '</h2><br><small>' + document.foods + '</small><br><small>' + document.hours + '</small>';
+
+              var infowindow = new google.maps.InfoWindow({
+                content: contentString
+              });
+
+              marker.addListener('click', function() {
+                if (typeof currentInfoWindow !== 'undefined') {
+                  currentInfoWindow.close();
+                }
+                infowindow.open(map.instance, marker);
+                currentInfoWindow=infowindow;
+              });
+
+              markers[id] = marker;
+            }
           }
         },
         changed: function (newDocument, oldDocument) {
@@ -150,15 +174,15 @@ if (Meteor.isClient) {
     }
   });
 
-	Template.registerHelper("currentLocationsIteration", function() {
+  Template.registerHelper("currentLocationsIteration", function() {
     result = [];
     //finds all locations by current user id
     currentLocations.find().forEach(function(marker) {
-        result.push({
-          name: marker.name,
-          address: marker.street + ", " + marker.city + ", " + marker.state,
-          zipCode: marker.zipCode
-        });
+      result.push({
+        name: marker.name,
+        address: marker.street + ", " + marker.city + ", " + marker.state,
+        zipCode: marker.zipCode
+      });
       //}
     });
     return result;
@@ -184,6 +208,32 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
+  console.log("Server");
+  geocode = function(address){
+    console.log("I ran");
+    try{
+      console.log("Im good");
+    var geo = new GeoCoder();
+    var result = geo.geocode(address);
+    Markers.update({_id : document._id},{$set: {latitude : result[0].latitude, longitude : result[0].longitude}});
+  }
+  catch(err) {
+    console.log("Over query")
+    setTimeout(function() {
+      geocode(address);
+    }, 200);
+  }
+
+  Markers.find().observe({
+    added: function (document) {
+      console.log("Observe");
+      var address = document.street + ", " + document.city + ", " + document.state + " " + document.zipCode;
+      geocode(address);
+    }
+  });
+
+
+
   if(Markers.find().count()===0){
     Markers.insert({
       name:"Teen Challange",
@@ -324,4 +374,5 @@ if (Meteor.isServer) {
       hours:"Wednesday after 2nd Monday of the month from 12:00 pm - 12:30 pm"
     });
   }
+}
 }
