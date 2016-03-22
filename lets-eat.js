@@ -214,7 +214,7 @@ if (Meteor.isServer) {
   Houston.hide_collection(Meteor.users);
   Houston.hide_collection(Houston._admins);
 
-  Houston.methods("markers", {
+  Houston.methods('markers', {
     "Geocode": function (post) {
       var address = post.street + ", " + post.city + ", " + post.state + " " + post.zipCode;
       var geo = new GeoCoder();
