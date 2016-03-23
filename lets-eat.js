@@ -14,57 +14,6 @@ if(Meteor.isServer){
   });
 }
 
-
-geocode = function(address, name, foods, hours, id){
-  var map = GoogleMaps.get('map');
-  var geocoder = new google.maps.Geocoder();
-
-  geocoder.geocode( { 'address': address}, function(results, status) {
-
-    if (status == google.maps.GeocoderStatus.OK) {
-      var latitude = results[0].geometry.location.lat();
-      var longitude = results[0].geometry.location.lng();
-      var marker = new google.maps.Marker({
-        draggable: false,
-        animation: google.maps.Animation.DROP,
-        position: new google.maps.LatLng(latitude, longitude),
-        map: map.instance,
-        id: document._id
-      });
-
-      var contentString = '<h2>' + name + '</h2><br><small>' + foods + '</small><br><small>' + hours + '</small>';
-
-      var infowindow = new google.maps.InfoWindow({
-        content: contentString
-      });
-
-      marker.addListener('click', function() {
-        if (typeof currentInfoWindow !== 'undefined') {
-          currentInfoWindow.close();
-        }
-        infowindow.open(map.instance, marker);
-        currentInfoWindow=infowindow;
-      });
-
-      markers[id] = marker;
-      console.log("Geocoded: " + name);
-      //console.log(id);
-      //console.log(markers[id]);
-    }
-    else if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
-      //console.log("OVER_QUERY_LIMIT, address: " + address);
-      setTimeout(function() {
-        //Meteor.call('Geocode', address, name, foods, hours);
-        geocode(address,name,foods,hours);
-      }, 200);
-    }
-    else{
-      alert("Error in GeoCode! Status: "+status+" Address: "+ address);
-    }
-  });
-}
-
-
 if (Meteor.isClient) {
 
   navigator.geolocation.getCurrentPosition(function(position) {
@@ -132,7 +81,22 @@ if (Meteor.isClient) {
                 map: map.instance,
                 id: document._id
               });
-              var contentString = '<h2>' + document.name + '</h2><br><small>' + document.foods + '</small><br><small>' + document.hours + '</small>';
+              var currentImg;
+              if (document.orgID==="SDFB") {
+                currentImg='<img src="/SDFB.Color.Logo.PNG.png" style="height:20%; width:20%;">';
+              }else if (document.orgID==="FASD") {
+                currentImg='<img src="/FASD.Logo.CMYK.jpg" style="height:30%; width:30%;">';
+              }else{
+                currentImg="";
+              }
+
+              var urlInfo;
+              if (typeof document.webURL !== 'undefined') {
+                urlInfo='<br><small><a href="'+document.webURL+'">'+name+'\'s Website</a></small>';
+              }else{
+                urlInfo='';
+              }
+              var contentString = currentImg +'<h2>' + document.name + '</h2><br><small>' + document.foods + '</small><br><small>' + document.hours + '</small>'+urlInfo;
 
               var infowindow = new google.maps.InfoWindow({
                 content: contentString
