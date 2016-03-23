@@ -21,3 +21,6 @@ houston:admin
 twbs:bootstrap
 iron:router
 aldeed:geocoder
+accounts-password
+accounts-ui-unstyled
+accounts-ui

@@ -38,3 +38,12 @@ updateDB = function(){
     Meteor._sleepForMs(200);
   });
 }
+Meteor.methods({
+  MakeUserAdmin: function(email){
+    var user = Accounts.findUserByEmail(email);
+    console.log(user);
+    Houston._admins.insert({
+      user_id: user._id
+    })
+  }
+});
