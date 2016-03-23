@@ -2,8 +2,8 @@ Meteor.publish("markers", function () {
   return Markers.find();
 });
 
-Houston.hide_collection(Meteor.users);
-Houston.hide_collection(Houston._admins);
+Houston.add_collection(Meteor.users);
+Houston.add_collection(Houston._admins);
 
 Houston.methods('markers', {
   "Geocode": function (post) {

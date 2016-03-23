@@ -49,7 +49,8 @@ if (Meteor.isClient) {
               state: location.state,
               zipCode: location.zipCode,
               foods: location.foods,
-              hours: location.hours
+              hours: location.hours,
+              orgID: location.orgID
             });
           }
         });
