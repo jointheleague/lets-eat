@@ -93,7 +93,7 @@ if (Meteor.isClient) {
         position: new google.maps.LatLng(Session.get('lat'), Session.get('lon'))
       });
 
-      map.instance.addListener("bounds_changed", function() {
+      map.instance.addListener("idle", function() {
         console.log('bounds_changed...');
         currentLocations.remove({});
         Markers.find().forEach(function(location) {
