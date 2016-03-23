@@ -1,0 +1,20 @@
+<template name="locations">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Zip Code</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each currentLocationsIteration}}
+        <tr>
+          <td>{{name}}</td>
+          <td>{{address}}</td>
+          <td>{{zipCode}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</template>
