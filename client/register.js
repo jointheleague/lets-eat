@@ -7,7 +7,8 @@ Template.register.events({
       email: emailVar,
       password: passwordVar
     });
-  Meteor.call("MakeUserAdmin",emailVar);
-
+    Meteor.call("MakeUserAdmin",emailVar);
+    alert("The user "+emailVar+" has been created");
+    window.location.assign("/");
   }
 });
