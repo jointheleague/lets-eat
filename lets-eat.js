@@ -94,7 +94,6 @@ if (Meteor.isClient) {
       });
 
       map.instance.addListener("idle", function() {
-        console.log('bounds_changed...');
         currentLocations.remove({});
         Markers.find().forEach(function(location) {
           //console.log(location._id);
@@ -108,7 +107,8 @@ if (Meteor.isClient) {
               state: location.state,
               zipCode: location.zipCode,
               foods: location.foods,
-              hours: location.hours
+              hours: location.hours,
+              orgID: location.orgID
             });
           }
         });
@@ -182,9 +182,14 @@ if (Meteor.isClient) {
     //finds all locations by current user id
     currentLocations.find().forEach(function(marker) {
       result.push({
-        name: marker.name,
-        address: marker.street + ", " + marker.city + ", " + marker.state,
-        zipCode: marker.zipCode
+        name: location.name,
+        street: location.street,
+        city: location.city,
+        state: location.state,
+        zipCode: location.zipCode,
+        foods: location.foods,
+        hours: location.hours,
+        orgID: location.orgID
       });
       //}
     });

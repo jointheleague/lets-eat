@@ -41,17 +41,17 @@
   <table class="table">
     <thead>
       <tr>
-        <th>Name</th>
         <th>Address</th>
-        <th>Zip Code</th>
+        <th>Hours of Operation</th>
+        <th>Foods Availabe</th>
       </tr>
     </thead>
     <tbody>
       {{#each currentLocationsIteration}}
         <tr>
-          <td>{{name}}</td>
-          <td>{{address}}</td>
-          <td>{{zipCode}}</td>
+          <td>{{name}}<br/>{{street}}<br/>{{city}} + ", " + {{state}} + " " + {{zipCode}}</td>
+          <td>{{hours}}</td>
+          <td>{{foods}}</td>
         </tr>
       {{/each}}
     </tbody>
