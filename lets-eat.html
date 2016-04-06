@@ -4,3 +4,56 @@
 
 <body>
 </body>
+
+<template name="main">
+  <div class="container-fluid">
+    {{> header}}
+    {{> map}}
+    {{> zip}}
+		{{> locations}}
+</div>
+</template>
+
+<template name="header">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-4"><img src="/SDFB.Color.Logo.PNG.png" style="height:20%; width:20%;"></div>
+      <div class="col-sm-4"><h1>Food Locator Service</h1></div>
+      <div class="col-sm-4"><img src="/FASD.Logo.CMYK.jpg" style="height:30%; width:30%;"></div>
+    </div>
+  </div>
+</template>
+
+<template name="map">
+  <div class="map-container">
+    {{> googleMap name="map" options=mapOptions}}
+  </div>
+</template>
+
+<template name="zip">
+  <form class="form-inline">
+    Search by Zip Code: <input class="form-control" type="text" id="zipcode">
+    <input class="btn btn-default" type="button" id="findZip" value="Search">
+  </form>
+</template>
+
+<template name="locations">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Address</th>
+        <th>Hours of Operation</th>
+        <th>Foods Availabe</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each currentLocationsIteration}}
+        <tr>
+          <td>{{name}}<br/>{{street}}<br/>{{city}} + ", " + {{state}} + " " + {{zipCode}}</td>
+          <td>{{hours}}</td>
+          <td>{{foods}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</template>
