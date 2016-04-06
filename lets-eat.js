@@ -4,14 +4,15 @@ Router.route('/:org?', function () {
   // render the Home template with a custom data context
   var params = this.params;
   currentOrg = params.org;
-  if(currentOrg==="newUser"){
-  this.render('AddAccount',{data:{title: 'Add User'}});
-  }else{
   console.log("currentOrg:" + currentOrg);
   this.render('main', {data: {title: 'Lets Eat'}});
-}
-});
 
+});
+Houston.menu({
+  'type': 'template',
+  'use': 'AddAccount',
+  'title': 'New User'
+});
 
 if (Meteor.isClient) {
   navigator.geolocation.getCurrentPosition(function(position) {

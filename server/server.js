@@ -16,7 +16,11 @@ Houston.methods('markers', {
   }
 });
 Meteor.methods({
-  MakeUserAdmin: function(email){
+  MakeUser: function(email, password){
+    Accounts.createUser({
+      email: email,
+      password: password
+    });
     var user = Accounts.findUserByEmail(email);
     console.log(user);
     Houston._admins.insert({
