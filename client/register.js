@@ -3,12 +3,9 @@ Template.register.events({
     event.preventDefault();
     var emailVar = event.target.registerEmail.value;
     var passwordVar = event.target.registerPassword.value;
-    Accounts.createUser({
-      email: emailVar,
-      password: passwordVar
-    });
-    Meteor.call("MakeUserAdmin",emailVar);
+    Meteor.call("MakeUser",emailVar,passwordVar);
     alert("The user "+emailVar+" has been created");
-    window.location.assign("/");
+    event.target.registerEmail.value="";
+    event.target.registerPassword.value="";
   }
 });
