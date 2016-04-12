@@ -40,14 +40,12 @@ if (Meteor.isClient) {
         position: new google.maps.LatLng(Session.get('lat'), Session.get('lon'))
       });
 
-      map.instance.addListener("bounds_changed", function() {
-        console.log('bounds_changed...');
+      map.instance.addListener("idle", function() {
         currentLocations.remove({});
         Markers.find().forEach(function(location) {
           //console.log(location._id);
           //console.log(location.name);
           if(markers[location._id] && map.instance.getBounds().contains(markers[location._id].getPosition())) {
-            console.log( location.name + " is visible");
             currentLocations.insert({
               name: location.name,
               street: location.street,
