@@ -59,6 +59,19 @@ if (Meteor.isClient) {
           }
         });
       });
+      Markers.find().forEach(function(location) {
+        currentLocations.insert({
+          name: location.name,
+          street: location.street,
+          city: location.city,
+          state: location.state,
+          zipCode: location.zipCode,
+          foods: location.foods,
+          hours: location.hours,
+          orgID: location.orgID
+        });
+      });
+      //a change
 
       Markers.find().observe({
         added: function (document) {
