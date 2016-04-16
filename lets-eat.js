@@ -22,6 +22,7 @@ if (Meteor.isClient) {
 
   currentLocations = new Mongo.Collection(null);
 
+
   Meteor.subscribe("markers");
 
   Template.map.onCreated(function() {
