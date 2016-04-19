@@ -14,7 +14,8 @@ Template.search.rendered = function() {
   Meteor.typeahead.inject();
 };
 Template.search.events({
-  "click #Find": function(e){
+  "submit .SearchForm": function(e){
+    e.preventDefault();
     var map = GoogleMaps.get('map');
     var location = document.getElementById('searchBar').value;
     var location2 = Markers.findOne({name:location});
