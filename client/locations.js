@@ -4,7 +4,10 @@ Template.registerHelper("currentLocationsIteration", function() {
   currentLocations.find().forEach(function(marker) {
     result.push({
       name: marker.name,
-      address: marker.street + ", " + marker.city + ", " + marker.state + ", " + marker.zipCode,
+      street: marker.street,
+      city: marker.city,
+      state: marker.state,
+      zipCode: marker.zipCode,
       foods: marker.foods,
       hours: marker.hours,
       orgID: marker.orgID
