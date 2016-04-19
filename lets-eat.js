@@ -64,7 +64,9 @@ if (Meteor.isClient) {
 
       Markers.find().observe({
         added: function (document) {
+          console.log("Added");
           if(document.orgID===currentOrg||currentOrg===undefined){
+            console.log("if");
             var geocoder = new google.maps.Geocoder();
             var address = document.street + ', ' + document.city + ', ' + document.state + ' ' + document.zipCode;
             //Meteor.call('Geocode', address, document.name, document.foods, document.hours);
@@ -73,21 +75,23 @@ if (Meteor.isClient) {
             }
             else {
               console.log("else");
+              var iconlbl;
+              if (document.orgID==="SDFB") {
+                iconlbl='SDFB';
+              }else if (document.orgID==="FASD") {
+                iconlbl='FASD';
+              }else{
+                iconlbl='BOTH';
+              }
+
               var marker = new google.maps.Marker({
                 draggable: false,
                 animation: google.maps.Animation.DROP,
                 position: new google.maps.LatLng(Markers.findOne(document._id).latitude, Markers.findOne(document._id).longitude),
                 map: map.instance,
-                id: document._id
+                id: document._id,
+                label: iconlbl
               });
-              var currentImg;
-              if (document.orgID==="SDFB") {
-                currentImg='<img src="/SDFB.Color.Logo.PNG.png" style="height:20%; width:20%;">';
-              }else if (document.orgID==="FASD") {
-                currentImg='<img src="/FASD.Logo.CMYK.jpg" style="height:30%; width:30%;">';
-              }else{
-                currentImg="";
-              }
 
               var urlInfo;
               if (typeof document.webURL !== 'undefined') {
