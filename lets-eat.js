@@ -81,12 +81,23 @@ if (Meteor.isClient) {
             }
             else {
               console.log("else");
+
+              var markerImg;
+              if (document.orgID==="SDFB") {
+                markerImg='/sdfb.png';
+              }else if (document.orgID==="FASD") {
+                markerImg='/fasd.png';
+              }else{
+                markerImg='/blankmarker.png';
+              }
+
               var marker = new google.maps.Marker({
                 draggable: false,
                 animation: google.maps.Animation.DROP,
                 position: new google.maps.LatLng(Markers.findOne(document._id).latitude, Markers.findOne(document._id).longitude),
                 map: map.instance,
-                id: document._id
+                id: document._id,
+                icon: markerImg
               });
               var currentImg;
               if (document.orgID==="SDFB") {
