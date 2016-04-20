@@ -92,9 +92,11 @@ if (Meteor.isClient) {
               });
               var currentImg;
               if (document.orgID==="SDFB") {
-                currentImg='<img src="/SDFB.Color.Logo.PNG.png" style="height:20%; width:20%;">';
+                currentImg='<img src="/SDFB.Color.Logo.PNG.png" style="width:100px;">';
               }else if (document.orgID==="FASD") {
-                currentImg='<img src="/FASD.Logo.CMYK.jpg" style="height:30%; width:30%;">';
+                currentImg='<img src="/FASD.Logo.CMYK.jpg" style="width:100px;">';
+              }else if(document.orgID==="both"){
+                currentImg='<img src="/SDFB.Color.Logo.PNG.png" style="width:100px;"> <img src="/FASD.Logo.CMYK.jpg" style="position: absolute; right: 0; width:100px;">';
               }else{
                 currentImg="";
               }
@@ -105,7 +107,7 @@ if (Meteor.isClient) {
               }else{
                 urlInfo='';
               }
-              var contentString = currentImg +'<h2>' + document.name + '</h2><br><small>' + document.foods + '</small><br><small>' + document.hours + '</small>'+urlInfo;
+              var contentString = '<div class="">'+currentImg +'<h2>' + document.name + '</h2><br><small>' + document.foods + '</small><br><small>' + document.hours + '</small>'+urlInfo+'</div>';
 
               var infowindow = new google.maps.InfoWindow({
                 content: contentString
