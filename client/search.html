@@ -1,10 +1,12 @@
 <template name="search">
-  <form role="form" class="form-inline SearchForm">
-    <div class="form-group">
-      <input class="form-control typeahead" name="searchBar" id="searchBar" type="text" placeholder="Search" autocomplete="off" spellcheck="off" data-source="markers" data-min-length="0"/>
-    </div>
-    <div class="form-group">
-      <input class="btn btn-default" type="submit" id="Find" value="Search">
-    </div>
-  </form>
+  <div class="noprint">
+    <form role="form" class="form-inline SearchForm">
+      <div class="form-group">
+        <input class="form-control typeahead" name="searchBar" id="searchBar" type="text" placeholder="Search" autocomplete="off" spellcheck="off" data-source="markers" data-min-length="0"/>
+      </div>
+      <div class="form-group">
+        <input class="btn btn-default" type="submit" id="Find" value="Search">
+      </div>
+    </form>
+  </div>
 </template>
