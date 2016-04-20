@@ -1,3 +1,9 @@
+@media print {
+  img {
+    max-width: none !important;
+  }
+  .noprint {display:none;}
+}
 /* basic typeahead styles */
 
 .typeahead,
