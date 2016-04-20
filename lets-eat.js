@@ -91,11 +91,11 @@ if (Meteor.isClient) {
                 id: document._id
               });
               var currentImg;
-              if (document.orgID==="SDFB") {
+              if (document.orgID.toUpperCase()==="SDFB") {
                 currentImg='<img src="/SDFB.Color.Logo.PNG.png" style="width:100px;">';
-              }else if (document.orgID==="FASD") {
+              }else if (document.orgID.toUpperCase()==="FASD") {
                 currentImg='<img src="/FASD.Logo.CMYK.jpg" style="width:100px;">';
-              }else if(document.orgID==="both"){
+              }else if(document.orgID.toUpperCase()==="BOTH"){
                 currentImg='<img src="/SDFB.Color.Logo.PNG.png" style="width:100px;"> <img src="/FASD.Logo.CMYK.jpg" style="position: absolute; right: 0; width:100px;">';
               }else{
                 currentImg="";
