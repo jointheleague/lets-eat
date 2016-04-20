@@ -20,8 +20,6 @@ if (Meteor.isClient) {
     Session.set('lon', position.coords.longitude);
   });
 
-  currentLocations = new Mongo.Collection(null);
-
   Meteor.subscribe("markers");
 
   Template.map.onCreated(function() {
