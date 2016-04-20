@@ -1,15 +1,15 @@
 
 if(Markers.find().count()===0){
-  Markers.insert({
-    name:"Food Program Name",
-    street:"Street Address",
-    city:"City ",
-    state:"CA",
-    zipCode:"Zip Code",
-    foods:"Foods Typically Available",
-    hours:"Day(s)/Time",
-    orgID:"San Diego Food Bank Partner (for internal use for ancillary donor map)"
-  });
+  // Markers.insert({
+  //   name:"Food Program Name",
+  //   street:"Street Address",
+  //   city:"City ",
+  //   state:"CA",
+  //   zipCode:"Zip Code",
+  //   foods:"Foods Typically Available",
+  //   hours:"Day(s)/Time",
+  //   orgID:"San Diego Food Bank Partner (for internal use for ancillary donor map)"
+  // });
   Markers.insert({
     name:"Teen Challenge",
     street:"5450 Lea Street",
@@ -36,16 +36,6 @@ if(Markers.find().count()===0){
     city:"Chula Vista",
     state:"CA",
     zipCode:"91910",
-    foods:"20-30 lbs of fresh produce per household",
-    hours:"9:00 AM",
-    orgID:"SDFB"
-  });
-  Markers.insert({
-    name:"Teen Challenge",
-    street:"5450 Lea Street",
-    city:"San Diego",
-    state:"CA",
-    zipCode:"92105",
     foods:"20-30 lbs of fresh produce per household",
     hours:"9:00 AM",
     orgID:"SDFB"
@@ -111,16 +101,6 @@ if(Markers.find().count()===0){
     orgID:"SDFB"
   });
   Markers.insert({
-    name:"Heaven's Windows",
-    street:"2300 Bancroft Drive",
-    city:"Spring Valley",
-    state:"CA",
-    zipCode:"91977",
-    foods:"20-30 lbs of fresh produce per household",
-    hours:"9:00 AM",
-    orgID:"SDFB"
-  });
-  Markers.insert({
     name:"Fallbrook Food Pantry",
     street:"221 North Pico Avenue",
     city:"Fallbrook",
@@ -138,16 +118,6 @@ if(Markers.find().count()===0){
     zipCode:"92054",
     foods:"20-30 lbs of fresh produce per household",
     hours:"3:00 PM",
-    orgID:"SDFB"
-  });
-  Markers.insert({
-    name:"Samoa Independent",
-    street:"2055 Skyline Drive",
-    city:"Lemon Grove",
-    state:"CA",
-    zipCode:"91945",
-    foods:"20-30 lbs of fresh produce per household",
-    hours:"9:00 AM",
     orgID:"SDFB"
   });
   Markers.insert({
@@ -171,7 +141,7 @@ if(Markers.find().count()===0){
     orgID:"SDFB"
   });
   Markers.insert({
-    name:"SDFB Back Country  Boulevard",
+    name:"SDFB Back Country Boulevard",
     street:"39605 Old Highway 80",
     city:"Boulevard",
     state:"CA",
@@ -398,16 +368,6 @@ if(Markers.find().count()===0){
     zipCode:"91977",
     foods:"EFAP Commodities - canned & packaged goods",
     hours:"Every Tuesday from 9:00 am - 11:00 am; Every Thursday and Friday from 1:00 pm - 3:00 pm",
-    orgID:"SDFB"
-  });
-  Markers.insert({
-    name:"Heaven's Windows",
-    street:"2300 Bancroft Dr",
-    city:"Spring Valley",
-    state:"CA",
-    zipCode:"91977",
-    foods:"EFAP Commodities - canned & packaged goods",
-    hours:"Monday through Friday from 9:00 am - 12:00 pm",
     orgID:"SDFB"
   });
   Markers.insert({
@@ -638,16 +598,6 @@ if(Markers.find().count()===0){
     zipCode:"92082",
     foods:"EFAP Commodities - canned & packaged goods",
     hours:"Fourth Saturday of each month from 12:30 pm - 2:00 pm",
-    orgID:"SDFB"
-  });
-  Markers.insert({
-    name:"Vista Spanish SDA",
-    street:"254 West Indian Rock",
-    city:"Vista",
-    state:"CA",
-    zipCode:"92083",
-    foods:"EFAP Commodities - canned & packaged goods",
-    hours:"3rd Monday of each month from 2:00 pm until food is gone",
     orgID:"SDFB"
   });
   Markers.insert({
