@@ -85,9 +85,9 @@ if (Meteor.isClient) {
               console.log("else");
 
               var markerImg;
-              if (document.orgID==="SDFB") {
+              if (document.orgID.toUpperCase()==="SDFB") {
                 markerImg='/sdfb.png';
-              }else if (document.orgID==="FASD") {
+              }else if (document.orgID.toUpperCase()==="FASD") {
                 markerImg='/fasd.png';
               }else{
                 markerImg='/blankmarker.png';
@@ -102,9 +102,9 @@ if (Meteor.isClient) {
                 icon: markerImg
               });
               var currentImg;
-              if (document.orgID==="SDFB") {
+              if (document.orgID.toUpperCase()==="SDFB") {
                 currentImg='<img src="/SDFB.Color.Logo.PNG.png" style="height:20%; width:20%;">';
-              }else if (document.orgID==="FASD") {
+              }else if (document.orgID.toUpperCase()==="FASD") {
                 currentImg='<img src="/FASD.Logo.CMYK.jpg" style="height:30%; width:30%;">';
               }else{
                 currentImg="";
