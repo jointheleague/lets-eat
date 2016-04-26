@@ -20,6 +20,8 @@ if (Meteor.isClient) {
     Session.set('lon', position.coords.longitude);
   });
 
+  currentLocations = new Mongo.Collection(null);
+
   Meteor.subscribe("markers");
 
   Template.map.onCreated(function() {
@@ -52,7 +54,10 @@ if (Meteor.isClient) {
               zipCode: location.zipCode,
               foods: location.foods,
               hours: location.hours,
-              orgID: location.orgID
+              orgID: location.orgID,
+              documents: marker.documents,
+              eligibility: marker.eligibility,
+              closures: marker.closures
             });
           }
         });
@@ -66,7 +71,10 @@ if (Meteor.isClient) {
           zipCode: location.zipCode,
           foods: location.foods,
           hours: location.hours,
-          orgID: location.orgID
+          orgID: location.orgID,
+          documents: marker.documents,
+          eligibility: marker.eligibility,
+          closures: marker.closures
         });
       });
 
@@ -81,28 +89,17 @@ if (Meteor.isClient) {
             }
             else {
               console.log("else");
-
-              var markerImg;
-              if (document.orgID.toUpperCase()==="SDFB") {
-                markerImg='/sdfb.png';
-              }else if (document.orgID.toUpperCase()==="FASD") {
-                markerImg='/fasd.png';
-              }else{
-                markerImg='/blankmarker.png';
-              }
-
               var marker = new google.maps.Marker({
                 draggable: false,
                 animation: google.maps.Animation.DROP,
                 position: new google.maps.LatLng(Markers.findOne(document._id).latitude, Markers.findOne(document._id).longitude),
                 map: map.instance,
-                id: document._id,
-                icon: markerImg
+                id: document._id
               });
               var currentImg;
-              if (document.orgID.toUpperCase()==="SDFB") {
+              if (document.orgID==="SDFB") {
                 currentImg='<img src="/SDFB.Color.Logo.PNG.png" style="height:20%; width:20%;">';
-              }else if (document.orgID.toUpperCase()==="FASD") {
+              }else if (document.orgID==="FASD") {
                 currentImg='<img src="/FASD.Logo.CMYK.jpg" style="height:30%; width:30%;">';
               }else{
                 currentImg="";
@@ -114,7 +111,7 @@ if (Meteor.isClient) {
               }else{
                 urlInfo='';
               }
-              var contentString = '<div class="">'+currentImg +'<h2>' + document.name + '</h2><br><small>' + document.foods + '</small><br><small>' + document.hours + '</small>'+urlInfo+'</div>';
+              var contentString = currentImg +'<h2>' + document.name + '</h2><br><small>' + document.foods + '</small><br><small>' + document.hours + '</small>'+urlInfo;
 
               var infowindow = new google.maps.InfoWindow({
                 content: contentString
