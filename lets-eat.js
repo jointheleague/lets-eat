@@ -19,9 +19,39 @@ if (Meteor.isClient) {
     Session.set('lat', position.coords.latitude);
     Session.set('lon', position.coords.longitude);
   });
+  (function() {
+    var beforePrint = function() {
+      console.log('Functionality to run before printing.');
+      var mapPrint = GoogleMaps.get('map');
+      var coords =[];
+      for (var i = 0; i < currentLocations.find().count(); i++) {
+        coords[i]= [currentLocations.lat,currentLocations.lng];
+      }
+      var bounds = new google.maps.LatLngBounds();
+      for (var i = 0; i<coords.length; i++) {
+        bounds.extend(new google.maps.LatLng(coords[i][0], coords[i][1]));
+      }
+      var center = bounds.getCenter();
+      mapPrint.instance.panTo(center);
+    };
+    var afterPrint = function() {
+      console.log('Functionality to run after printing');
+    };
 
-  currentLocations = new Mongo.Collection(null);
+    if (window.matchMedia) {
+      var mediaQueryList = window.matchMedia('print');
+      mediaQueryList.addListener(function(mql) {
+        if (mql.matches) {
+          beforePrint();
+        } else {
+          afterPrint();
+        }
+      });
+    }
 
+    window.onbeforeprint = beforePrint;
+    window.onafterprint = afterPrint;
+  }());
   Meteor.subscribe("markers");
 
   Template.map.onCreated(function() {
@@ -57,7 +87,9 @@ if (Meteor.isClient) {
               orgID: location.orgID,
               documents: location.documents,
               eligibility: location.eligibility,
-              closures: location.closures
+              closures: location.closures,
+              lat: location.latitude,
+              lng: location.longitude
             });
           }
         });
