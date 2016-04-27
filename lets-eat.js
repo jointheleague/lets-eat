@@ -55,9 +55,9 @@ if (Meteor.isClient) {
               foods: location.foods,
               hours: location.hours,
               orgID: location.orgID,
-              documents: marker.documents,
-              eligibility: marker.eligibility,
-              closures: marker.closures
+              documents: location.documents,
+              eligibility: location.eligibility,
+              closures: location.closures
             });
           }
         });
@@ -72,9 +72,9 @@ if (Meteor.isClient) {
           foods: location.foods,
           hours: location.hours,
           orgID: location.orgID,
-          documents: marker.documents,
-          eligibility: marker.eligibility,
-          closures: marker.closures
+          documents: location.documents,
+          eligibility: location.eligibility,
+          closures: location.closures
         });
       });
 
@@ -88,7 +88,6 @@ if (Meteor.isClient) {
               geocode(address, document.name, document.foods, document.hours, document._id);
             }
             else {
-              console.log("else");
               var marker = new google.maps.Marker({
                 draggable: false,
                 animation: google.maps.Animation.DROP,
