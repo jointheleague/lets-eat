@@ -10,7 +10,10 @@ Template.registerHelper("currentLocationsIteration", function() {
       zipCode: marker.zipCode,
       foods: marker.foods,
       hours: marker.hours,
-      orgID: marker.orgID
+      orgID: marker.orgID,
+      closures: marker.closures,
+      eligibility: marker.eligibility,
+      documents: marker.documents
     });
     //}
   });

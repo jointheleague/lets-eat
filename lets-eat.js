@@ -20,6 +20,8 @@ if (Meteor.isClient) {
     Session.set('lon', position.coords.longitude);
   });
 
+  currentLocations = new Mongo.Collection(null);
+
   Meteor.subscribe("markers");
 
   Template.map.onCreated(function() {
@@ -52,7 +54,10 @@ if (Meteor.isClient) {
               zipCode: location.zipCode,
               foods: location.foods,
               hours: location.hours,
-              orgID: location.orgID
+              orgID: location.orgID,
+              documents: location.documents,
+              eligibility: location.eligibility,
+              closures: location.closures
             });
           }
         });
@@ -66,7 +71,10 @@ if (Meteor.isClient) {
           zipCode: location.zipCode,
           foods: location.foods,
           hours: location.hours,
-          orgID: location.orgID
+          orgID: location.orgID,
+          documents: location.documents,
+          eligibility: location.eligibility,
+          closures: location.closures
         });
       });
 
@@ -80,8 +88,6 @@ if (Meteor.isClient) {
               geocode(address, document.name, document.foods, document.hours, document._id);
             }
             else {
-              console.log("else");
-
               var markerImg;
               if (document.orgID.toUpperCase()==="SDFB") {
                 markerImg='/sdfb.png';
@@ -116,7 +122,7 @@ if (Meteor.isClient) {
               }else{
                 urlInfo='';
               }
-              var contentString = '<div class="">'+currentImg +'<h2>' + document.name + '</h2><br><small>' + document.foods + '</small><br><small>' + document.hours + '</small>'+urlInfo+'</div>';
+              var contentString = currentImg +'<h2>' + document.name + '</h2><br><small>' + document.foods + '</small><br><small>' + document.hours + '</small>'+urlInfo;
 
               var infowindow = new google.maps.InfoWindow({
                 content: contentString
