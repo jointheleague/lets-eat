@@ -88,12 +88,22 @@ if (Meteor.isClient) {
               geocode(address, document.name, document.foods, document.hours, document._id);
             }
             else {
+              var markerImg;
+              if (document.orgID.toUpperCase()==="SDFB") {
+                markerImg='/sdfb.png';
+              }else if (document.orgID.toUpperCase()==="FASD") {
+                markerImg='/fasd.png';
+              }else{
+                markerImg='/blankmarker.png';
+              }
+
               var marker = new google.maps.Marker({
                 draggable: false,
                 animation: google.maps.Animation.DROP,
                 position: new google.maps.LatLng(Markers.findOne(document._id).latitude, Markers.findOne(document._id).longitude),
                 map: map.instance,
-                id: document._id
+                id: document._id,
+                icon: markerImg
               });
               var currentImg;
               if (document.orgID==="SDFB") {
