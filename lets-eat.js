@@ -106,10 +106,12 @@ if (Meteor.isClient) {
                 icon: markerImg
               });
               var currentImg;
-              if (document.orgID==="SDFB") {
-                currentImg='<img src="/SDFB.Color.Logo.PNG.png" style="height:20%; width:20%;">';
-              }else if (document.orgID==="FASD") {
-                currentImg='<img src="/FASD.Logo.CMYK.jpg" style="height:30%; width:30%;">';
+              if (document.orgID.toUpperCase()==="SDFB") {
+                currentImg='<img src="/SDFB.Color.Logo.PNG.png" style="width:100px">';
+              }else if (document.orgID.toUpperCase()==="FASD") {
+                currentImg='<img src="/FASD.Logo.CMYK.jpg" style="width:100px">';
+              }else if(document.orgID.toUpperCase()==="BOTH"){
+                currentImg='<img src="/SDFB.Color.Logo.PNG.png" style="width:100px;"> <img src="/FASD.Logo.CMYK.jpg" style="position: absolute; right: 0; width:100px;">';
               }else{
                 currentImg="";
               }
