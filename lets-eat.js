@@ -23,15 +23,18 @@ if (Meteor.isClient) {
     var beforePrint = function() {
       console.log('Functionality to run before printing.');
       var mapPrint = GoogleMaps.get('map');
-      var coords =[];
-      for (var i = 0; i < currentLocations.find().count(); i++) {
-        coords[i]= [currentLocations.lat,currentLocations.lng];
-      }
+      var coords=[];
+      currentLocations.find().forEach(
+        function(doc){
+          coords.push([doc.lat,doc.lng]);
+        }
+      );
       var bounds = new google.maps.LatLngBounds();
       for (var i = 0; i<coords.length; i++) {
         bounds.extend(new google.maps.LatLng(coords[i][0], coords[i][1]));
       }
       var center = bounds.getCenter();
+      console.log("center: "+center);
       mapPrint.instance.panTo(center);
     };
     var afterPrint = function() {
