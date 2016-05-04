@@ -20,7 +20,3 @@ Template.registerHelper("currentLocationsIteration", function() {
   });
   return result;
 });
-
-Template.registerHelper("hasEligibility", function() {
-  return true;
-});

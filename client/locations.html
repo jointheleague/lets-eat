@@ -18,7 +18,11 @@
           <td>{{hours}}</td>
           <td>{{closures}}</td>
           <td>{{documents}}</td>
-          <td><a href={{eligibilityURL}} target="_blank">{{eligibility}}</a></td>
+          {{#if eligibilityURL}}
+            <td><a href={{eligibilityURL}} target="_blank">{{eligibility}}</a></td>
+          {{else}}
+            <td>None</td>
+          {{/if}}
         </tr>
       {{/each}}
     </tbody>
