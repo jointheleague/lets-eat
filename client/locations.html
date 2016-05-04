@@ -13,15 +13,15 @@
     <tbody>
       {{#each currentLocationsIteration}}
         <tr>
-          <td>{{name}}<br/>{{street}}, {{city}}, {{state}} {{zipCode}}</td>
-          <td>{{foods}}</td>
-          <td>{{hours}}</td>
-          <td>{{closures}}</td>
-          <td>{{documents}}</td>
+          <td class="col-md-2">{{name}}<br/>{{street}}, {{city}}, {{state}} {{zipCode}}</td>
+          <td class="col-md-2">{{foods}}</td>
+          <td class="col-md-1">{{hours}}</td>
+          <td class="col-md-2">{{closures}}</td>
+          <td class="col-md-2">{{documents}}</td>
           {{#if eligibilityURL}}
-            <td><a href={{eligibilityURL}} target="_blank">{{eligibility}}</a></td>
+            <td class="col-md-2"><a href={{eligibilityURL}} target="_blank">{{eligibility}}</a></td>
           {{else}}
-            <td>None</td>
+            <td class="col-md-1">None</td>
           {{/if}}
         </tr>
       {{/each}}
