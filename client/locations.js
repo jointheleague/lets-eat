@@ -13,6 +13,7 @@ Template.registerHelper("currentLocationsIteration", function() {
       orgID: marker.orgID,
       closures: marker.closures,
       eligibility: marker.eligibility,
+      eligibilityURL: marker.eligibilityURL,
       documents: marker.documents
     });
     //}

@@ -14,6 +14,13 @@ Houston.menu({
   'title': 'New User'
 });
 
+Markers.find().observe({
+  added: function (document) {
+    updateFromAdmin();
+  }
+});
+
+
 if (Meteor.isClient) {
   navigator.geolocation.getCurrentPosition(function(position) {
     Session.set('lat', position.coords.latitude);
@@ -92,7 +99,10 @@ if (Meteor.isClient) {
               eligibility: location.eligibility,
               closures: location.closures,
               lat: location.latitude,
-              lng: location.longitude
+              lng: location.longitude,
+              eligibilityURL: location.eligibilityURL,
+              closures: location.closures
+
             });
           }
         });
@@ -109,6 +119,7 @@ if (Meteor.isClient) {
           orgID: location.orgID,
           documents: location.documents,
           eligibility: location.eligibility,
+          eligibilityURL: location.eligibilityURL,
           closures: location.closures
         });
       });
