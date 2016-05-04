@@ -34,5 +34,25 @@ Template.search.events({
         }
       });
     }
+  },
+  "click #Print": function(e){
+    e.preventDefault();
+    var map = GoogleMaps.get('map');
+    var coords=[];
+    currentLocations.find().forEach(
+      function(doc){
+        coords.push([doc.lat,doc.lng]);
+      }
+    );
+    var bounds = new google.maps.LatLngBounds();
+    for (var i = 0; i<coords.length; i++) {
+      bounds.extend(new google.maps.LatLng(coords[i][0], coords[i][1]));
+    }
+    document.getElementById("mapContainer").style.width = "1000px";
+    google.maps.event.trigger(map, 'resize');
+    map.instance.panTo(bounds.getCenter());
+    map.instance.fitBounds(bounds);
+    setTimeout(function(){window.print();}, 2000);
+
   }
 });
