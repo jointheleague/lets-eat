@@ -52,7 +52,7 @@ Template.search.events({
     google.maps.event.trigger(map, 'resize');
     map.instance.panTo(bounds.getCenter());
     map.instance.fitBounds(bounds);
-    setTimeout(function(){window.print();}, 2000);
+    setTimeout(function(){window.print();}, 1000);
 
   }
 });
