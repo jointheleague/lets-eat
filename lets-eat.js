@@ -131,8 +131,9 @@ if (Meteor.isClient) {
               }else{
                 urlInfo='';
               }
-              var contentString = currentImg +'<h2>' + document.name + '</h2><br><small>' + document.foods + '</small><br><small>' + document.hours + '</small>'+urlInfo +
-                "<br>" + (document.url && document.url !== "TBD" ? "<a href='" + document.url + "' target='_blank'>Agency Website</a>" : "No Agency Website");
+              // var contentString = currentImg +'<h2>' + document.name + '</h2><br><small>' + document.foods + '</small><br><small>' + document.hours + '</small>'+urlInfo +
+              //   "<br>" + (document.url && document.url !== "TBD" ? "<a href='" + document.url + "' target='_blank'>Agency Website</a>" : "No Agency Website");
+              var contentString = currentImg +'<h2>' + (document.url && document.url !== "TBD" ? "<a href='" + document.url + "' target='_blank'>" + document.name + "</a>" : document.name) + '</h2><br><small>' + document.foods + '</small><br><small>' + document.hours + '</small>'+urlInfo;
 
               var infowindow = new google.maps.InfoWindow({
                 content: contentString
