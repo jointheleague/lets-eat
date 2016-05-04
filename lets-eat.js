@@ -14,6 +14,13 @@ Houston.menu({
   'title': 'New User'
 });
 
+Markers.find().observe({
+  added: function (document) {
+    updateFromAdmin();
+  }
+});
+
+
 if (Meteor.isClient) {
   navigator.geolocation.getCurrentPosition(function(position) {
     Session.set('lat', position.coords.latitude);
