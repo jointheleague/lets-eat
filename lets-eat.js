@@ -57,6 +57,7 @@ if (Meteor.isClient) {
               orgID: location.orgID,
               documents: location.documents,
               eligibility: location.eligibility,
+              eligibilityURL: location.eligibilityURL,
               closures: location.closures
             });
           }
@@ -74,6 +75,7 @@ if (Meteor.isClient) {
           orgID: location.orgID,
           documents: location.documents,
           eligibility: location.eligibility,
+          eligibilityURL: location.eligibilityURL,
           closures: location.closures
         });
       });
