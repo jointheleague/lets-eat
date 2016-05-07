@@ -14,9 +14,15 @@ Template.registerHelper("currentLocationsIteration", function() {
       closures: marker.closures,
       eligibility: marker.eligibility,
       eligibilityURL: marker.eligibilityURL,
-      documents: marker.documents
+      documents: marker.documents,
+      _id: marker._id
     });
-    //}
   });
   return result;
+});
+
+Template.locations.onRendered(function() {
+  $(".clickable-row").click(function() {
+    console.log("Test!");
+  });
 });
