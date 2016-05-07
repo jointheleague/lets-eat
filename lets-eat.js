@@ -1,20 +1,14 @@
 var currentOrg;
 var currentInfoWindow;
 
-Router.map(function() {
-  this.route('codeEditor', {
-    waitOn: IRLibLoader.load('jquery.js')
-  });
-});
-
 Router.route('/:org?', function () {
   // render the Home template with a custom data context
   var params = this.params;
   currentOrg = params.org;
   console.log("currentOrg:" + currentOrg);
   this.render('main', {data: {title: 'Lets Eat'}});
-
 });
+
 Houston.menu({
   'type': 'template',
   'use': 'AddAccount',

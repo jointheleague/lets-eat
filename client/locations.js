@@ -21,8 +21,16 @@ Template.registerHelper("currentLocationsIteration", function() {
   return result;
 });
 
-Template.locations.onRendered(function() {
-  $(".clickable-row").click(function() {
-    console.log("Test!");
-  });
+Template.locations.events({
+  "click .table-row": function() {
+    var marker = currentLocations.findOne(this._id);
+    new google.maps.Geocoder().geocode({'address': marker.street + ', ' + marker.city + ', ' + marker.state + ' ' + marker.zipCode}, function(results, status) {
+      if (status === google.maps.GeocoderStatus.OK) {
+        GoogleMaps.get("map").instance.setZoom(12);
+        GoogleMaps.get("map").instance.panTo(results[0].geometry.location);
+      } else {
+        alert('Geocode was not successful for the following reason: ' + status);
+      }
+    });
+  }
 });
