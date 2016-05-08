@@ -1,13 +1,14 @@
 var currentOrg;
 var currentInfoWindow;
+
 Router.route('/:org?', function () {
   // render the Home template with a custom data context
   var params = this.params;
   currentOrg = params.org;
   console.log("currentOrg:" + currentOrg);
   this.render('main', {data: {title: 'Lets Eat'}});
-
 });
+
 Houston.menu({
   'type': 'template',
   'use': 'AddAccount',
@@ -116,14 +117,14 @@ if (Meteor.isClient) {
               });
               var currentImg;
               if (document.orgID.toUpperCase()==="SDFB") {
- +                currentImg='<img src="/SDFB.Color.Logo.PNG.png" style="width:100px;">';
-                }else if (document.orgID.toUpperCase()==="FASD") {
- +                currentImg='<img src="/FASD.Logo.CMYK.jpg" style="width:100px;">';
- +              }else if(document.orgID.toUpperCase()==="BOTH"){
- +                currentImg='<img src="/SDFB.Color.Logo.PNG.png" style="width:100px;"> <img src="/FASD.Logo.CMYK.jpg" style="position: absolute; right: 0; width:100px;">';
-                }else{
-                  currentImg="";
-                }
+                currentImg = '<img src="/SDFB.Color.Logo.PNG.png" style="width:100px;">';
+              }else if (document.orgID.toUpperCase()==="FASD") {
+                currentImg='<img src="/FASD.Logo.CMYK.jpg" style="width:100px;">';
+              }else if(document.orgID.toUpperCase()==="BOTH"){
+                currentImg='<img src="/SDFB.Color.Logo.PNG.png" style="width:100px;"> <img src="/FASD.Logo.CMYK.jpg" style="position: absolute; right: 0; width:100px;">';
+              }else{
+                currentImg="";
+              }
 
               var urlInfo;
               if (typeof document.webURL !== 'undefined') {
