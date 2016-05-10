@@ -54,10 +54,10 @@ Template.search.events({
       map.instance.fitBounds(bounds);
       setTimeout(function(){
         window.print();
-      }, 1000);
+      }, 800);
       document.getElementById("mapContainer").style.width = "100%";
       google.maps.event.trigger(map, 'resize');
     }else {
-      alert("Too many items in map to print nicely")
+      alert("Too many items in map to calculate center")
     }
   }});
