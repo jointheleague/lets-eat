@@ -67,8 +67,8 @@ if (Meteor.isClient) {
               lat: location.latitude,
               lng: location.longitude,
               eligibilityURL: location.eligibilityURL,
-              closures: location.closures
-
+              closures: location.closures,
+							dataid: location._id
             });
           }
         });
@@ -88,7 +88,8 @@ if (Meteor.isClient) {
           phone: location.phone,
           eligibility: location.eligibility,
           eligibilityURL: location.eligibilityURL,
-          closures: location.closures
+          closures: location.closures,
+					dataid: location._id
         });
       });
 
@@ -148,6 +149,7 @@ if (Meteor.isClient) {
                 if (typeof currentInfoWindow !== 'undefined') {
                   currentInfoWindow.close();
                 }
+								var infowindow = getInfoWindow(Markers.findOne(document._id));
                 infowindow.open(map.instance, marker);
                 currentInfoWindow=infowindow;
               });
