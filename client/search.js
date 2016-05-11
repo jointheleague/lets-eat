@@ -39,25 +39,31 @@ Template.search.events({
     e.preventDefault();
     if(currentLocations.find().count() < 80){
       var map = GoogleMaps.get('map');
-      var coords=[];
+      var bounds = new google.maps.LatLngBounds();
       currentLocations.find().forEach(
         function(doc){
-          coords.push([doc.lat,doc.lng]);
+          bounds.extend(new google.maps.LatLng(doc.lat, doc.lng));
         }
       );
-      var bounds = new google.maps.LatLngBounds();
-      for (var i = 0; i<coords.length; i++) {
-        bounds.extend(new google.maps.LatLng(coords[i][0], coords[i][1]));
-      }
-      document.getElementById("mapContainer").style.width = "1000px";
-      google.maps.event.trigger(map, 'resize');
-      map.instance.fitBounds(bounds);
+      document.getElementById("mapContainer").style.width = "800px";
       setTimeout(function(){
-        window.print();
-      }, 800);
-      document.getElementById("mapContainer").style.width = "100%";
-      google.maps.event.trigger(map, 'resize');
+        google.maps.event.trigger(map, 'resize');
+        setTimeout(function(){
+          map.instance.fitBounds(bounds);
+          setTimeout(function(){
+          //  map.instance.panTo(bounds.getCenter());
+            setTimeout(function(){
+              window.print();
+              // setTimeout(function(){
+              //   document.getElementById("mapContainer").style.width = "100%";
+              //   google.maps.event.trigger(map, 'resize');
+              // },2000);
+            },2000);
+          },2000);
+        },2000);
+      },2000);
     }else {
-      alert("Too many items in map to calculate center")
+      alert("Too many items in map to calculate center");
+      window.print();
     }
   }});
