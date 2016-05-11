@@ -38,6 +38,7 @@ Template.search.events({
   "click #Print": function(e){
     e.preventDefault();
     if(currentLocations.find().count() < 80){
+      var original;
       var map = GoogleMaps.get('map');
       var bounds = new google.maps.LatLngBounds();
       currentLocations.find().forEach(
@@ -45,10 +46,11 @@ Template.search.events({
           bounds.extend(new google.maps.LatLng(doc.lat, doc.lng));
         }
       );
+      original = document.getElementById("mapContainer").style.width;
       document.getElementById("mapContainer").style.width = "800px";
       setTimeout(function(){
         console.log(map.instance.getCenter().toString());
-        google.maps.event.trigger(map, 'resize');
+        google.maps.event.trigger(map.instance, 'resize');
         console.log(map.instance.getCenter().toString());
         setTimeout(function(){
           map.instance.fitBounds(bounds);
@@ -56,14 +58,16 @@ Template.search.events({
           //  map.instance.panTo(bounds.getCenter());
             setTimeout(function(){
               window.print();
+              document.getElementById("mapContainer").style.width = original;
               // setTimeout(function(){
               //   document.getElementById("mapContainer").style.width = "100%";
               //   google.maps.event.trigger(map, 'resize');
               // },2000);
-            },2000);
-          },2000);
-        },2000);
-      },2000);
+            },100);
+          },100);
+        },100);
+      },100);
+
     }else {
       alert("Too many items in map to calculate center");
       window.print();
