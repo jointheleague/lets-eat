@@ -124,7 +124,6 @@ if (Meteor.isClient) {
                 currentInfoWindow=infowindow;
               });
 
-              console.log(document._id);
               markers[document._id] = marker;
             }
           }
