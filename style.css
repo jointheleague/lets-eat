@@ -1,11 +1,17 @@
+/*Remove things When Printing*/
 @media print {
   img {
     max-width: none !important;
   }
   .noprint {display:none;}
 }
+/*Map*/
+.map-container {
+  width: 100%;
+  max-width: 100%;
+  height: 500px;
+}
 /* basic typeahead styles */
-
 .typeahead,
 .tt-query,
 .tt-hint {
