@@ -47,24 +47,15 @@ Template.search.events({
         }
       );
       original = document.getElementById("mapContainer").style.width;
-      document.getElementById("mapContainer").style.width = "800px";
+      document.getElementById("mapContainer").style.width = "900px";
       setTimeout(function(){
-        console.log(map.instance.getCenter().toString());
         google.maps.event.trigger(map.instance, 'resize');
-        console.log(map.instance.getCenter().toString());
         setTimeout(function(){
           map.instance.fitBounds(bounds);
           setTimeout(function(){
-          //  map.instance.panTo(bounds.getCenter());
-            setTimeout(function(){
-              window.print();
-              document.getElementById("mapContainer").style.width = original;
-              // setTimeout(function(){
-              //   document.getElementById("mapContainer").style.width = "100%";
-              //   google.maps.event.trigger(map, 'resize');
-              // },2000);
-            },100);
-          },100);
+            window.print();
+            document.getElementById("mapContainer").style.width = original;
+          },200);
         },100);
       },100);
 
