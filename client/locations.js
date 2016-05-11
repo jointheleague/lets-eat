@@ -4,6 +4,7 @@ Template.registerHelper("currentLocationsIteration", function() {
   currentLocations.find().forEach(function(marker) {
     result.push({
       name: marker.name,
+      url: marker.url,
       street: marker.street,
       city: marker.city,
       state: marker.state,
@@ -15,11 +16,14 @@ Template.registerHelper("currentLocationsIteration", function() {
       eligibility: marker.eligibility,
       eligibilityURL: marker.eligibilityURL,
       documents: marker.documents,
-      dataid: marker.dataid
+      dataid: marker.dataid,
+      phone: marker.phone
+
     });
   });
   return result;
 });
+
 
 Template.locations.events({
   "click .table-row": function() {
@@ -39,5 +43,16 @@ Template.locations.events({
         alert('Geocode was not successful for the following reason: ' + status);
       }
     });
+  }
+});
+Template.locations.helpers({
+  'isURL': function(){
+    if(this.url === "TBD" || this.url === ''){
+      return false;
+    }
+    else{
+      return true;
+    }
+
   }
 });

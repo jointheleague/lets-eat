@@ -53,6 +53,7 @@ if (Meteor.isClient) {
           if(markers[location._id] && map.instance.getBounds().contains(markers[location._id].getPosition())) {
             currentLocations.insert({
               name: location.name,
+              url: location.url,
               street: location.street,
               city: location.city,
               state: location.state,
@@ -61,6 +62,7 @@ if (Meteor.isClient) {
               hours: location.hours,
               orgID: location.orgID,
               documents: location.documents,
+              phone: location.phone,
               eligibility: location.eligibility,
               eligibilityURL: location.eligibilityURL,
               closures: location.closures,
@@ -72,6 +74,7 @@ if (Meteor.isClient) {
       Markers.find().forEach(function(location) {
         currentLocations.insert({
           name: location.name,
+          url: location.url,
           street: location.street,
           city: location.city,
           state: location.state,
@@ -80,6 +83,7 @@ if (Meteor.isClient) {
           hours: location.hours,
           orgID: location.orgID,
           documents: location.documents,
+          phone: location.phone,
           eligibility: location.eligibility,
           eligibilityURL: location.eligibilityURL,
           closures: location.closures,
