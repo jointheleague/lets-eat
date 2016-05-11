@@ -15,13 +15,36 @@ Template.registerHelper("currentLocationsIteration", function() {
       closures: marker.closures,
       eligibility: marker.eligibility,
       eligibilityURL: marker.eligibilityURL,
-      phone: marker.phone,
-      documents: marker.documents
+      documents: marker.documents,
+      dataid: marker.dataid,
+      phone: marker.phone
+
     });
   });
   return result;
 });
 
+
+Template.locations.events({
+  "click .table-row": function() {
+    var id = this.dataid;
+    var marker = Markers.findOne(id);
+    new google.maps.Geocoder().geocode({'address': marker.street + ', ' + marker.city + ', ' + marker.state + ' ' + marker.zipCode}, function(results, status) {
+      if (status === google.maps.GeocoderStatus.OK) {
+        if(currentInfoWindow) {
+          currentInfoWindow.close();
+        }
+        currentInfoWindow = getInfoWindow(marker);
+        currentInfoWindow.open(GoogleMaps.get("map").instance, markers[id]);
+
+        GoogleMaps.get("map").instance.setZoom(12);
+        GoogleMaps.get("map").instance.panTo(results[0].geometry.location);
+      } else {
+        alert('Geocode was not successful for the following reason: ' + status);
+      }
+    });
+  }
+});
 Template.locations.helpers({
   'isURL': function(){
     if(this.url === "TBD" || this.url === ''){
@@ -30,5 +53,6 @@ Template.locations.helpers({
     else{
       return true;
     }
+
   }
 });

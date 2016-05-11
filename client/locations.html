@@ -12,7 +12,7 @@
     </thead>
     <tbody>
       {{#each currentLocationsIteration}}
-        <tr>
+        <tr class='table-row' data-id={{_id}}>
           {{#if isURL}}
             <td class="col-md-3"><a href={{url}} target="_blank">{{name}}</a><br/>{{street}}, {{city}}, {{state}} {{zipCode}}</td>
           {{else}}
