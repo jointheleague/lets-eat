@@ -15,7 +15,7 @@ Template.registerHelper("currentLocationsIteration", function() {
       eligibility: marker.eligibility,
       eligibilityURL: marker.eligibilityURL,
       documents: marker.documents,
-      _id: marker._id
+      dataid: marker.dataid
     });
   });
   return result;
@@ -23,9 +23,16 @@ Template.registerHelper("currentLocationsIteration", function() {
 
 Template.locations.events({
   "click .table-row": function() {
-    var marker = currentLocations.findOne(this._id);
+    var id = this.dataid;
+    var marker = Markers.findOne(id);
     new google.maps.Geocoder().geocode({'address': marker.street + ', ' + marker.city + ', ' + marker.state + ' ' + marker.zipCode}, function(results, status) {
       if (status === google.maps.GeocoderStatus.OK) {
+        if(currentInfoWindow) {
+          currentInfoWindow.close();
+        }
+        currentInfoWindow = getInfoWindow(marker);
+        currentInfoWindow.open(GoogleMaps.get("map").instance, markers[id]);
+
         GoogleMaps.get("map").instance.setZoom(12);
         GoogleMaps.get("map").instance.panTo(results[0].geometry.location);
       } else {
