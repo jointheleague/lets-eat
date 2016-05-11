@@ -47,7 +47,9 @@ Template.search.events({
       );
       document.getElementById("mapContainer").style.width = "800px";
       setTimeout(function(){
+        console.log(map.instance.getCenter().toString());
         google.maps.event.trigger(map, 'resize');
+        console.log(map.instance.getCenter().toString());
         setTimeout(function(){
           map.instance.fitBounds(bounds);
           setTimeout(function(){
