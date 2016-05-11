@@ -12,17 +12,12 @@
     </thead>
     <tbody>
       {{#each currentLocationsIteration}}
-<!-- <<<<<<< HEAD -->
-        <!-- <tr class='table-row' data-id={{_id}}>
-          <td class="col-md-3">{{name}}<br/>{{street}}, {{city}}, {{state}} {{zipCode}}</td> -->
-<!-- ======= -->
         <tr class='table-row' data-id={{_id}}>
           {{#if isURL}}
             <td class="col-md-3"><a href={{url}} target="_blank">{{name}}</a><br/>{{street}}, {{city}}, {{state}} {{zipCode}}</td>
           {{else}}
             <td class="col-md-3">{{name}}<br/>{{street}}, {{city}}, {{state}} {{zipCode}}</td>
           {{/if}}
-<!-- >>>>>>> master -->
           <td class="col-md-2">{{foods}}</td>
           <td class="col-md-2">{{hours}}</td>
           <td class="col-md-2">{{closures}}</td>
