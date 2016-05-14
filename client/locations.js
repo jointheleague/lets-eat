@@ -31,7 +31,7 @@ Template.locations.events({
     var marker = Markers.findOne(id);
     new google.maps.Geocoder().geocode({'address': marker.street + ', ' + marker.city + ', ' + marker.state + ' ' + marker.zipCode}, function(results, status) {
       if (status === google.maps.GeocoderStatus.OK) {
-        if(currentInfoWindow) {
+        if(currentInfoWindow !== 'undefined') {
           currentInfoWindow.close();
         }
         currentInfoWindow = getInfoWindow(marker);
