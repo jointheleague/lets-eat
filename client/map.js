@@ -129,7 +129,7 @@ Template.map.onCreated(function() {
             });
 
             marker.addListener('click', function() {
-              if (typeof currentInfoWindow !== 'undefined') {
+              if (currentInfoWindow !== 'undefined') {
                 currentInfoWindow.close();
               }
               var infowindow = getInfoWindow(Markers.findOne(document._id));
