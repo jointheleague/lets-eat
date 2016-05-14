@@ -31,7 +31,7 @@ Template.locations.events({
     var marker = Markers.findOne(id);
     new google.maps.Geocoder().geocode({'address': marker.street + ', ' + marker.city + ', ' + marker.state + ' ' + marker.zipCode}, function(results, status) {
       if (status === google.maps.GeocoderStatus.OK) {
-        if(currentInfoWindow) {
+        if(currentInfoWindow !== 'undefined') {
           currentInfoWindow.close();
         }
         currentInfoWindow = getInfoWindow(marker);
@@ -39,6 +39,8 @@ Template.locations.events({
 
         GoogleMaps.get("map").instance.setZoom(12);
         GoogleMaps.get("map").instance.panTo(results[0].geometry.location);
+
+        window.scrollTo(0, 0);
       } else {
         alert('Geocode was not successful for the following reason: ' + status);
       }
