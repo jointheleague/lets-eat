@@ -2,9 +2,9 @@ Meteor.publish("markers", function () {
   return Markers.find();
 });
 
-Houston.add_collection(Meteor.users);
-Houston.add_collection(Houston._admins);
-
+Houston.hide_collection(Meteor.users);
+Houston.hide_collection(Houston._admins);
+//Not usefull for adding users and looks veary confusing
 Houston.methods('markers', {
   "Geocode": function (post) {
     var address = post.street + ", " + post.city + ", " + post.state + " " + post.zipCode;
@@ -26,5 +26,8 @@ Meteor.methods({
     Houston._admins.insert({
       user_id: user._id
     })
+  },
+  updatePassword: function(userid, newPassword){
+    Accounts.setPassword(userid, newPassword, {logout: false});
   }
 });

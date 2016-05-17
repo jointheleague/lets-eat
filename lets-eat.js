@@ -10,6 +10,11 @@ Houston.menu({
   'use': 'AddAccount',
   'title': 'New User'
 });
+Houston.menu({
+  'type': 'template',
+  'use': 'ChangePassword',
+  'title': 'Change Password'
+});
 
 Markers.find().observe({
   added: function (document) {
