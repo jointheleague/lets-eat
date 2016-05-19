@@ -3,30 +3,16 @@
     <thead>
       <tr>
         <th>Email</th>
-        <th>Foods Typically Available</th>
-        <th>Hours of Operation</th>
-        <th>Holiday Closures</th>
-        <th>Documents Needed</th>
-        <th>Eligibility</th>
+        <th>Reset Password</th>
+        <th>Remove</th>
       </tr>
     </thead>
     <tbody>
-      {{#each currentLocationsIteration}}
-        <tr class='table-row' data-id={{_id}}>
-          {{#if isURL}}
-            <td class="col-md-3"><a href={{url}} target="_blank">{{name}}</a><br/>{{street}}, {{city}}, {{state}} {{zipCode}}</td>
-          {{else}}
-            <td class="col-md-3">{{name}}<br/>{{street}}, {{city}}, {{state}} {{zipCode}}</td>
-          {{/if}}
-          <td class="col-md-2">{{foods}}</td>
-          <td class="col-md-2">{{hours}}</td>
-          <td class="col-md-2">{{closures}}</td>
-          <td class="col-md-2">{{documents}}</td>
-          {{#if eligibilityURL}}
-            <td class="col-md-2"><a href={{eligibilityURL}} target="_blank">{{eligibility}}</a></td>
-          {{else}}
-            <td class="col-md-2">None</td>
-          {{/if}}
+      {{#each UsersIteration}}
+        <tr class='table-row' data-id={{id}}>
+          <td class="col-md-2"><input type="text" value="{{email}}"></td>
+          <td class="col-md-2"><button type="button" class=".reset">Reset Password</button></td>
+          <td class="col-md-2"><button type="button" class=".remove">Remove</button></td>
         </tr>
       {{/each}}
     </tbody>

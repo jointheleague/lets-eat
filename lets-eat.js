@@ -10,6 +10,11 @@ Houston.menu({
   'use': 'AddAccount',
   'title': 'New User'
 });
+Houston.menu({
+  'type': 'template',
+  'use': 'users',
+  'title': 'Edit Users'
+});
 
 Markers.find().observe({
   added: function (document) {

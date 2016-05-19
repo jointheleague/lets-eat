@@ -19,7 +19,7 @@ callback-hook@1.0.8
 check@1.2.1
 coffeescript@1.0.17
 dburles:google-maps@1.1.5
-dburles:mongo-collection-instances@0.3.4
+dburles:mongo-collection-instances@0.3.5
 ddp@1.2.5
 ddp-client@1.2.7
 ddp-common@1.2.5
@@ -49,7 +49,7 @@ iron:middleware-stack@1.0.11
 iron:router@1.0.12
 iron:url@1.0.11
 jquery@1.11.8
-lai:collection-extensions@0.1.4
+lai:collection-extensions@0.2.1_1
 launch-screen@1.0.11
 less@2.6.0
 livedata@1.0.18
