@@ -2,7 +2,7 @@ Meteor.publish("markers", function () {
   return Markers.find();
 });
 
-Houston.hide_collection(Meteor.users);
+Houston.add_collection(Meteor.users);
 Houston.hide_collection(Houston._admins);
 //Not usefull for adding users and looks veary confusing
 Houston.methods('markers', {
