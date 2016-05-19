@@ -26,8 +26,5 @@ Meteor.methods({
     Houston._admins.insert({
       user_id: user._id
     })
-  },
-  updatePassword: function(userid, newPassword){
-    Accounts.setPassword(userid, newPassword, {logout: false});
   }
 });
