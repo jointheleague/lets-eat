@@ -12,7 +12,7 @@ Houston.menu({
 });
 Houston.menu({
   'type': 'template',
-  'use': 'users',
+  'use': 'UserList',
   'title': 'Edit Users'
 });
 

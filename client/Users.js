@@ -1,15 +1,11 @@
-Template.users.events({
-"click .remove": function() {
-  var id = this.dataid;
-  var user = Meteor.users.findOne(id);
-  Meteor.Meteor.users.Collection.remove({_id:user});
-},
-"click .reset": function(){
-  var id = this.dataid;
-  var user = Meteor.users.findOne(id);
-Accounts.Accounts.sendResetPasswordEmail(id);
-
-}
+Template.UserList.events({
+  "click [data-action='UserList/remove']": function() {
+        console.log("Clicked remove");
+    var id = this.dataid;
+    console.log(id);
+    var user = Meteor.users.findOne(id);
+    Meteor.users.remove({_id:user});
+  }
 });
 
 Template.registerHelper("UsersIteration", function() {

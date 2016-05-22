@@ -1,19 +1,17 @@
-<template name="users">
+<template name="UserList">
   <table class="table">
     <thead>
       <tr>
         <th>Email</th>
-        <th>Reset Password</th>
         <th>Remove</th>
       </tr>
     </thead>
     <tbody>
       {{#each UsersIteration}}
-        <tr class='table-row' data-id={{id}}>
-          <td class="col-md-2"><input type="text" value="{{email}}"></td>
-          <td class="col-md-2"><button type="button" class=".reset">Reset Password</button></td>
-          <td class="col-md-2"><button type="button" class=".remove">Remove</button></td>
-        </tr>
+      <tr class='table-row' data-id={{id}}>
+        <td class="col-md-2"><input type="text" value="{{email}}"></td>
+        <td class="col-md-2"><input type="button" class=".remove" data-action="UserList/remove" value="Remove"></td>
+      </tr>
       {{/each}}
     </tbody>
   </table>

@@ -26,5 +26,9 @@ Meteor.methods({
     Houston._admins.insert({
       user_id: user._id
     })
+  },
+  RemoveUser: function(id){
+    
+  Meteor.users.remove({_id:id});
   }
 });
