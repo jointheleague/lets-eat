@@ -9,7 +9,7 @@ Template.zip.events({
         map.instance.panTo(new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng()));
         map.instance.setZoom(12);
       } else {
-        alert("Geocode was not successful for the following reason: " + status);
+        alert("Whoops! An error occurred! The error status is as follows: " + status);
       }
     });
   }

@@ -42,7 +42,7 @@ Template.locations.events({
 
         window.scrollTo(0, 0);
       } else {
-        alert('Geocode was not successful for the following reason: ' + status);
+        alert('Whoops! An error occurred! The error status is as follows: ' + status);
       }
     });
   }
