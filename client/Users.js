@@ -10,6 +10,7 @@ Template.UserList.events({
     var id = e.target.name;
     var newEmail = e.target.parentElement.parentElement.children[0].children[0].value;
     console.log(newEmail);
+    UpdateEmail(id,newEmail);
   }
 });
 
