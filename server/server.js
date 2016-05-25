@@ -1,9 +1,11 @@
 Meteor.publish("markers", function () {
   return Markers.find();
 });
-
+Meteor.publish("userList", function () {
+  return Meteor.users.find({}, {fields: {emails: 1, _id: 1}});
+});
 Houston.add_collection(Meteor.users);
-Houston.hide_collection(Houston._admins);
+Houston.add_collection(Houston._admins);
 //Not usefull for adding users and looks veary confusing
 Houston.methods('markers', {
   "Geocode": function (post) {
@@ -28,7 +30,10 @@ Meteor.methods({
     })
   },
   RemoveUser: function(id){
-    
-  Meteor.users.remove({_id:id});
+    Houston._admins.remove({user_id:id})
+    if (Houston._admins.find().count() === 1) {
+      Houston._admins.remove({exits: true});
+    }
+    Meteor.users.remove({_id:id});
   }
 });

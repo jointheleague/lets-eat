@@ -28,6 +28,7 @@ if (Meteor.isClient) {
     Session.set('lon', position.coords.longitude);
   });
   Meteor.subscribe("markers");
+  Meteor.subscribe("userList");
   Meteor.startup(function() {
     GoogleMaps.load();
   });

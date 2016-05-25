@@ -1,21 +1,18 @@
 Template.UserList.events({
-  "click [data-action='UserList/remove']": function() {
-        console.log("Clicked remove");
-    var id = this.dataid;
+  "click [data-action='UserList/remove']": function(e) {
+    console.log("Clicked remove");
+    var id = e.target.name;
     console.log(id);
-    var user = Meteor.users.findOne(id);
-    Meteor.users.remove({_id:user});
+    Meteor.call("RemoveUser", id);
+  },
+  "click [data-action='UserList/update']": function(e){
+    console.log("clicked update");
+    var id = e.target.name;
+    var newEmail = e.target.parentElement.parentElement.children[0].children[0].value;
+    console.log(newEmail);
   }
 });
 
 Template.registerHelper("UsersIteration", function() {
-  result = [];
-  //finds all locations by current user id
-  Meteor.users.find().forEach(function(user) {
-    result.push({
-      email: user.emails[0].address,
-      id: user._id
-    });
-  });
-  return result;
+  return getUsers();
 });

@@ -3,14 +3,16 @@
     <thead>
       <tr>
         <th>Email</th>
+        <th>Update</th>
         <th>Remove</th>
       </tr>
     </thead>
     <tbody>
       {{#each UsersIteration}}
-      <tr class='table-row' data-id={{id}}>
-        <td class="col-md-2"><input type="text" value="{{email}}"></td>
-        <td class="col-md-2"><input type="button" class=".remove" data-action="UserList/remove" value="Remove"></td>
+      <tr class='table-row'>
+        <td class="col-md-2"><input type="text" class="form-control" id="{{_id}}" value="{{email}}"></td>
+        <td class="col-md-2"><input type="button" class="btn btn-default" name="{{_id}}" data-action="UserList/update" value="Update"></td>
+        <td class="col-md-2"><input type="button" class="btn btn-default" name="{{_id}}" data-action="UserList/remove" value="Remove"></td>
       </tr>
       {{/each}}
     </tbody>
