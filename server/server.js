@@ -30,10 +30,20 @@ Meteor.methods({
     })
   },
   RemoveUser: function(id){
-    Houston._admins.remove({user_id:id})
+    Houston._admins.remove({user_id: id});
     if (Houston._admins.find().count() === 1) {
       Houston._admins.remove({exits: true});
     }
-    Meteor.users.remove({_id:id});
+    Meteor.users.remove(id);
+  },
+  UpdateEmail:function(data){
+    Meteor.users.update({
+      _id:data.userId
+    }, {
+      $set:{
+        'emails.0.address': data.mail
+      }
+    });
+
   }
 });
