@@ -84,49 +84,17 @@ Template.map.onCreated(function() {
           //Meteor.call('Geocode', address, document.name, document.foods, document.hours);
           if(Markers.findOne(document._id).latitude == undefined){
             geocode(address, document.name, document.foods, document.hours, document._id);
-          }
-          else {
-            var markerImg;
-            if (document.orgID.toUpperCase()==="SDFB") {
-              markerImg='/sdfb.png';
-            }else if (document.orgID.toUpperCase()==="FASD") {
-              markerImg='/fasd.png';
-            }else{
-              markerImg='/blankmarker.png';
-            }
-
+          } else {
             var marker = new google.maps.Marker({
               draggable: false,
               animation: google.maps.Animation.DROP,
               position: new google.maps.LatLng(Markers.findOne(document._id).latitude, Markers.findOne(document._id).longitude),
               map: map.instance,
               id: document._id,
-              icon: markerImg
+              icon: document.orgID.toUpperCase() === "FASD" ? "/fasd.png" : (document.orgID.toUpperCase() === "SDFB" ? "/sdfb.png" : "/blankmarker.png")
             });
-            var currentImg;
-            if (document.orgID.toUpperCase()==="SDFB") {
-              currentImg='<img src="/SDFB.Color.Logo.PNG.png" style="width:100px;">';
-            }else if (document.orgID.toUpperCase()==="FASD") {
-              currentImg='<img src="/FASD.Logo.CMYK.jpg" style="width:100px;">';
-            }else if(document.orgID.toUpperCase()==="BOTH"){
-              currentImg='<img src="/SDFB.Color.Logo.PNG.png" style="width:100px;"> <img src="/FASD.Logo.CMYK.jpg" style="position: absolute; right: 0; width:100px;">';
-            }else{
-              currentImg="";
-            }
 
-            var urlInfo;
-            if (typeof document.webURL !== 'undefined') {
-              urlInfo='<br><small><a href="'+document.webURL+'">'+name+'\'s Website</a></small>';
-            }else{
-              urlInfo='';
-            }
-            // var contentString = currentImg +'<h2>' + document.name + '</h2><br><small>' + document.foods + '</small><br><small>' + document.hours + '</small>'+urlInfo +
-            //   "<br>" + (document.url && document.url !== "TBD" ? "<a href='" + document.url + "' target='_blank'>Agency Website</a>" : "No Agency Website");
-            var contentString = currentImg +'<h2>' + (document.url && document.url !== "TBD" ? "<a href='" + document.url + "' target='_blank'>" + document.name + "</a>" : document.name) + '</h2><br><small>' + document.foods + '</small><br><small>' + document.hours + '</small>'+urlInfo;
-
-            var infowindow = new google.maps.InfoWindow({
-              content: contentString
-            });
+            var infowindow = getInfoWindow(document);
 
             marker.addListener('click', function() {
               if (currentInfoWindow !== 'undefined') {

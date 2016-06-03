@@ -104,3 +104,15 @@ box-shadow: 0 0 8px #000;
 .tt-suggestion p {
   margin: 0;
 }
+
+.infoWindowTitle {
+  float: left;
+  font-size: 24px;
+  margin-top: 0px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.1;
+  color: inherit;
+}
