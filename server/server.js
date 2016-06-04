@@ -1,7 +1,9 @@
 Meteor.publish("markers", function () {
   return Markers.find();
 });
-
+Meteor.publish("userList", function () {
+  return Meteor.users.find({}, {fields: {emails: 1, _id: 1}});
+});
 Houston.hide_collection(Meteor.users);
 Houston.hide_collection(Houston._admins);
 //Not usefull for adding users and looks veary confusing
@@ -26,5 +28,22 @@ Meteor.methods({
     Houston._admins.insert({
       user_id: user._id
     })
+  },
+  RemoveUser: function(id){
+    Houston._admins.remove({user_id: id});
+    if (Houston._admins.find().count() === 1) {
+      Houston._admins.remove({exits: true});
+    }
+    Meteor.users.remove(id);
+  },
+  UpdateEmail:function(data){
+    Meteor.users.update({
+      _id:data.userId
+    }, {
+      $set:{
+        'emails.0.address': data.mail
+      }
+    });
+
   }
 });
