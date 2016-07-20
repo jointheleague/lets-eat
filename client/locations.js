@@ -18,7 +18,6 @@ Template.registerHelper("currentLocationsIteration", function() {
       documents: marker.documents,
       dataid: marker.dataid,
       phone: marker.phone
-
     });
   });
   return result;
@@ -49,7 +48,7 @@ Template.locations.events({
 });
 Template.locations.helpers({
   'isURL': function(){
-    if(this.url === "TBD" || this.url === ''){
+    if(!this.url || this.url === "TBD" || this.url === ''){
       return false;
     }
     else{
