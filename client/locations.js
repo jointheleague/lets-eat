@@ -48,7 +48,7 @@ Template.locations.events({
 });
 Template.locations.helpers({
   'isURL': function(){
-    if(this.url === "TBD" || this.url === ''){
+    if(!this.url || this.url === "TBD" || this.url === ''){
       return false;
     }
     else{

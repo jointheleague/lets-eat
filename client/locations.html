@@ -2,12 +2,12 @@
   <table class="table">
     <thead>
       <tr>
-        <th>Address</th>
+        <th>Food Program</th>
         <th>Foods Typically Available</th>
         <th>Hours of Operation</th>
         <th>Holiday Closures</th>
-        <th>Documents Needed</th>
-        <th>Eligibility</th>
+        <th>Bring this Documentation</th>
+        <th>Eligibility Requirements</th>
       </tr>
     </thead>
     <tbody>
@@ -15,9 +15,9 @@
       {{#if isInRadius}}
       <tr class='table-row' data-id={{_id}}>
         {{#if isURL}}
-        <td class="col-md-3"><a href={{url}} target="_blank">{{name}}</a><br/>{{street}}, {{city}}, {{state}} {{zipCode}}</td>
+        <td class="col-md-3"><a href={{url}} target="_blank">{{name}}</a><br/>{{street}}, {{city}}, {{state}} {{zipCode}}<br/>{{phone}}</td>
         {{else}}
-        <td class="col-md-3">{{name}}<br/>{{street}}, {{city}}, {{state}} {{zipCode}}</td>
+        <td class="col-md-3">{{name}}<br/>{{street}}, {{city}}, {{state}} {{zipCode}}<br/>{{phone}}</td>
         {{/if}}
         <td class="col-md-2">{{foods}}</td>
         <td class="col-md-2">{{hours}}</td>
@@ -30,6 +30,7 @@
         {{/if}}
       </tr>
       {{/if}}
+
       {{/each}}
     </tbody>
   </table>
