@@ -18,7 +18,6 @@ Template.registerHelper("currentLocationsIteration", function() {
       documents: marker.documents,
       dataid: marker.dataid,
       phone: marker.phone
-
     });
   });
   return result;
@@ -55,6 +54,21 @@ Template.locations.helpers({
     else{
       return true;
     }
+  },
+  'isInRadius': function(){
+    var marker = Markers.findOne(this.dataid);
+    var service = new google.maps.DistanceMatrixService();
+    service.getDistanceMatrix(
+      {
+        origins: [new google.maps.LatLng(marker.latitude, marker.longitude)],
+        destinations: [document.getElementById('searchBar').value],
+        unitSystem: google.maps.UnitSystem.IMPERIAL,
+        travelMode:google.maps.TravelMode.DRIVING
+      }, callback);
 
-  }
-});
+      function callback(response, status) {
+        console.log(response);
+      }
+      return true;
+    }
+  });
