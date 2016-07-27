@@ -115,4 +115,5 @@ box-shadow: 0 0 8px #000;
   font-weight: 500;
   line-height: 1.1;
   color: inherit;
+  display: block;
 }
