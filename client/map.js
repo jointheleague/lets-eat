@@ -13,7 +13,7 @@ Template.map.helpers({
 
 Template.map.onCreated(function() {
   GoogleMaps.ready('map', function(map) {
-    markers = {};
+    searchLocation = new google.maps.LatLng(Session.get('lat'), Session.get('lon'));
 
     var myloc = new google.maps.Marker({
       clickable: false,
@@ -24,15 +24,13 @@ Template.map.onCreated(function() {
       shadow: null,
       zIndex: 999,
       map: GoogleMaps.get('map').instance,
-      position: new google.maps.LatLng(Session.get('lat'), Session.get('lon'))
+      position: searchLocation
     });
 
     map.instance.addListener("idle", function() {
       currentLocations.remove({});
       Markers.find().forEach(function(location) {
-        //console.log(location._id);
-        //console.log(location.name);
-        if(markers[location._id] && map.instance.getBounds().contains(markers[location._id].getPosition())) {
+        if(markers[location._id] && map.instance.getBounds().contains(markers[location._id].getPosition()) && (getDistance(searchLocation, markers[location._id].getPosition()) < radius)) {
           currentLocations.insert({
             name: location.name,
             url: location.url,

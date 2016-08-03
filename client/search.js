@@ -5,11 +5,7 @@ var handles = [];
   handles.push(handle);
 });
 
-var markers = function() {
-  return Markers.find().fetch().map(function(it){
-    return {value: it.name, id: it._id};
-  });
-};
+
 Template.search.rendered = function() {
   Meteor.typeahead.inject();
 };
@@ -19,16 +15,45 @@ Template.search.events({
     var map = GoogleMaps.get('map');
     var location = document.getElementById('searchBar').value;
     var location2 = Markers.findOne({name:location});
-    if (location2 !== undefined && location2 !== null) {
-      map.instance.panTo(new google.maps.LatLng(location2.latitude,location2.longitude));
+
+    var pos = location2 ? new google.maps.LatLng(location2.latitude,location2.longitude) : null;
+
+    var realRadius = document.getElementById("radiusBar").value;
+
+    if(realRadius != "") {
+      radius = realRadius;
+    }
+
+    for(var key in markers) {
+      markers[key].setMap(GoogleMaps.get("map").instance);
+    }
+
+    if (location2 != undefined) {
+      searchLocation = pos;
+      map.instance.panTo(pos);
       map.instance.setZoom(14);
+
+      for(var key in markers) {
+        if(getDistance(searchLocation, markers[key].getPosition()) > radius) {
+          markers[key].setMap(null);
+        }
+      }
     }else{
       var geocoder = new google.maps.Geocoder();
       geocoder.geocode( { 'address': location}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
           var adr = results[0].formatted_address;
-          map.instance.panTo(new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng()));
+          pos = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
+
+          searchLocation = pos;
+          map.instance.panTo(pos);
           map.instance.setZoom(12);
+
+          for(var key in markers) {
+            if(getDistance(searchLocation, markers[key].getPosition()) > radius) {
+              markers[key].setMap(null);
+            }
+          }
         } else {
           alert("Whoops! An error occurred! The error status is as follows: " + status);
         }
