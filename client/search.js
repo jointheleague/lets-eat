@@ -5,11 +5,7 @@ var handles = [];
   handles.push(handle);
 });
 
-var markers = function() {
-  return Markers.find().fetch().map(function(it){
-    return {value: it.name, id: it._id};
-  });
-};
+
 Template.search.rendered = function() {
   Meteor.typeahead.inject();
 };
@@ -21,7 +17,15 @@ Template.search.events({
     var location2 = Markers.findOne({name:location});
     var pos = new google.maps.LatLng(location2.latitude,location2.longitude);
 
-    radius = document.getElementById("radiusBar").value;
+    var realRadius = document.getElementById("radiusBar").value;
+
+    if(realRadius != "") {
+      radius = realRadius;
+    }
+
+    for(var key in markers) {
+      markers[key].setMap(GoogleMaps.get("map").instance);
+    }
 
     if (location2 != undefined) {
       searchLocation = pos;
@@ -32,8 +36,8 @@ Template.search.events({
       geocoder.geocode( { 'address': location}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
           var adr = results[0].formatted_address;
-          pos = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng())
-          
+          pos = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
+
           searchLocation = pos;
           map.instance.panTo(pos);
           map.instance.setZoom(12);
@@ -41,6 +45,12 @@ Template.search.events({
           alert("Whoops! An error occurred! The error status is as follows: " + status);
         }
       });
+    }
+
+    for(var key in markers) {
+      if(getDistance(searchLocation, markers[key].getPosition()) > radius) {
+        markers[key].setMap(null);
+      }
     }
   },
   "click #Print": function(e){
