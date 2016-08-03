@@ -27,34 +27,7 @@ Template.map.onCreated(function() {
       position: searchLocation
     });
 
-    map.instance.addListener("idle", function() {
-      currentLocations.remove({});
-      Markers.find().forEach(function(location) {
-        if(markers[location._id] && map.instance.getBounds().contains(markers[location._id].getPosition()) && (getDistance(searchLocation, markers[location._id].getPosition()) < radius)) {
-          currentLocations.insert({
-            name: location.name,
-            url: location.url,
-            street: location.street,
-            city: location.city,
-            state: location.state,
-            zipCode: location.zipCode,
-            foods: location.foods,
-            hours: location.hours,
-            orgID: location.orgID,
-            documents: location.documents,
-            phone: location.phone,
-            eligibility: location.eligibility,
-            closures: location.closures,
-            lat: location.latitude,
-            lng: location.longitude,
-            eligibilityURL: location.eligibilityURL,
-            closures: location.closures,
-            dataid: location._id
-          });
-        }
-      });
-    });
-    Markers.find().forEach(function(location) {
+    addCurrentLocationMarker = function(location) {
       currentLocations.insert({
         name: location.name,
         url: location.url,
@@ -68,10 +41,30 @@ Template.map.onCreated(function() {
         documents: location.documents,
         phone: location.phone,
         eligibility: location.eligibility,
+        closures: location.closures,
+        lat: location.latitude,
+        lng: location.longitude,
         eligibilityURL: location.eligibilityURL,
         closures: location.closures,
         dataid: location._id
       });
+    }
+
+    map.instance.addListener("idle", function() {
+      currentLocations.remove({});
+      Markers.find().forEach(function(location) {
+        if(isNaN(searchLocation.lat()) && markers[location._id] && map.instance.getBounds().contains(markers[location._id].getPosition())) {
+          addCurrentLocationMarker(location);
+          return;
+        }
+
+        if(markers[location._id] && map.instance.getBounds().contains(markers[location._id].getPosition()) && (getDistance(searchLocation, markers[location._id].getPosition()) < radius)) {
+          addCurrentLocationMarker(location);
+        }
+      });
+    });
+    Markers.find().forEach(function(location) {
+      addCurrentLocationMarker(location);
     });
 
     Markers.find().observe({
