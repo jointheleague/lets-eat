@@ -15,7 +15,8 @@ Template.search.events({
     var map = GoogleMaps.get('map');
     var location = document.getElementById('searchBar').value;
     var location2 = Markers.findOne({name:location});
-    var pos = new google.maps.LatLng(location2.latitude,location2.longitude);
+
+    var pos = location2 ? new google.maps.LatLng(location2.latitude,location2.longitude) : null;
 
     var realRadius = document.getElementById("radiusBar").value;
 
@@ -31,6 +32,12 @@ Template.search.events({
       searchLocation = pos;
       map.instance.panTo(pos);
       map.instance.setZoom(14);
+
+      for(var key in markers) {
+        if(getDistance(searchLocation, markers[key].getPosition()) > radius) {
+          markers[key].setMap(null);
+        }
+      }
     }else{
       var geocoder = new google.maps.Geocoder();
       geocoder.geocode( { 'address': location}, function(results, status) {
@@ -41,16 +48,16 @@ Template.search.events({
           searchLocation = pos;
           map.instance.panTo(pos);
           map.instance.setZoom(12);
+
+          for(var key in markers) {
+            if(getDistance(searchLocation, markers[key].getPosition()) > radius) {
+              markers[key].setMap(null);
+            }
+          }
         } else {
           alert("Whoops! An error occurred! The error status is as follows: " + status);
         }
       });
-    }
-
-    for(var key in markers) {
-      if(getDistance(searchLocation, markers[key].getPosition()) > radius) {
-        markers[key].setMap(null);
-      }
     }
   },
   "click #Print": function(e){
