@@ -13,7 +13,9 @@ Template.map.helpers({
 
 Template.map.onCreated(function() {
   GoogleMaps.ready('map', function(map) {
-    searchLocation = new google.maps.LatLng(Session.get('lat'), Session.get('lon'));
+    setTimeout(function() {
+      searchLocation = new google.maps.LatLng(Session.get('lat'), Session.get('lon'));
+    }, 1500);
 
     var myloc = new google.maps.Marker({
       clickable: false,
