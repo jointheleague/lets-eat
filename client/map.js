@@ -81,8 +81,7 @@ Template.map.onCreated(function() {
               animation: google.maps.Animation.DROP,
               position: new google.maps.LatLng(Markers.findOne(document._id).latitude, Markers.findOne(document._id).longitude),
               map: map.instance,
-              id: document._id,
-              icon: document.orgID.toUpperCase() === "FASD" ? "/fasd.png" : (document.orgID.toUpperCase() === "SDFB" ? "/sdfb.png" : "/blankmarker.png")
+              id: document._id
             });
 
             var infowindow = getInfoWindow(document);
