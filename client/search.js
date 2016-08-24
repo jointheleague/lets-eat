@@ -29,15 +29,16 @@ Template.search.events({
     }
 
     if (location2 != undefined) {
-      searchLocation = pos;
-      map.instance.panTo(pos);
-      map.instance.setZoom(14);
-
+      var bounds = new google.maps.LatLngBounds();
       for(var key in markers) {
         if(getDistance(searchLocation, markers[key].getPosition()) > radius) {
           markers[key].setMap(null);
+        } else {
+          bounds.extend(markers[key].getPosition());
         }
       }
+
+      map.instance.fitBounds(bounds);
     }else{
       var geocoder = new google.maps.Geocoder();
       geocoder.geocode( { 'address': location}, function(results, status) {
@@ -47,7 +48,11 @@ Template.search.events({
 
           searchLocation = pos;
           map.instance.panTo(pos);
-          map.instance.setZoom(12);
+          var bounds = new google.maps.LatLngBounds();
+          currentLocations.find().forEach(function(obj) {
+            bounds.extend(markers[obj.dataid].getPosition());
+          });
+          map.instance.fitBounds(bounds);
 
           for(var key in markers) {
             if(getDistance(searchLocation, markers[key].getPosition()) > radius) {
