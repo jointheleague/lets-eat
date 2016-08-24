@@ -17,6 +17,9 @@ Template.search.events({
     var location2 = Markers.findOne({name:location});
 
     var pos = location2 ? new google.maps.LatLng(location2.latitude,location2.longitude) : null;
+    if(pos != null) {
+      searchLocation = pos;
+    }
 
     var realRadius = document.getElementById("radiusBar").value;
 
@@ -47,18 +50,17 @@ Template.search.events({
           pos = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
 
           searchLocation = pos;
-          map.instance.panTo(pos);
+          
           var bounds = new google.maps.LatLngBounds();
-          currentLocations.find().forEach(function(obj) {
-            bounds.extend(markers[obj.dataid].getPosition());
-          });
-          map.instance.fitBounds(bounds);
-
           for(var key in markers) {
             if(getDistance(searchLocation, markers[key].getPosition()) > radius) {
               markers[key].setMap(null);
+            } else {
+              bounds.extend(markers[key].getPosition());
             }
           }
+
+          map.instance.fitBounds(bounds);
         } else {
           alert("Whoops! An error occurred! The error status is as follows: " + status);
         }
