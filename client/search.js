@@ -25,6 +25,8 @@ Template.search.events({
 
     if(realRadius != "") {
       radius = realRadius;
+    }else {
+      radius = 80000;//make radius huge if no radius is added so that all markers show up if no radius is added...
     }
 
     for(var key in markers) {
@@ -40,7 +42,6 @@ Template.search.events({
           bounds.extend(markers[key].getPosition());
         }
       }
-
       map.instance.fitBounds(bounds);
     }else{
       var geocoder = new google.maps.Geocoder();
@@ -50,7 +51,7 @@ Template.search.events({
           pos = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
 
           searchLocation = pos;
-          
+
           var bounds = new google.maps.LatLngBounds();
           for(var key in markers) {
             if(getDistance(searchLocation, markers[key].getPosition()) > radius) {
@@ -59,8 +60,12 @@ Template.search.events({
               bounds.extend(markers[key].getPosition());
             }
           }
-
-          map.instance.fitBounds(bounds);
+          if(realRadius == ''){//if no radius is given, we should zoom to a nice distance
+            map.instance.panTo(pos);
+            map.instance.setZoom(12);
+          }else{
+            map.instance.fitBounds(bounds);
+          }
         } else {
           alert("Whoops! An error occurred! The error status is as follows: " + status);
         }
