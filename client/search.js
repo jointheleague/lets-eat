@@ -17,11 +17,16 @@ Template.search.events({
     var location2 = Markers.findOne({name:location});
 
     var pos = location2 ? new google.maps.LatLng(location2.latitude,location2.longitude) : null;
+    if(pos != null) {
+      searchLocation = pos;
+    }
 
     var realRadius = document.getElementById("radiusBar").value;
 
     if(realRadius != "") {
       radius = realRadius;
+    }else {
+      radius = 80000;//make radius huge if no radius is added so that all markers show up if no radius is added...
     }
 
     for(var key in markers) {
@@ -29,15 +34,15 @@ Template.search.events({
     }
 
     if (location2 != undefined) {
-      searchLocation = pos;
-      map.instance.panTo(pos);
-      map.instance.setZoom(14);
-
+      var bounds = new google.maps.LatLngBounds();
       for(var key in markers) {
         if(getDistance(searchLocation, markers[key].getPosition()) > radius) {
           markers[key].setMap(null);
+        } else {
+          bounds.extend(markers[key].getPosition());
         }
       }
+      map.instance.fitBounds(bounds);
     }else{
       var geocoder = new google.maps.Geocoder();
       geocoder.geocode( { 'address': location}, function(results, status) {
@@ -46,13 +51,20 @@ Template.search.events({
           pos = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
 
           searchLocation = pos;
-          map.instance.panTo(pos);
-          map.instance.setZoom(12);
 
+          var bounds = new google.maps.LatLngBounds();
           for(var key in markers) {
             if(getDistance(searchLocation, markers[key].getPosition()) > radius) {
               markers[key].setMap(null);
+            } else {
+              bounds.extend(markers[key].getPosition());
             }
+          }
+          if(realRadius == ''){//if no radius is given, we should zoom to a nice distance
+            map.instance.panTo(pos);
+            map.instance.setZoom(12);
+          }else{
+            map.instance.fitBounds(bounds);
           }
         } else {
           alert("Whoops! An error occurred! The error status is as follows: " + status);
