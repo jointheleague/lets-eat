@@ -9,6 +9,9 @@
     border:3px solid lightgray;
     padding: .5em;
   }
+  .gm-style-cc{
+    display: none;
+  }
   .noprint {display:none;}
 }
 
