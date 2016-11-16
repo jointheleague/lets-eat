@@ -1,22 +1,86 @@
-<!-- <template name="Foods">
+<template name="Foods">
   <table class="table">
     <thead>
       <tr>
         <th>Name</th>
-        <th>Food1</th>
-        <th>Food2</th>
-        <th>Food3</th>
-        <th>Food4</th>
-        <th>Food5</th>
-        <th>Food6</th>
+        <th>Produce</th>
+        <th>Canned</th>
+        <th>Bread</th>
+        <th>Cooked</th>
+        <th>Snacks</th>
+        <th>Government</th>
+        <th>Boxed</th>
+        <th>Dairy</th>
+        <th>Fresh Produce 2</th>
+        <th>Store Donations</th>
       </tr>
     </thead>
     <tbody>
-      {{#each UsersIteration}}
+      {{#each LocationsIteration}}
       <tr class='table-row'>
-        <td class="col-md-2"><input type="checkbox" class="form-control" id="{{_id}}" value="" {{#if food1}}checked{{/if}}></td>
+        <td class="col-md-2">{{name}}</td>
+
+        {{#if foods.produce}}
+        <td class="col-md-2"><input type="checkbox" class="form-control" value="" checked></td>
+        {{else}}
+        <td class="col-md-2"><input type="checkbox" class="form-control" value=""></td>
+        {{/if}}
+
+        {{#if foods.canned}}
+        <td class="col-md-2"><input type="checkbox" class="form-control" value="" checked></td>
+        {{else}}
+        <td class="col-md-2"><input type="checkbox" class="form-control" value=""></td>
+        {{/if}}
+
+        {{#if foods.bread}}
+        <td class="col-md-2"><input type="checkbox" class="form-control" value="" checked></td>
+        {{else}}
+        <td class="col-md-2"><input type="checkbox" class="form-control" value=""></td>
+        {{/if}}
+
+        {{#if foods.cooked}}
+        <td class="col-md-2"><input type="checkbox" class="form-control" value="" checked></td>
+        {{else}}
+        <td class="col-md-2"><input type="checkbox" class="form-control" value=""></td>
+        {{/if}}
+
+        {{#if foods.snacks}}
+        <td class="col-md-2"><input type="checkbox" class="form-control" value="" checked></td>
+        {{else}}
+        <td class="col-md-2"><input type="checkbox" class="form-control" value=""></td>
+        {{/if}}
+
+        {{#if foods.government}}
+        <td class="col-md-2"><input type="checkbox" class="form-control" value="" checked></td>
+        {{else}}
+        <td class="col-md-2"><input type="checkbox" class="form-control" value=""></td>
+        {{/if}}
+
+        {{#if foods.boxed}}
+        <td class="col-md-2"><input type="checkbox" class="form-control" value="" checked></td>
+        {{else}}
+        <td class="col-md-2"><input type="checkbox" class="form-control" value=""></td>
+        {{/if}}
+
+        {{#if foods.dairy}}
+        <td class="col-md-2"><input type="checkbox" class="form-control" value="" checked></td>
+        {{else}}
+        <td class="col-md-2"><input type="checkbox" class="form-control" value=""></td>
+        {{/if}}
+
+        {{#if foods.freshProduce2}}
+        <td class="col-md-2"><input type="checkbox" class="form-control" value="" checked></td>
+        {{else}}
+        <td class="col-md-2"><input type="checkbox" class="form-control" value=""></td>
+        {{/if}}
+
+        {{#if foods.storeDonations}}
+        <td class="col-md-2"><input type="checkbox" class="form-control" value="" checked></td>
+        {{else}}
+        <td class="col-md-2"><input type="checkbox" class="form-control" value=""></td>
+        {{/if}}
       </tr>
       {{/each}}
     </tbody>
   </table>
-</template> -->
+</template>
