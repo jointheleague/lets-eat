@@ -84,7 +84,7 @@ Template.search.events({
         }
       );
       original = document.getElementById("mapContainer").style.width;
-      document.getElementById("mapContainer").style.width = "900px";
+      document.getElementById("mapContainer").style.width = "1100px";
       setTimeout(function(){
         google.maps.event.trigger(map.instance, 'resize');
         setTimeout(function(){
