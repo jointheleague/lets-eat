@@ -9,6 +9,9 @@
     border:3px solid lightgray;
     padding: .5em;
   }
+  .gm-style-cc{ /*Hide spammy Text at bottem of map*/
+    display: none;
+  }
   .noprint {display:none;}
 }
 
