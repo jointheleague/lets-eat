@@ -1,0 +1,22 @@
+<template name="Foods">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Food1</th>
+        <th>Food2</th>
+        <th>Food3</th>
+        <th>Food4</th>
+        <th>Food5</th>
+        <th>Food6</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each UsersIteration}}
+      <tr class='table-row'>
+        <td class="col-md-2"><input type="checkbox" class="form-control" id="{{_id}}" value="" {{#if food1}}checked{{/if}}></td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</template>
