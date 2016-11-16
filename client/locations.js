@@ -2,27 +2,10 @@ Template.registerHelper("currentLocationsIteration", function() {
   result = [];
   //finds all locations by current user id
   currentLocations.find().forEach(function(marker) {
-    result.push({
-      name: marker.name,
-      url: marker.url,
-      street: marker.street,
-      city: marker.city,
-      state: marker.state,
-      zipCode: marker.zipCode,
-      foods: marker.foods,
-      hours: marker.hours,
-      orgID: marker.orgID,
-      closures: marker.closures,
-      eligibility: marker.eligibility,
-      eligibilityURL: marker.eligibilityURL,
-      documents: marker.documents,
-      dataid: marker.dataid,
-      phone: marker.phone
-    });
+    result.push(marker);
   });
   return result;
 });
-
 
 Template.locations.events({
   "click .table-row": function() {
@@ -54,6 +37,14 @@ Template.locations.helpers({
     else{
       return true;
     }
-
+  },
+  'foodStatus': function(foods) {
+    var types = "";
+    for(var foodType in foods) {
+      if(foods[foodType]) {
+        types+=foodType + ", ";
+      }
+    }
+    return types;
   }
 });
