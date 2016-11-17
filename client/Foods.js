@@ -1,4 +1,8 @@
 Template.Foods.events({
+  'click':function(e){
+    console.log(e);
+    console.log(e.target);
+  }
 });
 Template.registerHelper("LocationsIteration", function() {
   result = [];
