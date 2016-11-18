@@ -2,10 +2,15 @@ Template.Foods.events({
   'click':function(e){
     if (e.target.type ==='checkbox') {
       console.log(e);
-      var type ='foods.'+ e.target.getAttribute('data-type');
-      var id = e.target.getAttribute('data-id');
-      var checked = e.target.checked;
-      Meteor.call("updateFoods",id,type,checked);
+      var a ='foods.'+ e.target.getAttribute('data-type');
+      var b = e.target.getAttribute('data-id');
+      var c = e.target.checked;
+      var data = {
+        id:a,
+        type:b,
+        checked:c
+      };
+      Meteor.call("updateFoods",data);
     }
   }
 });

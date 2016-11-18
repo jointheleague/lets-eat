@@ -45,14 +45,11 @@ Meteor.methods({
       }
     });
   },
-  updateFoods:function(id,type,checked){
+  updateFoods:function(data){
     console.log("Updating Foods");
-    console.log(id);
-    console.log(type);
-    console.log(checked);
-    Markers.update(id,{
-      $set:{type:checked}
-    }
-  );
-}
+    console.log(data.id);
+    console.log(data.type);
+    console.log(data.checked);
+  //  Markers.update({_id:data.id},{$set:{data.type : data.checked}});
+  }
 });
