@@ -44,6 +44,15 @@ Meteor.methods({
         'emails.0.address': data.mail
       }
     });
-
-  }
+  },
+  updateFoods:function(id,type,checked){
+    console.log("Updating Foods");
+    console.log(id);
+    console.log(type);
+    console.log(checked);
+    Markers.update(id,{
+      $set:{type:checked}
+    }
+  );
+}
 });
