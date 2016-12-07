@@ -11,8 +11,8 @@
         <th>Government</th>
         <th>Boxed</th>
         <th>Dairy</th>
-        <th>Fresh Produce 2</th>
-        <th>Store Donations</th>
+        <th>Produce2</th>
+        <th>Donations</th>
       </tr>
     </thead>
     <tbody>
@@ -68,10 +68,10 @@
         <td class="col-md-2"><input type="checkbox" class="form-control" data-id="{{_id}}" data-type="dairy" value=""></td>
         {{/if}}
 
-        {{#if foods.freshProduce2}}
-        <td class="col-md-2"><input type="checkbox" class="form-control" data-id="{{_id}}" data-type="freshProduce2" value="" checked></td>
+        {{#if foods.produce2}}
+        <td class="col-md-2"><input type="checkbox" class="form-control" data-id="{{_id}}" data-type="produce2" value="" checked></td>
         {{else}}
-        <td class="col-md-2"><input type="checkbox" class="form-control" data-id="{{_id}}" data-type="freshProduce2" value=""></td>
+        <td class="col-md-2"><input type="checkbox" class="form-control" data-id="{{_id}}" data-type="produce2" value=""></td>
         {{/if}}
 
         {{#if foods.storeDonations}}
