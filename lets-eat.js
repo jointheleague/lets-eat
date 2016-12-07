@@ -15,6 +15,11 @@ Houston.menu({
   'use': 'UserList',
   'title': 'Edit Users'
 });
+Houston.menu({
+  'type':'template',
+  'use':'Foods',
+  'title':'Foods'
+});
 
 Markers.find().observe({
   added: function (document) {
