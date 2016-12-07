@@ -6,8 +6,8 @@ Template.Foods.events({
       var b = e.target.getAttribute('data-id');
       var c = e.target.checked;
       var data = {
-        id:a,
-        type:b,
+        id:b,
+        type:a,
         checked:c
       };
       Meteor.call("updateFoods",data);

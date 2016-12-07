@@ -18,7 +18,7 @@
     <tbody>
       {{#each LocationsIteration}}
       <tr class='table-row'>
-        <td class="col-md-2">{{name}}</td>
+        <td class="col-md-2">{{name}}, <small>{{street}}</small></td>
 
         {{#if foods.produce}}
         <td class="col-md-2"><input type="checkbox" class="form-control" data-id="{{_id}}" data-type="produce" value="" checked></td>
