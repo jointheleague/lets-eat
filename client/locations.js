@@ -39,12 +39,6 @@ Template.locations.helpers({
     }
   },
   'foodStatus': function(foods) {
-    var types = "";
-    for(var foodType in foods) {
-      if(foods[foodType]) {
-        types+=foodType + ", ";
-      }
-    }
-    return types;
+    return parseFoods(foods);
   }
 });
