@@ -38,6 +38,13 @@ Template.locations.helpers({
       return true;
     }
   },
+	'hasEligibilityURL': function(){
+		if( !this.eligibilityURL || this.eligibility === 'none' || this.eligibilityURL === ''){
+			return false;
+		} else {
+			return true;
+		}
+	},
   'foodStatus': function(foods) {
     return parseFoods(foods);
   }
