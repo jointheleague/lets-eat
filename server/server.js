@@ -4,6 +4,15 @@ Meteor.publish("markers", function () {
 Meteor.publish("userList", function () {
   return Meteor.users.find({}, {fields: {emails: 1, _id: 1}});
 });
+Meteor.startup(function(){
+  console.log("Starting Up... Adding isActive");
+  Markers.find().forEach(function(obj){
+    if (obj.isActive===undefined) {
+      Markers.update({_id:obj._id},{$set: {isActive: true}})
+    }
+  });
+}
+);
 Houston.hide_collection(Meteor.users);
 Houston.hide_collection(Houston._admins);
 //Not usefull for adding users and looks veary confusing
@@ -46,17 +55,14 @@ Meteor.methods({
     });
   },
   updateFoods:function(data){
-
     console.log("Updating Foods");
     console.log(data.id);
     console.log(data.type);
     console.log(data.checked);
-
-
     var setModifier = { $set: {} };
     setModifier.$set[data.type] = data.checked;
     Markers.update({_id: data.id}, setModifier);
 
-  //  Markers.update({_id:data.id.toString()},{$set:{data.type : data.checked}});
+    //  Markers.update({_id:data.id.toString()},{$set:{data.type : data.checked}});
   }
 });
