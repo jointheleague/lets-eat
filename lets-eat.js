@@ -1,6 +1,12 @@
-Router.route('/:org?', function () {
-  var params = this.params;
-  currentOrg = params.org;
+Router.route('/:data?', function () {
+  console.log(this.params);
+  var params = this.params.data.toString().split(',');
+  console.log(params);
+  currentOrg = params[0];
+  if (params[1]!==undefined) {
+    showTop = params[1];
+  }
+
   console.log("currentOrg:" + currentOrg);
   this.render('main', {data: {title: 'Lets Eat'}});
 
