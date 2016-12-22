@@ -73,9 +73,8 @@ Template.map.onCreated(function() {
         if((document.orgID===currentOrg||currentOrg===undefined)&&document.isActive){
           var geocoder = new google.maps.Geocoder();
           var address = document.street + ', ' + document.city + ', ' + document.state + ' ' + document.zipCode;
-          //Meteor.call('Geocode', address, document.name, document.foods, document.hours);
           if(Markers.findOne(document._id).latitude == undefined){
-            geocode(address, document.name, document.foods, document.hours, document._id);
+            //geocode is not defined?? geocode(address, document.name, document.foods, document.hours, document._id);
           } else {
             var marker = new google.maps.Marker({
               draggable: false,
