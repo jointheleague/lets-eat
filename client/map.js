@@ -46,7 +46,8 @@ Template.map.onCreated(function() {
         lng: location.longitude,
         eligibilityURL: location.eligibilityURL,
         closures: location.closures,
-        dataid: location._id
+        dataid: location._id,
+        isActive: location.isActive
       });
     }
 
@@ -69,7 +70,7 @@ Template.map.onCreated(function() {
 
     Markers.find().observe({
       added: function (document) {
-        if(document.orgID===currentOrg||currentOrg===undefined){
+        if((document.orgID===currentOrg||currentOrg===undefined)&&document.isActive){
           var geocoder = new google.maps.Geocoder();
           var address = document.street + ', ' + document.city + ', ' + document.state + ' ' + document.zipCode;
           //Meteor.call('Geocode', address, document.name, document.foods, document.hours);
