@@ -1,8 +1,64 @@
 <template name="main">
-  <div class="container-fluid">
-    {{> header}}
-    {{> map}}
-    {{> search}}
+	<div class="container-fluid">
+		{{> header}}
+		{{> map}}
+		{{> search}}
 		{{> locations}}
 </div>
+</template>
+
+<template name="adminLayout">
+	<div class="container">
+		<header>
+			{{> nav }}
+		</header>
+		{{> yield}}
+	</div>
+</template>
+
+<template name="dashboard">
+	<div class="container-fluid">
+		{{#if currentUser}}
+		logged in
+		{{else}}
+		not logged in
+		{{/if}}
+</div>
+</template>
+
+
+<template name='nav'>
+	<nav class="navbar navbar-default" role="navigation">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				{{> navBrand}}
+			</div>
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					{{> navItems}}
+				</ul>
+			</div><!-- /.navbar-collapse -->
+		</div><!-- /.container-fluid -->
+	</nav>
+</template>
+
+<template name="navBrand">
+	<a class="navbar-brand" href="/">IR Demo</a>
+</template>
+
+<template name='navItems'>
+	<li >
+		<a href="#">Page 1</a>
+	</li>
+	<li >
+		<a href="#">Page 2</a>
+	</li>
 </template>

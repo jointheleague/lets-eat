@@ -1,10 +1,4 @@
-Router.route('/:org?', function () {
-  var params = this.params;
-  currentOrg = params.org;
-  console.log("currentOrg:" + currentOrg);
-  this.render('main', {data: {title: 'Lets Eat'}});
 
-});
 Houston.menu({
   'type': 'template',
   'use': 'AddAccount',
