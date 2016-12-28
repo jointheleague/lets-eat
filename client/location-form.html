@@ -1,0 +1,93 @@
+<template name="location-form">
+	<form class="form-horizontal">
+<fieldset>
+
+<!-- Form Name -->
+<legend>Location</legend>
+
+<!-- Text input-->
+<div class="form-group">
+	<label class="col-md-4 control-label" for="fn">Name</label>
+	<div class="col-md-4">
+	<input id="fn" name="fn" type="text" placeholder="Name" class="form-control input-md" required="" value="{{name}}">
+
+	</div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+	<label class="col-md-4 control-label" for="add1">Address</label>
+	<div class="col-md-4">
+	<input id="add1" name="street" type="text" placeholder="" class="form-control input-md" required="" value="{{street}}">
+
+	</div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+	<label class="col-md-4 control-label" for="city">City</label>
+	<div class="col-md-4">
+	<input id="city" name="city" type="text" placeholder="city" class="form-control input-md" required="" value="{{city}}">
+
+	</div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+	<label class="col-md-4 control-label" for="zip">Zip Code</label>
+	<div class="col-md-4">
+	<input id="zip" name="zip" type="text" placeholder="Zip Code" class="form-control input-md" required="" value="{{zipCode}}">
+
+	</div>
+</div>
+
+
+<!-- Text input-->
+<div class="form-group">
+	<label class="col-md-4 control-label" for="phone">Phone</label>
+	<div class="col-md-4">
+	<input id="phone" name="phone" type="text" placeholder="Phone#" class="form-control input-md" required="" value="{{phone}}">
+
+	</div>
+</div>
+
+<!-- Multiple Radios (inline) -->
+<div class="form-group">
+	<label class="col-md-4 control-label" for="Training">Active?</label>
+	<div class="col-md-4">
+		<label class="radio-inline" for="Training-0">
+			<input type="radio" name="Training" id="Training-0" value="yes" checked="checked">
+			Yes
+		</label>
+		<label class="radio-inline" for="Training-1">
+			<input type="radio" name="Training" id="Training-1" value="no">
+			No
+		</label>
+	</div>
+</div>
+
+<!-- Select Basic -->
+<!--
+<div class="form-group">
+	<label class="col-md-4 control-label" for="selectbasic">Select Basic</label>
+	<div class="col-md-4">
+		<select id="selectbasic" name="selectbasic" class="form-control input-md">
+			<option>Option one</option>
+			<option>Option two</option>
+		</select>
+	</div>
+</div>  -->
+
+
+<!-- Button -->
+<div class="form-group">
+	<label class="col-md-4 control-label" for="submit"></label>
+	<div class="col-md-4">
+		<button id="submit" name="submit" class="btn btn-primary">SUBMIT</button>
+	</div>
+</div>
+
+</fieldset>
+</form>
+
+</template>

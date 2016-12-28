@@ -1,3 +1,4 @@
+
 Router.route('/dashboard', {
 		onBeforeAction: function () {
 			if (!Meteor.userId())
@@ -14,6 +15,31 @@ Router.route('/dashboard', {
 		}
 	}
 );
+
+Router.route('/location/:_id/edit', {
+		onBeforeAction: function () {
+			if (!Meteor.userId())
+			{
+				Router.go('/admin');
+			} else {
+				this.next();
+			}
+		},
+
+		action: function () {
+			this.layout('adminLayout');
+			this.render(
+				'location-form',
+				{ data: function () {
+					console.log(this.params._id);
+					console.log(Markers.findOne({_id: this.params._id}));
+					return Markers.findOne({_id: this.params._id}); }
+				}
+			);
+		}
+	}
+);
+
 
 Router.route('/:org?', function () {
 	var params = this.params;
