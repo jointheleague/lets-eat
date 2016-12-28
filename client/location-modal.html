@@ -1,0 +1,109 @@
+<template name="locationsModalTemplate">
+	<div class="modal fade" id="locationsModal" >
+		<div class="modal-dialog modal-large">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<h4 class="modal-title">Location add / edit</h4>
+				</div>
+
+				<div class="modal-body">
+					<form class="form-horizontal">
+					<fieldset>
+
+					<!-- Text input-->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="fn">Name</label>
+						<div class="col-md-6">
+						<input id="fn" name="fn" type="text" placeholder="Name" class="form-control input-md" required="" value="{{name}}">
+
+						</div>
+					</div>
+
+					<!-- Text input-->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="add1">Address</label>
+						<div class="col-md-6">
+						<input id="add1" name="street" type="text" placeholder="" class="form-control input-md" required="" value="{{street}}">
+
+						</div>
+					</div>
+
+					<!-- Text input-->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="city">City</label>
+						<div class="col-md-6">
+						<input id="city" name="city" type="text" placeholder="San Diego" class="form-control input-md" required="" value="{{city}}">
+
+						</div>
+					</div>
+
+					<!-- Text input-->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="zip">Zip Code</label>
+						<div class="col-md-6">
+						<input id="zip" name="zip" type="text" placeholder="92037" class="form-control input-md" required="" value="{{zipCode}}">
+
+						</div>
+					</div>
+
+
+					<!-- Text input-->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="phone">Phone</label>
+						<div class="col-md-6">
+						<input id="phone" name="phone" type="text" placeholder="111-222-3333" class="form-control input-md" required="" value="{{phone}}">
+
+						</div>
+					</div>
+
+					<!-- Multiple Radios (inline) -->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="Training">Active?</label>
+						<div class="col-md-4">
+							<label class="radio-inline" for="Training-0">
+								<input type="radio" name="Training" id="Training-0" value="yes" checked="checked">
+								Yes
+							</label>
+							<label class="radio-inline" for="Training-1">
+								<input type="radio" name="Training" id="Training-1" value="no">
+								No
+							</label>
+						</div>
+					</div>
+
+					<!-- Select Basic -->
+					<!--
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="selectbasic">Select Basic</label>
+						<div class="col-md-4">
+							<select id="selectbasic" name="selectbasic" class="form-control input-md">
+								<option>Option one</option>
+								<option>Option two</option>
+							</select>
+						</div>
+					</div>  -->
+
+
+					<!-- Button -->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="submit"></label>
+						<div class="col-md-4">
+							<button id="submit" name="submit" class="btn btn-primary">SUBMIT</button>
+						</div>
+					</div>
+
+					</fieldset>
+					</form>
+
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="save">Save</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</template>

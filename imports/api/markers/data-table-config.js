@@ -7,14 +7,17 @@ var markersDataTable = new Tabular.Table({
 	name: "Locations",
 	collection: Markers,
 	columns: [
-		{data: "name", title: "Name"}
-	]
+		{data: "name", title: "Name"},
+		{data: "_id",render: function(data,type,row){ return '<a href="/location/'+ data + '/edit">Edit</a>'  }, orderable: false }
+	],
+	paging: false,
+	scrollY: '75vh'
 });
 
 if (Meteor.isClient)
 {
 	Template.registerHelper('Tables', {
-		markers: markersDataTable //from data-table-config
+		markers: markersDataTable
 	});
 
 }
