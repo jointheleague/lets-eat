@@ -1,7 +1,19 @@
-Router.route('/dashboard', function () {
-	this.layout('adminLayout');
-	this.render('dashboard', {data: {title: 'Lets Eat'}});
-});
+Router.route('/dashboard', {
+		onBeforeAction: function () {
+			if (!Meteor.userId())
+			{
+				Router.go('/admin');
+			} else {
+				this.next();
+			}
+		},
+
+		action: function () {
+			this.layout('adminLayout');
+			this.render('dashboard', {data: {title: 'Lets Eat'}});
+		}
+	}
+);
 
 Router.route('/:org?', function () {
 	var params = this.params;
