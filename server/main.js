@@ -1,3 +1,5 @@
+import '/imports/startup/server';
+
 Meteor.publish("markers", function () {
   return Markers.find();
 });

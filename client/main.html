@@ -19,7 +19,8 @@
 <template name="dashboard">
 	<div class="container-fluid">
 		{{#if currentUser}}
-		logged in
+			logged in
+			{{> tabular table=Tables.myTable class="table table-striped table-bordered table-condensed"}}
 		{{else}}
 		not logged in
 		{{/if}}

@@ -3,6 +3,7 @@ accounts-password@1.3.3
 accounts-ui@1.1.9
 accounts-ui-unstyled@1.1.13
 aldeed:geocoder@0.3.8
+aldeed:tabular@2.1.1
 allow-deny@1.0.5
 autoupdate@1.3.12
 babel-compiler@6.13.0
