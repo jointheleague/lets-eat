@@ -1,14 +1,15 @@
 
-Router.route('/dashboard', {
-		onBeforeAction: function () {
-			if (!Meteor.userId())
-			{
-				Router.go('/admin');
-			} else {
-				this.next();
-			}
-		},
+var secureAdmin = function () {
+	if (!Meteor.userId())
+	{
+		Router.go('/admin');
+	} else {
+		this.next();
+	}
+}
 
+Router.route('/dashboard', {
+		onBeforeAction: secureAdmin,
 		action: function () {
 			this.layout('adminLayout');
 			this.render('dashboard', {data: {title: 'Lets Eat'}});
@@ -17,15 +18,7 @@ Router.route('/dashboard', {
 );
 
 Router.route('/location/:_id/edit', {
-		onBeforeAction: function () {
-			if (!Meteor.userId())
-			{
-				Router.go('/admin');
-			} else {
-				this.next();
-			}
-		},
-
+		onBeforeAction: secureAdmin,
 		action: function () {
 			this.layout('adminLayout');
 			this.render(
