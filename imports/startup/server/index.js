@@ -1,1 +1,1 @@
-import '/imports/data-table-config';
+import '/imports/api/markers/data-table-config';

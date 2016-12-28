@@ -3,8 +3,7 @@ import { Template } from 'meteor/templating';
 import moment from 'moment';
 import { Meteor } from 'meteor/meteor';
 
-console.log('init Tabular.Table...');
-new Tabular.Table({
+var markersDataTable = new Tabular.Table({
 	name: "Locations",
 	collection: Markers,
 	columns: [
@@ -12,4 +11,11 @@ new Tabular.Table({
 	]
 });
 
+if (Meteor.isClient)
+{
+	Template.registerHelper('Tables', {
+		markers: markersDataTable //from data-table-config
+	});
+
+}
 

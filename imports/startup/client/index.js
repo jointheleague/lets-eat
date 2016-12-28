@@ -4,5 +4,4 @@ import 'datatables.net-bs/css/dataTables.bootstrap.css';
 dataTablesBootstrap(window, $);
 
 
-//import '/imports/data-table-config';
-
+import '/imports/api/markers/data-table-config.js';
