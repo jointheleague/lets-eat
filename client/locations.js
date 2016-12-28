@@ -49,3 +49,11 @@ Template.locations.helpers({
     return parseFoods(foods);
   }
 });
+
+Template.dashboard.events({
+  'click #add': function(e) {
+    e.preventDefault();
+
+    $('#locationsModal').modal('show');
+  }
+});
