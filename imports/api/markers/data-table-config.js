@@ -8,7 +8,12 @@ var markersDataTable = new Tabular.Table({
 	collection: Markers,
 	columns: [
 		{data: "name", title: "Name"},
+		{data: "zipCode", title: "Zip Code"},
+		{data: "isActive", title: "Active?", render: function(data,type,row){ return (data ? "Yes": "No") }},
 		{data: "_id",render: function(data,type,row){ return '<a href="#" id="edit" data-id="' + data + '" >Edit</a>'  }, orderable: false } //{data: "_id",render: function(data,type,row){ return '<a href="/location/'+ data + '/edit">Edit</a>'  }, orderable: false }
+	],
+	columnDefs: [
+		{"className": "dt-center", "targets": [1,2]}
 	],
 	paging: false,
 	scrollY: '75vh'

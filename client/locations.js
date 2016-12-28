@@ -53,7 +53,7 @@ Template.locations.helpers({
 Template.dashboard.events({
 	'click #add': function(e) {
 		e.preventDefault();
-
+		Session.set('locationID', '' );
 		$('#locationsModal').modal('show');
 	}
 });

@@ -4,14 +4,14 @@
 			<div class="modal-content">
 
 				<div class="modal-header">
-					<h4 class="modal-title">Location add / edit</h4>
+					<h4 class="modal-title">{{#if locationID}}Edit Location{{else}}Add Location{{/if}}</h4>
 				</div>
 
 				<div class="modal-body">
 					<form class="form-horizontal">
 					<fieldset>
 
-					<!-- Text input-->
+					{{#if locationID }}
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="fn">ID</label>
 						<div class="col-md-6">
@@ -19,6 +19,7 @@
 
 						</div>
 					</div>
+					{{/if}}
 
 					<!-- Text input-->
 					<div class="form-group">

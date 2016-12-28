@@ -122,3 +122,5 @@ box-shadow: 0 0 8px #000;
 .infowindow {
   font-size:150%;
 }
+
+th.dt-center, td.dt-center { text-align: center; }
