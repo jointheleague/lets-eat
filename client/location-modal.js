@@ -23,6 +23,9 @@ Template.locationsModalTemplate.events({
 		if (!locationID)
 		{
 			console.log('new location...');
+			Meteor.call('addLocation', location, function(error,result) {
+				if (error) { alert(error); }
+			});
 		} else {
 			console.log('edit location ' + locationID);
 			_.extend(location, {id: locationID});

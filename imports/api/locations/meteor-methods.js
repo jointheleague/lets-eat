@@ -1,8 +1,12 @@
 Meteor.methods({
 	editLocation: function(location) {
-		console.log('editLocation...');
 		Markers.update(location.id, {$set: {
 			name: location.name
 		}});
+	},
+
+	addLocation: function(location) {
+		console.log('Meteor.methods.addLocation...');
+		console.log(Markers.insert(location));
 	}
 });
