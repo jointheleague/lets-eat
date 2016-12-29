@@ -34,7 +34,7 @@
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="add1">Address</label>
 						<div class="col-md-6">
-						<input id="street" name="street" type="text" placeholder="" class="form-control input-md" required="" value="{{street}}">
+						<input id="street" name="street" type="text" placeholder="" class="form-control input-md" required="" value="{{location.street}}">
 
 						</div>
 					</div>
@@ -83,58 +83,58 @@
 					</div>
 
 					<div class="form-group">
-						<label class="col-md-4 control-label" for="Training">Foods</label>
+						<label class="col-md-4 control-label" for="Foods">Foods</label>
 						<div class="col-md-8">
 
 							<div class="row">
 								<div class="col-sm-3">
 									<label class="checkbox-inline">
-									<input type="checkbox" value="Mesmer" name="Checkbox[]">Produce</label>
+									<input type="checkbox" value="1" id="produce" {{hasFood location.foods.produce }}>Produce</label>
 								</div>
 								<div class="col-sm-3">
 									<label class="checkbox-inline">
-										<input type="checkbox" value="Guardian" name="Checkbox[]">Canned</label>
+										<input type="checkbox" value="1" name="canned" {{hasFood location.foods.canned }}>Canned</label>
 								</div>
 								<div class="col-sm-3">
 									<label class="checkbox-inline">
-										<input type="checkbox" value="Necromancer" name="Checkbox[]">Bread</label>
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-sm-3">
-									<label class="checkbox-inline">
-									<input type="checkbox" value="Mesmer" name="Checkbox[]">Cooked</label>
-								</div>
-								<div class="col-sm-3">
-									<label class="checkbox-inline">
-										<input type="checkbox" value="Guardian" name="Checkbox[]">Snacks</label>
-								</div>
-								<div class="col-sm-3">
-									<label class="checkbox-inline">
-										<input type="checkbox" value="Necromancer" name="Checkbox[]">Government</label>
+										<input type="checkbox" value="1" name="bread" {{hasFood location.foods.bread }}>Bread</label>
 								</div>
 							</div>
 
 							<div class="row">
 								<div class="col-sm-3">
 									<label class="checkbox-inline">
-									<input type="checkbox" value="Mesmer" name="Checkbox[]">Boxed</label>
+									<input type="checkbox" value="1" name="cooked" {{hasFood location.foods.cooked }}>Cooked</label>
 								</div>
 								<div class="col-sm-3">
 									<label class="checkbox-inline">
-										<input type="checkbox" value="Guardian" name="Checkbox[]">Dairy</label>
+										<input type="checkbox" value="1" name="snacks" {{hasFood location.foods.snacks }}>Snacks</label>
 								</div>
 								<div class="col-sm-3">
 									<label class="checkbox-inline">
-										<input type="checkbox" value="Necromancer" name="Checkbox[]">Produce2</label>
+										<input type="checkbox" value="1" name="government" {{hasFood location.foods.government }}>Government</label>
 								</div>
 							</div>
 
 							<div class="row">
 								<div class="col-sm-3">
 									<label class="checkbox-inline">
-									<input type="checkbox" value="Mesmer" name="Checkbox[]">Donations</label>
+									<input type="checkbox" value="1" name="boxed" {{hasFood location.foods.boxed }}>Boxed</label>
+								</div>
+								<div class="col-sm-3">
+									<label class="checkbox-inline">
+										<input type="checkbox" value="1" name="dairy" {{hasFood location.foods.dairy }}>Dairy</label>
+								</div>
+								<div class="col-sm-3">
+									<label class="checkbox-inline">
+										<input type="checkbox" value="1" name="produce2" {{hasFood location.foods.produce2 }}>Produce2</label>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-sm-3">
+									<label class="checkbox-inline">
+									<input type="checkbox" value="1" name="donation" {{hasFood location.foods.donations }}>Donations</label>
 								</div>
 							</div>
 

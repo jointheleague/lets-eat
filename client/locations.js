@@ -61,9 +61,7 @@ Template.dashboard.events({
 Template.dashboard.events({
 	'click #edit': function(e) {
 		e.preventDefault();
-		console.log(e.target);
 		var locationID = $(e.target).data("id");
-		console.log(locationID);
 		Session.set('locationID', locationID );
 
 		$('#locationsModal').modal('show');

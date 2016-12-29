@@ -1,21 +1,34 @@
 Template.locationsModalTemplate.helpers({
 	locationID: function() {return Session.get('locationID');},
-	location: function() { return Markers.findOne({ _id: Session.get('locationID') }); }
+
+	location: function() { return Markers.findOne({ _id: Session.get('locationID') }); },
+
+	hasFood: function(food) {
+		return (food ? "checked" : "");
+	}
 });
 
 
 Template.locationsModalTemplate.events({
 	'click #save': function(e) {
-		console.log('clicked save');
-		e.preventDefault();
 
-		console.log( $('#name') );
-		console.log( $('#name').val() );
+		e.preventDefault();
 		var locationID = Session.get('locationID');
+
+		//TODO: handle the food checkboxes
+		console.log( "produce:" );
+		console.log( $('#produce').prop('checked') );
+
+		//TODO: geocode
+
 		var location = {
 			name: $('#name').val(),
-			street: $('#street').val()
+			street: $('#street').val(),
 			//TODO: other fields go here
+			foods: {
+				produce: $('#produce').prop('checked')
+				//TODO other food types go here
+			}
 		}
 
 		console.log(location);
