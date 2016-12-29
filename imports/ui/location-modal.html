@@ -71,14 +71,25 @@
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="Training">Active?</label>
 						<div class="col-md-4">
-							<label class="radio-inline" for="Training-0">
-								<input type="radio" name="Training" id="Training-0" value="yes" checked="checked">
+							{{#if location.isActive}}
+							<label class="radio-inline" for="isactive-0">
+								<input type="radio" name="isactive" id="isactive-0" value="yes" checked>
 								Yes
 							</label>
-							<label class="radio-inline" for="Training-1">
-								<input type="radio" name="Training" id="Training-1" value="no">
+							<label class="radio-inline" for="isactive-1">
+								<input type="radio" name="isactive" id="isactive-1" value="no">
 								No
 							</label>
+							{{else}}
+							<label class="radio-inline" for="isactive-0">
+								<input type="radio" name="isactive" id="isactive-0" value="yes" >
+								Yes
+							</label>
+							<label class="radio-inline" for="isactive-1">
+								<input type="radio" name="isactive" id="isactive-1" value="no" checked>
+								No
+							</label>
+							{{/if}}
 						</div>
 					</div>
 
