@@ -6,6 +6,7 @@ Made using [Meteor](https://www.meteor.com/).
 meteor add aldeed:tabular
 meteor npm install --save moment
 meteor npm install --save jquery@1.11.2 datatables.net-bs
+meteor npm install --save toastr
 
 ##Starting the app
 Open a command line and change to the project folder. Then run `meteor run` or `meteor`.
