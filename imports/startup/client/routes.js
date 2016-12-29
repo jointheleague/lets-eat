@@ -12,11 +12,13 @@ Router.route('/dashboard', {
 		onBeforeAction: secureAdmin,
 		action: function () {
 			this.layout('adminLayout');
-			this.render('dashboard', {data: {title: 'Lets Eat'}});
+			this.render('locationsAdmin');
 		}
 	}
 );
 
+
+/* not used, replaced by modal
 Router.route('/location/:_id/edit', {
 		onBeforeAction: secureAdmin,
 		action: function () {
@@ -31,7 +33,7 @@ Router.route('/location/:_id/edit', {
 			);
 		}
 	}
-);
+);*/
 
 
 Router.route('/:org?', function () {

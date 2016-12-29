@@ -1,8 +1,11 @@
 import './routes.js';
 import '/imports/api/locations/data-table-config.js';
 import '/imports/api/locations/meteor-methods.js';
-import '/imports/ui/location-modal.html';
-import '/imports/ui/location-modal.js';
+import '/imports/ui/admin/location-modal.html';
+import '/imports/ui/admin/location-modal.js';
+import '/imports/ui/admin/layout.html';
+import '/imports/ui/admin/locations.html';
+import '/imports/ui/admin/locations.js';
 
 
 import { $ } from 'meteor/jquery';

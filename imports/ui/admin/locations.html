@@ -1,0 +1,12 @@
+<template name="locationsAdmin">
+	<div class="container-fluid">
+		{{#if currentUser}}
+			<a href="#" id="add" class="btn btn-primary">Add</a>
+			{{> tabular table=Tables.markers class="table table-striped table-bordered table-condensed"}}
+		{{else}}
+		not logged in
+		{{/if}}
+
+		{{> locationsModalTemplate}}
+</div>
+</template>
