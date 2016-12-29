@@ -40,16 +40,36 @@ Template.locationsModalTemplate.events({
 		//TODO: handle the food checkboxes
 		console.log( "produce:" );
 		console.log( $('#produce').prop('checked') );
+		console.log( "isactive:" );
+		console.log( $('#isactive-0').prop('checked') );
 
 		//TODO: geocode
 
 		var location = {
-			name: $('#name').val(),
-			street: $('#street').val(),
-			//TODO: other fields go here
+			orgID: 		$('#orgID').val(),
+			name: 		$('#name').val(),
+			street: 	$('#street').val(),
+			city: 	$('#city').val(),
+			zipCode: 	$('#zipCode').val(),
+			phone: 	$('#phone').val(),
+			hours: 	$('#hours').val(),
+			closures: 	$('#closures').val(),
+			eligibility: 	$('#eligibility').val(),
+			eligibilityURL: 	$('#eligibilityURL').val(),
+			url: 	$('#url').val(),
+			//TODO: lat and long
+			isActive: $('#isactive-0').prop('checked'),
 			foods: {
-				produce: $('#produce').prop('checked')
-				//TODO other food types go here
+				produce: $('#produce').prop('checked'),
+				canned: $('#canned').prop('checked'),
+				bread: $('#bread').prop('checked'),
+				cooked: $('#cooked').prop('checked'),
+				snacks: $('#snacks').prop('checked'),
+				government: $('#government').prop('checked'),
+				boxed: $('#boxed').prop('checked'),
+				dairy: $('#dairy').prop('checked'),
+				produce2: $('#produce2').prop('checked'),
+				storeDonations: $('#storeDonations').prop('checked')
 			}
 		}
 

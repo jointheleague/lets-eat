@@ -6,8 +6,18 @@ Meteor.methods({
 
 	editLocation: function(location) {
 		Markers.update(location.id, {$set: {
-			name: location.name,
-			//TODO: update other fields street, city, etc.
+			name: 	location.name,
+			orgID: 	location.orgID,
+			street:	location.street,
+			city: 	location.city,
+			zipCode:	location.zipCode,
+			phone: 	location.phone,
+			hours: 	location.hours,
+			closures: location.clojures,
+			eligibility: location.eligibility,
+			eligibilityUrl: location.eligibilityUrl,
+			//TODO: update latitude and longitude
+			isActive: location.isActive,
 			foods: location.foods
 		}});
 	},

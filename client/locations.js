@@ -54,6 +54,7 @@ Template.dashboard.events({
 	'click #add': function(e) {
 		e.preventDefault();
 		Session.set('locationID', '' );
+		document.getElementById('locationsForm').reset();
 		$('#locationsModal').modal('show');
 	}
 });

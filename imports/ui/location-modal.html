@@ -1,6 +1,6 @@
 <template name="locationsModalTemplate">
 	<div class="modal fade" id="locationsModal" >
-		<div class="modal-dialog modal-xlarge">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 
 				<div class="modal-header">
@@ -8,62 +8,97 @@
 				</div>
 
 				<div class="modal-body">
-					<form class="form-horizontal">
+					<form id="locationsForm" class="form-horizontal">
 					<fieldset>
 
 					{{#if locationID }}
 					<div class="form-group">
-						<label class="col-md-4 control-label" for="fn">ID</label>
+						<label class="col-md-4 control-label" for="id">ID</label>
 						<div class="col-md-6">
-						<input id="id" name="id" type="text" class="form-control input-md" required="" value="{{locationID}}">
-
+						<input id="id" type="text" class="form-control input-md" value="{{locationID}}" disabled="disabled" >
 						</div>
 					</div>
 					{{/if}}
 
 					<!-- Text input-->
 					<div class="form-group">
-						<label class="col-md-4 control-label" for="fn">Name</label>
+						<label class="col-md-4 control-label" for="orgID">orgID</label>
 						<div class="col-md-6">
-						<input id="name" name="name" type="text" placeholder="Name" class="form-control input-md" required="" value="{{location.name}}">
-
+							<input id="orgID" type="text" placeholder="" class="form-control input-md" required="" value="{{location.orgID}}">
 						</div>
 					</div>
 
 					<!-- Text input-->
 					<div class="form-group">
-						<label class="col-md-4 control-label" for="add1">Address</label>
+						<label class="col-md-4 control-label" for="Name">Name</label>
 						<div class="col-md-6">
-						<input id="street" name="street" type="text" placeholder="" class="form-control input-md" required="" value="{{location.street}}">
+							<input id="name" name="name" type="text" placeholder="Name" class="form-control input-md" required="" value="{{location.name}}">
+						</div>
+					</div>
 
+					<!-- Text input-->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="street">Address</label>
+						<div class="col-md-6">
+							<input id="street" name="street" type="text" placeholder="" class="form-control input-md" required="" value="{{location.street}}">
 						</div>
 					</div>
 
 					<!-- Text input-->
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="city">City</label>
-						<div class="col-md-6">
-						<input id="city" name="city" type="text" placeholder="San Diego" class="form-control input-md" required="" value="{{city}}">
-
+							<div class="col-md-6">
+						<input id="city" name="city" type="text" placeholder="San Diego" class="form-control input-md" required="" value="{{location.city}}">
 						</div>
 					</div>
 
 					<!-- Text input-->
 					<div class="form-group">
-						<label class="col-md-4 control-label" for="zip">Zip Code</label>
+						<label class="col-md-4 control-label" for="zipCode">Zip Code</label>
 						<div class="col-md-6">
-						<input id="zipCode" name="zip" type="text" placeholder="92037" class="form-control input-md" required="" value="{{zipCode}}">
-
+							<input id="zipCode" name="zip" type="text" placeholder="92037" class="form-control input-md" required="" value="{{location.zipCode}}">
 						</div>
 					</div>
 
-
-					<!-- Text input-->
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="phone">Phone</label>
 						<div class="col-md-6">
-						<input id="phone" name="phone" type="text" placeholder="111-222-3333" class="form-control input-md" required="" value="{{phone}}">
+							<input id="phone" name="phone" type="text" placeholder="111-222-3333" class="form-control input-md" required="" value="{{location.phone}}">
+						</div>
+					</div>
 
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="url">URL</label>
+						<div class="col-md-6">
+							<input id="url"  type="text" placeholder="http://domain.com/example.html" class="form-control input-md" required="" value="{{location.url}}">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="hours">Hours</label>
+						<div class="col-md-6">
+							<textarea class="form-control" rows="3" id="hours">{{location.hours}}</textarea>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="closures">Closures</label>
+						<div class="col-md-6">
+							<textarea class="form-control" rows="3" id="closures">{{location.closures}}</textarea>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="eligibility">Eligibility</label>
+						<div class="col-md-6">
+							<textarea class="form-control" rows="3" id="eligibility">{{location.eligibility}}</textarea>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="eligibilityURL">Eligibility URL</label>
+						<div class="col-md-6">
+							<input id="eligibilityURL"  type="text" placeholder="http://domain.com/eligibility.html" class="form-control input-md" required="" value="{{location.eligibilityURL}}">
 						</div>
 					</div>
 
@@ -98,13 +133,13 @@
 						<div class="col-md-8">
 
 							<div class="row">
-								<div class="col-sm-3">
+								<div class="col-sm-4">
 									<label class="checkbox-inline">
-									<input type="checkbox" value="1" id="produce" {{hasFood location.foods.produce }}>Produce</label>
+									<input type="checkbox" value="1" id="produce" {{hasFood location.foods.produce }}>Produce (20-30lbs.)</label>
 								</div>
 								<div class="col-sm-3">
 									<label class="checkbox-inline">
-										<input type="checkbox" value="1" name="canned" {{hasFood location.foods.canned }}>Canned</label>
+										<input type="checkbox" value="1" name="canned" {{hasFood location.foods.canned }}>Canned/Boxed</label>
 								</div>
 								<div class="col-sm-3">
 									<label class="checkbox-inline">
@@ -113,39 +148,39 @@
 							</div>
 
 							<div class="row">
-								<div class="col-sm-3">
+								<div class="col-sm-4">
 									<label class="checkbox-inline">
-									<input type="checkbox" value="1" name="cooked" {{hasFood location.foods.cooked }}>Cooked</label>
+									<input type="checkbox" value="1" name="cooked" {{hasFood location.foods.cooked }}>Cooked Meal</label>
 								</div>
 								<div class="col-sm-3">
 									<label class="checkbox-inline">
 										<input type="checkbox" value="1" name="snacks" {{hasFood location.foods.snacks }}>Snacks</label>
 								</div>
-								<div class="col-sm-3">
+								<div class="col-sm-4">
 									<label class="checkbox-inline">
-										<input type="checkbox" value="1" name="government" {{hasFood location.foods.government }}>Government</label>
+										<input type="checkbox" value="1" name="government" {{hasFood location.foods.government }}>Government box</label>
 								</div>
 							</div>
 
 							<div class="row">
-								<div class="col-sm-3">
+								<div class="col-sm-4">
 									<label class="checkbox-inline">
-									<input type="checkbox" value="1" name="boxed" {{hasFood location.foods.boxed }}>Boxed</label>
+									<input type="checkbox" value="1" name="donation" {{hasFood location.foods.storeDonations }}>Store Donations</label>
 								</div>
 								<div class="col-sm-3">
 									<label class="checkbox-inline">
-										<input type="checkbox" value="1" name="dairy" {{hasFood location.foods.dairy }}>Dairy</label>
+									<input type="checkbox" value="1" name="dairy" {{hasFood location.foods.dairy }}>Dairy</label>
 								</div>
 								<div class="col-sm-3">
 									<label class="checkbox-inline">
-										<input type="checkbox" value="1" name="produce2" {{hasFood location.foods.produce2 }}>Produce2</label>
+										<input type="checkbox" value="1" name="produce2" {{hasFood location.foods.produce2 }}>Fresh Produce</label>
 								</div>
 							</div>
 
 							<div class="row">
-								<div class="col-sm-3">
+								<div class="col-sm-8">
 									<label class="checkbox-inline">
-									<input type="checkbox" value="1" name="donation" {{hasFood location.foods.donations }}>Donations</label>
+									<input type="checkbox" value="1" name="boxed" {{hasFood location.foods.boxed }}>Canned/Boxed (with occasional meat/produce/dairy)</label>
 								</div>
 							</div>
 
