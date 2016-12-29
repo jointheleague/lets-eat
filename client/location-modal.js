@@ -36,5 +36,14 @@ Template.locationsModalTemplate.events({
 
 		$('#locationsModal').modal('hide');
 
+	},
+
+	'click #delete': function(e) {
+		var id = Session.get('locationID');
+		Meteor.call('deleteLocation', id, function(error,result){
+			if (error) { alert(error) }
+		});
+		$('#locationsModal').modal('hide');
 	}
+
 });

@@ -1,12 +1,17 @@
 Meteor.methods({
+
+	addLocation: function(location) {
+		Markers.insert(location);
+	},
+
 	editLocation: function(location) {
 		Markers.update(location.id, {$set: {
 			name: location.name
+			//TODO: update other fields
 		}});
 	},
-
-	addLocation: function(location) {
-		console.log('Meteor.methods.addLocation...');
-		console.log(Markers.insert(location));
+	
+	deleteLocation: function(id) {
+		Markers.remove(id);
 	}
 });

@@ -1,7 +1,7 @@
 import '/imports/startup/server';
 
 Meteor.publish("markers", function () {
-  return Markers.find();
+  return Markers.find({}, { sort: { name: 1} });
 });
 Meteor.publish("userList", function () {
   return Meteor.users.find({}, {fields: {emails: 1, _id: 1}});
@@ -17,7 +17,7 @@ Meteor.startup(function(){
 );
 Houston.hide_collection(Meteor.users);
 Houston.hide_collection(Houston._admins);
-//Not usefull for adding users and looks veary confusing
+//Not usefull for adding users and looks very confusing
 Houston.methods('markers', {
   "Geocode": function (post) {
 		//console.log('server.js:Houston.methods.Geocode...');
