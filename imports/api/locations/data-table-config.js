@@ -19,6 +19,19 @@ var markersDataTable = new Tabular.Table({
 	paging: false,
 	scrollY: '75vh'
 });
+var usersDataTable = new Tabular.Table({
+	name: "Users",
+	collection: Meteor.users,
+	columns:[
+		{data: "username", title:"Username"},
+		{data: "emails.0.address", title:"Email"}
+	],
+	columnDefs: [
+		{"className": "dt-center", "targets": [2,3,4]}
+	],
+	paging: false,
+	scrollY: '75vh'
+})
 
 if (Meteor.isClient)
 {
@@ -27,4 +40,3 @@ if (Meteor.isClient)
 	});
 
 }
-

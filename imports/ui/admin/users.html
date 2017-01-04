@@ -1,0 +1,13 @@
+<template name="usersDash">
+  test
+  <div class="container-fluid">
+    {{#if currentUser}}
+      <a href="#" id="add" class="btn btn-primary">Add</a>
+      {{> tabular table=Tables.users class="table table-striped table-bordered table-condensed"}}
+    {{else}}
+    not logged in
+    {{/if}}
+
+    {{> usersmodal}}
+</div>
+</template>

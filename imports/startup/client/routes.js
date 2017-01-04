@@ -7,32 +7,42 @@ var secureAdmin = function () {
 		this.next();
 	}
 }
-
+var secureSuperAdmin = function(){
+	//TODO Add secure super Admin
+	this.next();
+}
 Router.route('/dashboard', {
-		onBeforeAction: secureAdmin,
-		action: function () {
-			this.layout('adminLayout');
-			this.render('locationsAdmin');
-		}
+	onBeforeAction: secureAdmin,
+	action: function () {
+		this.layout('adminLayout');
+		this.render('locationsAdmin');
 	}
-);
+});
+
+Router.route('dashboard/users', {
+	onBeforeAction: secureSuperAdmin,
+	action: function () {
+		this.layout('adminLayout');
+		this.render('usersDash');
+	}
+});
 
 
 /* not used, replaced by modal
 Router.route('/location/:_id/edit', {
-		onBeforeAction: secureAdmin,
-		action: function () {
-			this.layout('adminLayout');
-			this.render(
-				'location-form',
-				{ data: function () {
-					console.log(this.params._id);
-					console.log(Markers.findOne({_id: this.params._id}));
-					return Markers.findOne({_id: this.params._id}); }
-				}
-			);
-		}
-	}
+onBeforeAction: secureAdmin,
+action: function () {
+this.layout('adminLayout');
+this.render(
+'location-form',
+{ data: function () {
+console.log(this.params._id);
+console.log(Markers.findOne({_id: this.params._id}));
+return Markers.findOne({_id: this.params._id}); }
+}
+);
+}
+}
 );*/
 
 
@@ -50,4 +60,3 @@ Router.onAfterAction(function(){
 	var m2 = "https://github.com/jointheleague/lets-eat/issues/new?title=Your%20Lets%20Eat%20Issue&body="+message;
 	$("a[id='houston-report-bug']").attr('href',m2);
 });
-
