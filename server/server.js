@@ -18,7 +18,9 @@ Houston.hide_collection(Houston._admins);
 //Not usefull for adding users and looks veary confusing
 Houston.methods('markers', {
   "Geocode": function (post) {
-    var address = post.street + ", " + post.city + ", " + post.state + " " + post.zipCode;
+		//console.log('server.js:Houston.methods.Geocode...');
+		//console.log(post);
+    var address = post.street + ", " + post.city + ", " + 'CA' + " " + post.zipCode;
     var geo = new GeoCoder();
     var result = geo.geocode(address);
     Markers.update({_id : post._id},{$set: {latitude : result[0].latitude, longitude : result[0].longitude}});

@@ -67,7 +67,7 @@ Template.search.events({
             map.instance.fitBounds(bounds);
           }
         } else {
-          alert("Whoops! An error occurred! The error status is as follows: " + status);
+          console.log("Template.search.events.submit: Error status: " + status + ", Location:" + location);
         }
       });
     }

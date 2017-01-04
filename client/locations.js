@@ -11,7 +11,7 @@ Template.locations.events({
   "click .table-row": function() {
     var id = this.dataid;
     var marker = Markers.findOne(id);
-    new google.maps.Geocoder().geocode({'address': marker.street + ', ' + marker.city + ', ' + marker.state + ' ' + marker.zipCode}, function(results, status) {
+    new google.maps.Geocoder().geocode({'address': marker.street + ', ' + marker.city + ', ' + 'CA' + ' ' + marker.zipCode}, function(results, status) {
       if (status === google.maps.GeocoderStatus.OK) {
         if(currentInfoWindow !== 'undefined') {
           currentInfoWindow.close();
@@ -24,7 +24,7 @@ Template.locations.events({
 
         window.scrollTo(0, 0);
       } else {
-        alert('Whoops! An error occurred! The error status is as follows: ' + status);
+        console.log('Template.locations.events.click:  Error status is: ' + status);
       }
     });
   }
