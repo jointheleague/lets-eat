@@ -17,6 +17,12 @@ Router.route('/dashboard', {
 	}
 );
 
+Router.route('/login', {
+	action: function() {
+		this.render('login');
+	}
+});
+
 
 /* not used, replaced by modal
 Router.route('/location/:_id/edit', {
@@ -50,4 +56,3 @@ Router.onAfterAction(function(){
 	var m2 = "https://github.com/jointheleague/lets-eat/issues/new?title=Your%20Lets%20Eat%20Issue&body="+message;
 	$("a[id='houston-report-bug']").attr('href',m2);
 });
-
