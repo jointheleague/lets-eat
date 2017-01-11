@@ -72,7 +72,7 @@ Meteor.methods({
   updateDB:function(){
     console.log("Geocoding...")
     var geocoded = 0;
-    var total = Markrs.total().count();
+    var total = Markers.find().count();
     Markers.find({
       latitude: undefined
     }).forEach(function(obj){
@@ -82,9 +82,7 @@ Meteor.methods({
         var result = geo.geocode(address);
         Markers.update({_id : obj._id},{$set: {latitude : result[0].latitude, longitude : result[0].longitude}});
         geocoded = geocoded + 1;
-        if(((geocoded * 100)/total) % 10 < 2){
-          console.log("Geocode " + ((geocoded * 100)/total) + "%");
-        }
+        console.log("Geocode " + ((geocoded * 100)/total) + "%");
         Meteor._sleepForMs(200);
       } catch (e) {
         console.log(e.message);
