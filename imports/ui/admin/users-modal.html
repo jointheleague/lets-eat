@@ -1,5 +1,5 @@
 <template name="usersModal">
-	<div class="modal fade" id="locationsModal" >
+	<div class="modal fade" id="usersModal" >
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 
@@ -8,7 +8,129 @@
 				</div>
 
 				<div class="modal-body">
-        </div>
+					<form id="locationsForm" class="form-horizontal">
+					<fieldset>
+
+					{{#if locationID }}
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="id">ID</label>
+						<div class="col-md-6">
+						<input id="id" type="text" class="form-control input-md" value="{{locationID}}" disabled="disabled" >
+						</div>
+					</div>
+					{{/if}}
+
+					<!-- Text input-->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="orgID">orgID</label>
+						<div class="col-md-6">
+							<input id="orgID" type="text" placeholder="" class="form-control input-md" required="" value="{{location.orgID}}">
+						</div>
+					</div>
+
+					<!-- Text input-->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="Name">Name</label>
+						<div class="col-md-6">
+							<input id="name" name="name" type="text" placeholder="Name" class="form-control input-md" required="" value="{{location.name}}">
+						</div>
+					</div>
+
+					<!-- Text input-->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="street">Address</label>
+						<div class="col-md-6">
+							<input id="street" name="street" type="text" placeholder="" class="form-control input-md" required="" value="{{location.street}}">
+						</div>
+					</div>
+
+					<!-- Text input-->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="city">City</label>
+							<div class="col-md-6">
+						<input id="city" name="city" type="text" placeholder="San Diego" class="form-control input-md" required="" value="{{location.city}}">
+						</div>
+					</div>
+
+					<!-- Text input-->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="zipCode">Zip Code</label>
+						<div class="col-md-6">
+							<input id="zipCode" name="zip" type="text" placeholder="92037" class="form-control input-md" required="" value="{{location.zipCode}}">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="phone">Phone</label>
+						<div class="col-md-6">
+							<input id="phone" name="phone" type="text" placeholder="111-222-3333" class="form-control input-md" required="" value="{{location.phone}}">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="url">URL</label>
+						<div class="col-md-6">
+							<input id="url"  type="text" placeholder="http://domain.com/example.html" class="form-control input-md" required="" value="{{location.url}}">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="hours">Hours</label>
+						<div class="col-md-6">
+							<textarea class="form-control" rows="3" id="hours">{{location.hours}}</textarea>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="closures">Closures</label>
+						<div class="col-md-6">
+							<textarea class="form-control" rows="3" id="closures">{{location.closures}}</textarea>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="eligibility">Eligibility</label>
+						<div class="col-md-6">
+							<textarea class="form-control" rows="3" id="eligibility">{{location.eligibility}}</textarea>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="eligibilityURL">Eligibility URL</label>
+						<div class="col-md-6">
+							<input id="eligibilityURL"  type="text" placeholder="http://domain.com/eligibility.html" class="form-control input-md" required="" value="{{location.eligibilityURL}}">
+						</div>
+					</div>
+
+					<!-- Multiple Radios (inline) -->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="Training">Active?</label>
+						<div class="col-md-4">
+							{{#if location.isActive}}
+							<label class="radio-inline" for="isactive-0">
+								<input type="radio" name="isactive" id="isactive-0" value="yes" checked>
+								Yes
+							</label>
+							<label class="radio-inline" for="isactive-1">
+								<input type="radio" name="isactive" id="isactive-1" value="no">
+								No
+							</label>
+							{{else}}
+							<label class="radio-inline" for="isactive-0">
+								<input type="radio" name="isactive" id="isactive-0" value="yes" >
+								Yes
+							</label>
+							<label class="radio-inline" for="isactive-1">
+								<input type="radio" name="isactive" id="isactive-1" value="no" checked>
+								No
+							</label>
+							{{/if}}
+						</div>
+					</div>
+					</fieldset>
+					</form>
+
+				</div>
 
 				<div class="modal-footer">
 					<button type="button" class="btn btn-link pull-left" id="delete">Delete</button>

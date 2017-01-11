@@ -19,15 +19,17 @@ var markersDataTable = new Tabular.Table({
 	paging: false,
 	scrollY: '75vh'
 });
+
 var usersDataTable = new Tabular.Table({
 	name: "Users",
 	collection: Meteor.users,
 	columns:[
 		{data: "username", title:"Username"},
-		{data: "emails.0.address", title:"Email"}
+		{data: "emails.0.address", title:"Email"},
+		{data: "_id",render: function(data,type,row){ return '<a href="#" id="edit" data-id="' + data + '" >Edit</a>'  }, orderable: false }
 	],
 	columnDefs: [
-		{"className": "dt-center", "targets": [2,3,4]}
+		{"className": "dt-center"}
 	],
 	paging: false,
 	scrollY: '75vh'
@@ -36,7 +38,8 @@ var usersDataTable = new Tabular.Table({
 if (Meteor.isClient)
 {
 	Template.registerHelper('Tables', {
-		markers: markersDataTable
+		markers: markersDataTable,
+		users: usersDataTable
 	});
 
 }

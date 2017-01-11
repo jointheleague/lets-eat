@@ -20,10 +20,10 @@ toastr.options = {
 }
 
 
-Template.usersmodal.helpers({});
+Template.usersModal.helpers({});
 
 
-Template.usersmodal.events({
+Template.usersModal.events({
 	'click #save': function(e) {
 
 		e.preventDefault();
