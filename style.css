@@ -125,10 +125,11 @@ box-shadow: 0 0 8px #000;
 
 th.dt-center, td.dt-center { text-align: center; }
 
-body {
+.mapBodyClass {
   margin: 0;
   background: #78909C
 }
+
 h1 {
   margin: 0;
   font-weight: normal;

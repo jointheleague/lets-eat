@@ -44,3 +44,4 @@ if (Meteor.isClient) {
     GoogleMaps.load();
   });
 }
+
