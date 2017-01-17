@@ -110,3 +110,16 @@ Template.map.onCreated(function() {
     });
   });
 });
+
+Template.map.onRendered(function() {
+	// get the current route name (better than checking window.location)
+	var routeName = Router.current().route.getName();
+
+	// add the class to body if this is the correct route
+	if (routeName === 'home')
+		$('body').addClass('mapBodyClass');
+});
+
+Template.map.onDestroyed(function() {
+	$('body').removeClass('mapBodyClass');
+});

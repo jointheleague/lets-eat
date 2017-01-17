@@ -68,5 +68,27 @@ Meteor.methods({
     Markers.update({_id: data.id}, setModifier);
 
     //  Markers.update({_id:data.id.toString()},{$set:{data.type : data.checked}});
-  }
+  },
+  updateDB:function(){
+    console.log("Geocoding...")
+    var geocoded = 0;
+    var total = Markers.find().count();
+    Markers.find({
+      latitude: undefined
+    }).forEach(function(obj){
+      try {
+        var address = obj.street + ", " + obj.city + ", CA " + obj.zipCode;
+        var geo = new GeoCoder();
+        var result = geo.geocode(address);
+        Markers.update({_id : obj._id},{$set: {latitude : result[0].latitude, longitude : result[0].longitude}});
+        geocoded = geocoded + 1;
+        console.log("Geocode " + ((geocoded * 100)/total) + "%");
+        Meteor._sleepForMs(200);
+      } catch (e) {
+        console.log(e.message);
+        console.log(address);
+      }
+    });
+    console.log("Geocoding finished.")
+  },
 });

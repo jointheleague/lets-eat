@@ -1,3 +1,9 @@
+Houston.menu({
+  'type': 'link',
+  'use': '/dashboard',
+  'title': 'Dashboard',
+  'target': '_parent'
+});
 
 Houston.menu({
   'type': 'template',
@@ -14,6 +20,8 @@ Houston.menu({
   'use':'Foods',
   'title':'Foods'
 });
+
+
 
 Markers.find().observe({
   added: function (document) {
@@ -36,3 +44,4 @@ if (Meteor.isClient) {
     GoogleMaps.load();
   });
 }
+

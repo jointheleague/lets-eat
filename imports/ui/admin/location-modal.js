@@ -87,6 +87,8 @@ Template.locationsModalTemplate.events({
 			});
 		}
 
+		Meteor.call('updateDB');
+
 		$('#locationsModal').modal('hide');
 
 		toastr.info('Your changes were saved');
