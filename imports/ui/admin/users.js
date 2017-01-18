@@ -11,7 +11,7 @@ Template.usersDash.events({
 	'click #edit': function(e) {
 		e.preventDefault();
 		var locationID = $(e.target).data("id");
-		Session.set('locationID', locationID );
+		Session.set('clickedUserID', locationID );
 
 		$('#usersModal').modal('show');
 	}

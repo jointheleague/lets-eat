@@ -20,14 +20,20 @@ toastr.options = {
 }
 
 
-Template.usersModal.helpers({});
+Template.usersModal.helpers({
+	location: function() {
+		var usr = Meteor.users.findOne({ _id: Session.get('clickedUserID')});
+		console.log(usr);
+		return usr;
+	}
+});
 
 
 Template.usersModal.events({
 	'click #save': function(e) {
 
 		e.preventDefault();
-		var locationID = Session.get('locationID');
+		var locationID = Session.get('clickedUserID');
 
 		//TODO: handle the food checkboxes
 		console.log( "produce:" );
