@@ -26,7 +26,7 @@ Template.search.events({
     if(realRadius != "") {
       radius = realRadius;
     }else {
-      radius = 80000;//make radius huge if no radius is added so that all markers show up if no radius is added...
+      radius = 1;//make radius huge if no radius is added so that all markers show up if no radius is added...
     }
 
     for(var key in markers) {
@@ -43,6 +43,19 @@ Template.search.events({
         }
       }
       map.instance.fitBounds(bounds);
+
+  		var marker = location2;
+  		new google.maps.Geocoder().geocode({'address': marker.street + ', ' + marker.city + ', ' + 'CA' + ' ' + marker.zipCode}, function(results, status) {
+  			if (status === google.maps.GeocoderStatus.OK) {
+  				if(currentInfoWindow !== 'undefined') {
+  					currentInfoWindow.close();
+  				}
+  				currentInfoWindow = getInfoWindow(marker);
+  				currentInfoWindow.open(map.instance, markers[marker._id]);
+  			} else {
+  				console.log('Template.locations.events.click:  Error status is: ' + status);
+  			}
+  		});
     }else{
       var geocoder = new google.maps.Geocoder();
       geocoder.geocode( { 'address': location}, function(results, status) {
