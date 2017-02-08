@@ -25,62 +25,45 @@ Template.usersModal.helpers({
 		var usr = Meteor.users.findOne({ _id: Session.get('clickedUserID')});
 		console.log(usr);
 		return usr;
+	},
+	locationID: function() {
+		return Session.get('clickedUserID');
+	},
+	email: function() {
+		var usr = Meteor.users.findOne({_id: Session.get('clickedUserID')});
+		return usr.emails[0].address;
+	},
+	newUser: function() {
+		if (Meteor.users.findOne({ _id: Session.get('clickedUserID')}) === undefined) {
+			console.log(true);
+			return true;
+		}
+		console.log(false);
+		return false;
+
 	}
+
 });
 
 
 Template.usersModal.events({
 	'click #save': function(e) {
-
 		e.preventDefault();
 		var locationID = Session.get('clickedUserID');
-
-		//TODO: handle the food checkboxes
-		console.log( "produce:" );
-		console.log( $('#produce').prop('checked') );
-		console.log( "isactive:" );
-		console.log( $('#isactive-0').prop('checked') );
-
-		//TODO: geocode
-
-		var location = {
-			orgID: 		$('#orgID').val(),
+		var data = {
+			email: 		$('#email').val(),
 			name: 		$('#name').val(),
-			street: 	$('#street').val(),
-			city: 	$('#city').val(),
-			zipCode: 	$('#zipCode').val(),
-			phone: 	$('#phone').val(),
-			hours: 	$('#hours').val(),
-			closures: 	$('#closures').val(),
-			eligibility: 	$('#eligibility').val(),
-			eligibilityURL: 	$('#eligibilityURL').val(),
-			url: 	$('#url').val(),
-			//TODO: lat and long
-			isActive: $('#isactive-0').prop('checked'),
-			foods: {
-				produce: $('#produce').prop('checked'),
-				canned: $('#canned').prop('checked'),
-				bread: $('#bread').prop('checked'),
-				cooked: $('#cooked').prop('checked'),
-				snacks: $('#snacks').prop('checked'),
-				government: $('#government').prop('checked'),
-				boxed: $('#boxed').prop('checked'),
-				dairy: $('#dairy').prop('checked'),
-				produce2: $('#produce2').prop('checked'),
-				storeDonations: $('#storeDonations').prop('checked')
-			}
+			pass: $('#pass').val()
 		}
 
 		console.log(location);
 
 		if (!locationID)
 		{
-			Meteor.call('addLocation', location, function(error,result) {
-				if (error) { alert(error); }
-			});
+			Meteor.call('MakeUser', data.email);
 		} else {
 			_.extend(location, {id: locationID});
-			Meteor.call('editLocation', location, function(error,result){
+			Meteor.call('editUser', location, function(error,result){
 				if (error){ alert(error); }
 			});
 		}
