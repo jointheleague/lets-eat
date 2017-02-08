@@ -27,6 +27,7 @@ Meteor.methods({
 	},
 	createNewUser: function(data){
 		Accounts.createUser({
+			email: data.email,
 			password: data.password,
 			username: data.name
 		});
