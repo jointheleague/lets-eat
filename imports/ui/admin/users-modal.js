@@ -23,7 +23,6 @@ toastr.options = {
 Template.usersModal.helpers({
 	location: function() {
 		var usr = Meteor.users.findOne({ _id: Session.get('clickedUserID')});
-		console.log(usr);
 		return usr;
 	},
 	locationID: function() {
@@ -33,14 +32,8 @@ Template.usersModal.helpers({
 		var usr = Meteor.users.findOne({_id: Session.get('clickedUserID')});
 		return usr.emails[0].address;
 	},
-	newUser: function() {
-		if (Meteor.users.findOne({ _id: Session.get('clickedUserID')}) === undefined) {
-			console.log(true);
-			return true;
-		}
-		console.log(false);
-		return false;
-
+	newUser:function() {
+		return Session.get('newUser');
 	}
 
 });
@@ -51,21 +44,19 @@ Template.usersModal.events({
 		e.preventDefault();
 		var locationID = Session.get('clickedUserID');
 		var data = {
+			id: locationID,
 			email: 		$('#email').val(),
 			name: 		$('#name').val(),
-			pass: $('#pass').val()
+			password: $('#pass').val()
 		}
 
-		console.log(location);
+		console.log(data);
 
-		if (!locationID)
+		if (Session.get('newUser'))
 		{
-			Meteor.call('MakeUser', data.email);
+			Meteor.call('createNewUser', data);
 		} else {
-			_.extend(location, {id: locationID});
-			Meteor.call('editUser', location, function(error,result){
-				if (error){ alert(error); }
-			});
+			Meteor.call('changeUser', data);
 		}
 
 		$('#locationsModal').modal('hide');
@@ -76,9 +67,7 @@ Template.usersModal.events({
 
 	'click #delete': function(e) {
 		var id = Session.get('locationID');
-		Meteor.call('deleteLocation', id, function(error,result){
-			if (error) { alert(error) }
-		});
+		Meteor.call('deleteUser', id);
 		$('#locationsModal').modal('hide');
 		toastr.info('The location was deleted');
 	}
